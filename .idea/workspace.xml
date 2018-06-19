@@ -7,8 +7,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="13cc57c5-c55a-4696-b141-1a13c7382309" name="Default" comment="first commit">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/server/CLIFlagParser.java" afterPath="$PROJECT_DIR$/src/main/java/com/server/CLIFlagParser.java" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/server/HelloWorld.java" afterPath="$PROJECT_DIR$/src/main/java/com/server/HelloWorld.java" />
       <change beforePath="$PROJECT_DIR$/src/test/java/com/server/CLIFlagParserTest.java" afterPath="$PROJECT_DIR$/src/test/java/com/server/CLIFlagParserTest.java" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
@@ -52,8 +52,8 @@
           <file leaf-file-name="CLIFlagParser.java" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/main/java/com/server/CLIFlagParser.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="90">
-                  <caret line="6" column="8" lean-forward="false" selection-start-line="6" selection-start-column="8" selection-end-line="6" selection-end-column="8" />
+                <state relative-caret-position="345">
+                  <caret line="23" column="9" lean-forward="false" selection-start-line="23" selection-start-column="9" selection-end-line="23" selection-end-column="9" />
                   <folding />
                 </state>
               </provider>
@@ -66,8 +66,8 @@
           <file leaf-file-name="CLIFlagParserTest.java" pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/test/java/com/server/CLIFlagParserTest.java">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="315">
-                  <caret line="21" column="52" lean-forward="false" selection-start-line="21" selection-start-column="52" selection-end-line="21" selection-end-column="52" />
+                <state relative-caret-position="810">
+                  <caret line="54" column="8" lean-forward="false" selection-start-line="54" selection-start-column="8" selection-end-line="54" selection-end-column="8" />
                   <folding>
                     <element signature="imports" expanded="true" />
                   </folding>
@@ -79,7 +79,7 @@
             <entry file="file://$PROJECT_DIR$/src/test/java/com/server/ServerConfigTest.java">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="270">
-                  <caret line="18" column="5" lean-forward="true" selection-start-line="10" selection-start-column="4" selection-end-line="18" selection-end-column="5" />
+                  <caret line="18" column="5" lean-forward="false" selection-start-line="10" selection-start-column="4" selection-end-line="18" selection-end-column="5" />
                   <folding>
                     <element signature="imports" expanded="true" />
                   </folding>
@@ -345,6 +345,56 @@
       <envs />
       <patterns />
     </configuration>
+    <configuration name="CLIFlagParserTest.failed_parse_with_missing_portnumber" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
+        <pattern>
+          <option name="PATTERN" value="com.server.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <module name="server" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="com.server" />
+      <option name="MAIN_CLASS_NAME" value="com.server.CLIFlagParserTest" />
+      <option name="METHOD_NAME" value="failed_parse_with_missing_portnumber" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <envs />
+      <patterns />
+    </configuration>
+    <configuration name="CLIFlagParserTest.failed_parse_with_swapped_flags" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
+        <pattern>
+          <option name="PATTERN" value="com.server.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <module name="server" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="com.server" />
+      <option name="MAIN_CLASS_NAME" value="com.server.CLIFlagParserTest" />
+      <option name="METHOD_NAME" value="failed_parse_with_swapped_flags" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <envs />
+      <patterns />
+    </configuration>
     <configuration name="CLIFlagParserTest.successful_parse" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
         <pattern>
@@ -358,56 +408,6 @@
       <option name="PACKAGE_NAME" value="com.server" />
       <option name="MAIN_CLASS_NAME" value="com.server.CLIFlagParserTest" />
       <option name="METHOD_NAME" value="successful_parse" />
-      <option name="TEST_OBJECT" value="method" />
-      <option name="VM_PARAMETERS" value="-ea" />
-      <option name="PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="singleModule" />
-      </option>
-      <envs />
-      <patterns />
-    </configuration>
-    <configuration name="ServerConfigTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
-        <pattern>
-          <option name="PATTERN" value="com.server.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <module name="server" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PACKAGE_NAME" value="com.server" />
-      <option name="MAIN_CLASS_NAME" value="com.server.ServerConfigTest" />
-      <option name="METHOD_NAME" />
-      <option name="TEST_OBJECT" value="class" />
-      <option name="VM_PARAMETERS" value="-ea" />
-      <option name="PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
-      <option name="ENV_VARIABLES" />
-      <option name="PASS_PARENT_ENVS" value="true" />
-      <option name="TEST_SEARCH_SCOPE">
-        <value defaultName="singleModule" />
-      </option>
-      <envs />
-      <patterns />
-    </configuration>
-    <configuration name="ServerConfigTest.port" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
-        <pattern>
-          <option name="PATTERN" value="com.server.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <module name="server" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="PACKAGE_NAME" value="com.server" />
-      <option name="MAIN_CLASS_NAME" value="com.server.ServerConfigTest" />
-      <option name="METHOD_NAME" value="port" />
       <option name="TEST_OBJECT" value="method" />
       <option name="VM_PARAMETERS" value="-ea" />
       <option name="PARAMETERS" />
@@ -481,19 +481,19 @@
       <predefined_log_file id="idea.log" enabled="true" />
     </configuration>
     <list size="5">
-      <item index="0" class="java.lang.String" itemvalue="JUnit.ServerConfigTest.port" />
-      <item index="1" class="java.lang.String" itemvalue="JUnit.ServerConfigTest" />
-      <item index="2" class="java.lang.String" itemvalue="JUnit.CLIFlagParserTest.successful_parse" />
-      <item index="3" class="java.lang.String" itemvalue="JUnit.CLIFlagParserTest" />
-      <item index="4" class="java.lang.String" itemvalue="Application.HelloWorld" />
+      <item index="0" class="java.lang.String" itemvalue="JUnit.CLIFlagParserTest.successful_parse" />
+      <item index="1" class="java.lang.String" itemvalue="JUnit.CLIFlagParserTest" />
+      <item index="2" class="java.lang.String" itemvalue="Application.HelloWorld" />
+      <item index="3" class="java.lang.String" itemvalue="JUnit.CLIFlagParserTest.failed_parse_with_swapped_flags" />
+      <item index="4" class="java.lang.String" itemvalue="JUnit.CLIFlagParserTest.failed_parse_with_missing_portnumber" />
     </list>
     <recent_temporary>
       <list size="5">
         <item index="0" class="java.lang.String" itemvalue="JUnit.CLIFlagParserTest" />
-        <item index="1" class="java.lang.String" itemvalue="Application.HelloWorld" />
-        <item index="2" class="java.lang.String" itemvalue="JUnit.CLIFlagParserTest.successful_parse" />
-        <item index="3" class="java.lang.String" itemvalue="JUnit.ServerConfigTest" />
-        <item index="4" class="java.lang.String" itemvalue="JUnit.ServerConfigTest.port" />
+        <item index="1" class="java.lang.String" itemvalue="JUnit.CLIFlagParserTest.failed_parse_with_missing_portnumber" />
+        <item index="2" class="java.lang.String" itemvalue="JUnit.CLIFlagParserTest.failed_parse_with_swapped_flags" />
+        <item index="3" class="java.lang.String" itemvalue="Application.HelloWorld" />
+        <item index="4" class="java.lang.String" itemvalue="JUnit.CLIFlagParserTest.successful_parse" />
       </list>
     </recent_temporary>
   </component>
@@ -514,35 +514,35 @@
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="CLIFlagParserTest - 2018.06.19 at 15h 53m 32s.xml">
-      <configuration name="CLIFlagParserTest" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="CLIFlagParserTest - 2018.06.19 at 15h 53m 42s.xml">
-      <configuration name="CLIFlagParserTest" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="CLIFlagParserTest - 2018.06.19 at 16h 18m 06s.xml">
-      <configuration name="CLIFlagParserTest" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="CLIFlagParserTest - 2018.06.19 at 16h 18m 56s.xml">
-      <configuration name="CLIFlagParserTest" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="CLIFlagParserTest - 2018.06.19 at 16h 20m 22s.xml">
-      <configuration name="CLIFlagParserTest" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="CLIFlagParserTest - 2018.06.19 at 16h 22m 09s.xml">
-      <configuration name="CLIFlagParserTest" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="CLIFlagParserTest - 2018.06.19 at 16h 22m 49s.xml">
-      <configuration name="CLIFlagParserTest" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="CLIFlagParserTest - 2018.06.19 at 16h 23m 48s.xml">
-      <configuration name="CLIFlagParserTest" configurationId="JUnit" />
-    </history-entry>
     <history-entry file="CLIFlagParserTest - 2018.06.19 at 16h 25m 23s.xml">
       <configuration name="CLIFlagParserTest" configurationId="JUnit" />
     </history-entry>
     <history-entry file="CLIFlagParserTest - 2018.06.19 at 16h 25m 43s.xml">
       <configuration name="CLIFlagParserTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="CLIFlagParserTest - 2018.06.19 at 16h 48m 01s.xml">
+      <configuration name="CLIFlagParserTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="CLIFlagParserTest - 2018.06.19 at 16h 51m 20s.xml">
+      <configuration name="CLIFlagParserTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="CLIFlagParserTest - 2018.06.19 at 16h 52m 56s.xml">
+      <configuration name="CLIFlagParserTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="CLIFlagParserTest - 2018.06.19 at 16h 53m 30s.xml">
+      <configuration name="CLIFlagParserTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="CLIFlagParserTest - 2018.06.19 at 16h 55m 33s.xml">
+      <configuration name="CLIFlagParserTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="CLIFlagParserTest - 2018.06.19 at 17h 03m 04s.xml">
+      <configuration name="CLIFlagParserTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="CLIFlagParserTest_failed_parse_with_missing_portnumber - 2018.06.19 at 17h 01m 06s.xml">
+      <configuration name="CLIFlagParserTest.failed_parse_with_missing_portnumber" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="CLIFlagParserTest_failed_parse_with_swapped_flags - 2018.06.19 at 16h 59m 45s.xml">
+      <configuration name="CLIFlagParserTest.failed_parse_with_swapped_flags" configurationId="JUnit" />
     </history-entry>
   </component>
   <component name="ToolWindowManager">
@@ -559,7 +559,7 @@
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3298969" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32896653" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32881" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.23590814" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.22338204" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19867183" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -595,6 +595,34 @@
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="true" content_ui="tabs" />
     </layout>
+    <layout-to-restore>
+      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3298969" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32881" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32896653" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32896653" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32896653" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2496318" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="true" content_ui="tabs" />
+    </layout-to-restore>
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -626,7 +654,9 @@
     <option name="myLimit" value="2678400000" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager />
+    <breakpoint-manager>
+      <option name="time" value="1" />
+    </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
@@ -892,7 +922,7 @@
     <entry file="file://$PROJECT_DIR$/src/test/java/com/server/ServerConfigTest.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="270">
-          <caret line="18" column="5" lean-forward="true" selection-start-line="10" selection-start-column="4" selection-end-line="18" selection-end-column="5" />
+          <caret line="18" column="5" lean-forward="false" selection-start-line="10" selection-start-column="4" selection-end-line="18" selection-end-column="5" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -922,8 +952,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/com/server/CLIFlagParserTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="315">
-          <caret line="21" column="52" lean-forward="false" selection-start-line="21" selection-start-column="52" selection-end-line="21" selection-end-column="52" />
+        <state relative-caret-position="810">
+          <caret line="54" column="8" lean-forward="false" selection-start-line="54" selection-start-column="8" selection-end-line="54" selection-end-column="8" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -932,8 +962,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/server/CLIFlagParser.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="6" column="8" lean-forward="false" selection-start-line="6" selection-start-column="8" selection-end-line="6" selection-end-column="8" />
+        <state relative-caret-position="345">
+          <caret line="23" column="9" lean-forward="false" selection-start-line="23" selection-start-column="9" selection-end-line="23" selection-end-column="9" />
           <folding />
         </state>
       </provider>
