@@ -3,7 +3,7 @@ package com.server;
 import com.google.devtools.common.options.Option;
 import com.google.devtools.common.options.OptionsBase;
 
-import java.util.List;import java.util.List;
+import java.util.List;
 
 /**
  * Command-line options definition for example server.
