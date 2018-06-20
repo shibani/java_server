@@ -32,6 +32,6 @@ public class SimpleGet {
     }
 
     private void sendHTTPOkHeader(PrintWriter out){
-        out.println("200 ok");
+        out.println("HTTP/1.1 200 OK");
     }
 }
