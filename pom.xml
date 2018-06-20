@@ -22,7 +22,7 @@
             <artifactId>mockito-core</artifactId>
             <version>2.13.0</version>
             <scope>test</scope>
-        </dependency>s
+        </dependency>
     </dependencies>
     <build>
         <plugins>

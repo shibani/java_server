@@ -53,21 +53,4 @@ public class SimpleGetTest {
 
         assertEquals(serverSocket.getLocalPort(), portNumber);
     }
-
-  /*  @Ignore
-    @Test
-    public void printString() throws IOException {
-        ByteArrayOutputStream bo = new ByteArrayOutputStream();
-        System.setOut(new PrintStream(bo));
-
-        String str = "test";
-        CLI testCLI = new CLI();
-        testCLI.printString(str);
-
-        bo.flush();
-        String inputLines = new String(bo.toByteArray());
-
-        assertTrue(inputLines.contains("test"));
-    }
-*/
 }
