@@ -10,7 +10,7 @@ public class CLIFlagParserTest {
 
     @Test
     public void successful_parse() throws IOException {
-        String args = "-p 5000 -d /path/to/directory";
+        String[] args = {"-p", "5000", "-d", "/path/to/directory"};
 
         final CLIFlagParser parser = new CLIFlagParser();
         final ServerConfig serverConfig = parser.parse(args);
@@ -21,7 +21,7 @@ public class CLIFlagParserTest {
 
     @Test
     public void successful_parse_with_swapped_flags() throws IOException {
-        String args = "-d /path/to/directory -p 5000";
+        String[] args = {"-p", "5000", "-d", "/path/to/directory"};
 
         final CLIFlagParser parser = new CLIFlagParser();
         final ServerConfig serverConfig = parser.parse(args);
@@ -32,7 +32,7 @@ public class CLIFlagParserTest {
 
     @Test(expected = IOException.class)
     public void failed_parse_with_swapped_flags() throws IOException {
-        String args = "-f /path/to/directory -p 5000";
+        String[] args = {"-f", "/path/to/directory", "-p", "5000"};
 
         final CLIFlagParser parser = new CLIFlagParser();
         parser.parse(args);
@@ -41,7 +41,7 @@ public class CLIFlagParserTest {
 
     @Test(expected = IOException.class)
     public void failed_parse_with_missing_portnumber() throws IOException {
-        String args = "-d /path/to/directory";
+        String[] args = {"-d", "/path/to/directory"};
 
         final CLIFlagParser parser = new CLIFlagParser();
         parser.parse(args);
@@ -49,7 +49,7 @@ public class CLIFlagParserTest {
 
     @Test(expected = IOException.class)
     public void failed_parse_with_missing_directory() throws IOException {
-        String args = "-p 5000";
+        String[] args = {"-p", "5000"};
 
         final CLIFlagParser parser = new CLIFlagParser();
         parser.parse(args);

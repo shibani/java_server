@@ -4,18 +4,17 @@ import java.io.IOException;
 
 public class CLIFlagParser {
 
-    public ServerConfig parse(String args) throws IOException {
-        String[] splitArgs = args.split(" ");
+    public ServerConfig parse(String[] args) throws IOException {
         int portNumber;
         String directory;
 
         try{
-            if(splitArgs[0].equals("-p") && splitArgs[2].equals("-d")){
-                portNumber = Integer.parseInt(splitArgs[1]);
-                directory = splitArgs[3];
-            } else if(splitArgs[0].equals("-d") && splitArgs[2].equals("-p")){
-                portNumber = Integer.parseInt(splitArgs[3]);
-                directory = splitArgs[1];
+            if(args[0].equals("-p") && args[2].equals("-d")){
+                portNumber = Integer.parseInt(args[1]);
+                directory = args[3];
+            } else if(args[0].equals("-d") && args[2].equals("-p")){
+                portNumber = Integer.parseInt(args[3]);
+                directory = args[1];
             } else {
                 throw new IOException();
             }
