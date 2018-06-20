@@ -11,33 +11,27 @@ public class SimpleGet {
     }
 
     public void runServer() throws IOException {
-        //ServerSocket serverSocket = new ServerSocket(serverConfig.getPortNumber())
-        //Socket clientSocket = openSocket(serverSocket);
-        //PrintWriter out = openOutputStream(clientSocket);
-        //sendHTTPOkHeader(out);
-        //closeOutputStream(out);
-        //closeSocket(serverSocket);
-
-        //create while loop
+        ServerSocket serverSocket = createServerSocket();
+        Socket clientSocket = openSocket(serverSocket);
+        PrintWriter out = openOutputStream(clientSocket);
+        sendHTTPOkHeader(out);
     }
 
-    public Socket openSocket(ServerSocket serverSocket) {
+    protected ServerSocket createServerSocket() throws IOException {
+        return new ServerSocket(serverConfig.getPortNumber());
     }
 
-
-    public PrintWriter openOutputStream(Socket socket){
-
+    private Socket openSocket(ServerSocket serverSocket) throws IOException {
+        return serverSocket.accept();
     }
 
-    public void sendHTTPOkHeader(PrintWriter out){
-        //out.println("200 ok");
+    private PrintWriter openOutputStream(Socket socket) throws IOException {
+        PrintWriter printWriter;
+        printWriter = new PrintWriter(socket.getOutputStream(), true);
+        return printWriter;
     }
 
-    public void closeOutputStream(PrintWriter out){
-        //out.close();
-    }
-
-    public void closeSocket(ServerSocket serverSocket){
-        //serverSocket.close();
+    private void sendHTTPOkHeader(PrintWriter out){
+        out.println("200 ok");
     }
 }
