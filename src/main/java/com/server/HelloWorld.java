@@ -9,6 +9,5 @@ public class HelloWorld {
         ServerConfig serverConfig = cliFlagParser.parse(args);
 
         System.out.println("hello world");
-
     }
 }
