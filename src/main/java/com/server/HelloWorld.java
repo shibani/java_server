@@ -11,5 +11,6 @@ public class HelloWorld {
         SimpleGet simpleGet = new SimpleGet(serverConfig);
 
         simpleGet.runServer();
+
     }
 }

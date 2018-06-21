@@ -11,10 +11,18 @@ public class SimpleGet {
     }
 
     public void runServer() throws IOException {
+
         ServerSocket serverSocket = createServerSocket();
         Socket clientSocket = openSocket(serverSocket);
+
+        BufferedReader in = openInputStream(clientSocket);
+        in.readLine();
+
         PrintWriter out = openOutputStream(clientSocket);
         sendHTTPOkHeader(out);
+
+        clientSocket.close();
+        serverSocket.close();
     }
 
     protected ServerSocket createServerSocket() throws IOException {
@@ -25,9 +33,13 @@ public class SimpleGet {
         return serverSocket.accept();
     }
 
+    private BufferedReader openInputStream(Socket socket) throws IOException {
+        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+        return bufferedReader;
+    }
+
     private PrintWriter openOutputStream(Socket socket) throws IOException {
-        PrintWriter printWriter;
-        printWriter = new PrintWriter(socket.getOutputStream(), true);
+        PrintWriter printWriter = new PrintWriter(socket.getOutputStream(), true);
         return printWriter;
     }
 
