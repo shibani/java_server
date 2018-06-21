@@ -23,5 +23,4 @@ public class CLIFlagParser {
         }
         return new ServerConfig(portNumber, directory);
     }
-
 }
