@@ -1,1 +1,4 @@
-com/server/HelloWorld.class
+com/server/ServerConfig.class
+com/server/HTTPServer.class
+com/server/SimpleGet.class
+com/server/CLIFlagParser.class
