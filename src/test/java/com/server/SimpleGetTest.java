@@ -8,8 +8,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class SimpleGetTest {
 
@@ -38,11 +37,12 @@ public class SimpleGetTest {
         simpleGet.runServer();
 
         assertTrue(outputStream.toString().contains("200"));
-
+        verify(socket, times(1)).close();
+        verify(serverSocket, times(1)).close();
     }
 
     @Test
-    public void serverSocketReturnsAServerSocketWithConfigPortNumber() throws IOException {
+    public void createServerSocketReturnsAServerSocketWithConfigPortNumber() throws IOException {
         int portNumber = 5000;
         String directoryPath = "/path/to/dir";
         ServerConfig serverConfig = new ServerConfig(portNumber, directoryPath);
