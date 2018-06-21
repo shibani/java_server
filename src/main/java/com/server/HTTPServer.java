@@ -7,5 +7,9 @@ public class HTTPServer {
         CLIFlagParser cliFlagParser = new CLIFlagParser();
 
         ServerConfig serverConfig = cliFlagParser.parse(args);
+
+        SimpleGet simpleGet = new SimpleGet(serverConfig);
+
+        simpleGet.runServer();
     }
 }
