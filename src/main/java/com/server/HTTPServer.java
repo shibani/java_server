@@ -1,6 +1,6 @@
 package com.server;
 
-public class HelloWorld {
+public class HTTPServer {
 
     public static void main(String[] args) throws Exception {
 
@@ -11,6 +11,5 @@ public class HelloWorld {
         SimpleGet simpleGet = new SimpleGet(serverConfig);
 
         simpleGet.runServer();
-
     }
 }
