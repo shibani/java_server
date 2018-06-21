@@ -9,7 +9,7 @@ import static org.junit.Assert.*;
 public class ServerConfigTest {
 
     @Test
-    public void port() throws NoSuchFieldException, IllegalAccessException {
+    public void port() {
         int portNumber = 5000;
         String directory = "/path/to/jar";
 
@@ -19,7 +19,7 @@ public class ServerConfigTest {
     }
 
     @Test
-    public void directory() throws NoSuchFieldException, IllegalAccessException {
+    public void directory() {
         int portNumber = 5000;
         String directory = "/path/to/jar";
 
