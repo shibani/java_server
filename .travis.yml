@@ -3,21 +3,6 @@ language: java
 jdk:
 - oraclejdk8
 
-before_script:
-  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-  - chmod +x ./cc-test-reporter
-  - ./cc-test-reporter before-build
-
 script:
   - mvn install -DskipTests=true -Dmaven.javadoc.skip=true -B -V
   - mvn test -B
-  - mvn jacoco:report
-
-#script:
-#  - mvn cobertura:cobertura
-
-after_script:
-  JACOCO_SOURCE_PATH=src/main/java ./cc-test-reporter \
-    format-coverage target/site/jacoco/jacoco.xml     \
-    --input-type jacoco --exit-code $TRAVIS_TEST_RESULT
-  ./cc-test-reporter upload-coverage
