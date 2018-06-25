@@ -21,8 +21,7 @@ public class SimpleGet {
         PrintWriter out = openOutputStream(clientSocket);
         sendHTTPOkHeader(out);
 
-        clientSocket.close();
-        serverSocket.close();
+        stopServer(serverSocket, clientSocket);
     }
 
     protected ServerSocket createServerSocket() throws IOException {
@@ -45,5 +44,10 @@ public class SimpleGet {
 
     private void sendHTTPOkHeader(PrintWriter out){
         out.println("HTTP/1.1 200 OK");
+    }
+
+    private void stopServer(ServerSocket serverSocket, Socket clientSocket) throws IOException {
+        clientSocket.close();
+        serverSocket.close();
     }
 }
