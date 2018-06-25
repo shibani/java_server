@@ -19,7 +19,20 @@ public class SimpleGetTest {
 
         final MockServerSocket serverSocket = new MockServerSocket();
 
+
         SimpleGet simpleGet = new SimpleGet(serverConfig) {
+            int runCount = 1;
+
+            @Override
+            protected Boolean running(){
+                if(runCount > 0){
+                    runCount -= 1;
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+
             @Override
             protected ServerSocket createServerSocket() throws IOException {
                 return serverSocket;
