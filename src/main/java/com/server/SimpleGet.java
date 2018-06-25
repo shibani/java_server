@@ -12,16 +12,23 @@ public class SimpleGet {
 
     public void runServer() throws IOException {
 
-        ServerSocket serverSocket = createServerSocket();
-        Socket clientSocket = openSocket(serverSocket);
+        while(running()) {
 
-        BufferedReader in = openInputStream(clientSocket);
-        in.readLine();
+            ServerSocket serverSocket = createServerSocket();
+            Socket clientSocket = openSocket(serverSocket);
 
-        PrintWriter out = openOutputStream(clientSocket);
-        sendHTTPOkHeader(out);
+            BufferedReader in = openInputStream(clientSocket);
+            in.readLine();
 
-        stopServer(serverSocket, clientSocket);
+            PrintWriter out = openOutputStream(clientSocket);
+            sendHTTPOkHeader(out);
+
+            stopServer(serverSocket, clientSocket);
+        }
+    }
+
+    protected Boolean running(){
+        return true;
     }
 
     protected ServerSocket createServerSocket() throws IOException {
