@@ -55,4 +55,16 @@ public class SimpleGetTest {
 
         assertEquals(serverSocket.getLocalPort(), portNumber);
     }
+
+    @Test
+    public void runningReturnsTrue(){
+
+        int portNumber = 5000;
+        String directoryPath = "/path/to/dir";
+        ServerConfig serverConfig = new ServerConfig(portNumber, directoryPath);
+        SimpleGet simpleGet = new SimpleGet(serverConfig);
+
+        assertTrue(simpleGet.running());
+
+    }
 }
