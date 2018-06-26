@@ -18,7 +18,7 @@ public class SimpleGet {
             Socket clientSocket = openSocket(serverSocket);
 
             BufferedReader in = openInputStream(clientSocket);
-            in.readLine();
+            RequestHeaderReader requestHeaderReader = new RequestHeaderReader(in);
 
             PrintWriter out = openOutputStream(clientSocket);
             sendHTTPOkHeader(out);

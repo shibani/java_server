@@ -9,7 +9,7 @@ import java.io.StringReader;
 
 import static org.junit.Assert.*;
 
-public class RequestReaderTest {
+public class RequestHeaderReaderTest {
 
     @Test
     public void getHeader() throws IOException {
@@ -18,19 +18,8 @@ public class RequestReaderTest {
         Reader inputString = new StringReader(aString);
         BufferedReader br = new BufferedReader(inputString);
 
-        final RequestReader requestReader = new RequestReader(br);
+        final RequestHeaderReader requestReader = new RequestHeaderReader(br);
 
         assertEquals("header", requestReader.getHeader());
-    }
-
-    @Test
-    public void getBody() throws IOException {
-        String aString = "header\r\n\r\nbody";
-        Reader inputString = new StringReader(aString);
-        BufferedReader br = new BufferedReader(inputString);
-
-        final RequestReader requestReader = new RequestReader(br);
-
-        assertEquals("body", requestReader.getBody());
     }
 }

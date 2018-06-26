@@ -1,5 +1,7 @@
 /Users/shibani/IdeaProjects/server/src/main/java/com/server/MockServerSocket.java
 /Users/shibani/IdeaProjects/server/src/main/java/com/server/SimpleGet.java
+/Users/shibani/IdeaProjects/server/src/main/java/com/server/RequestHeaderParser.java
+/Users/shibani/IdeaProjects/server/src/main/java/com/server/RequestHeaderReader.java
 /Users/shibani/IdeaProjects/server/src/main/java/com/server/MockSocket.java
 /Users/shibani/IdeaProjects/server/src/main/java/com/server/CLIFlagParser.java
 /Users/shibani/IdeaProjects/server/src/main/java/com/server/HTTPServer.java

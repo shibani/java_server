@@ -16,7 +16,7 @@ public class MockSocket extends Socket{
     }
 
     public ByteArrayInputStream getInputStream(){
-        ByteArrayInputStream is = new ByteArrayInputStream("foo".getBytes());
+        ByteArrayInputStream is = new ByteArrayInputStream("foo\r\n\r\n".getBytes());
         incomingStream = is;
         return is;
     }
