@@ -1,5 +1,6 @@
 package com.server;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -11,17 +12,11 @@ public class RequestRouter {
             "/put-target"
     );
 
-    private int result;
+    //RequestRouter(){}
 
-    RequestRouter(String requestPath){
-        if(whiteListedPaths.contains(requestPath)){
-            this.result = 200;
-        } else {
-            this.result = 404;
-        }
+    public boolean checkPath(String requestPath){
+        return whiteListedPaths.contains(requestPath);
     }
 
-    public int getResult(){
-        return result;
-    }
+
 }

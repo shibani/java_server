@@ -18,9 +18,10 @@ public class SimpleGetTest {
         ServerConfig serverConfig = new ServerConfig(portNumber, directoryPath);
 
         final MockServerSocket serverSocket = new MockServerSocket();
+        final MockRequestRouter mockRequestRouter = new MockRequestRouter();
+        mockRequestRouter.setCheckPathStub(true);
 
-
-        SimpleGet simpleGet = new SimpleGet(serverConfig) {
+        SimpleGet simpleGet = new SimpleGet(serverConfig, mockRequestRouter) {
             int runCount = 1;
 
             @Override
@@ -49,7 +50,8 @@ public class SimpleGetTest {
         int portNumber = 5000;
         String directoryPath = "/path/to/dir";
         ServerConfig serverConfig = new ServerConfig(portNumber, directoryPath);
-        SimpleGet simpleGet = new SimpleGet(serverConfig);
+        final RequestRouter requestRouter = new RequestRouter();
+        SimpleGet simpleGet = new SimpleGet(serverConfig, requestRouter);
 
         ServerSocket serverSocket = simpleGet.createServerSocket();
 
@@ -62,9 +64,45 @@ public class SimpleGetTest {
         int portNumber = 5000;
         String directoryPath = "/path/to/dir";
         ServerConfig serverConfig = new ServerConfig(portNumber, directoryPath);
-        SimpleGet simpleGet = new SimpleGet(serverConfig);
+        final RequestRouter requestRouter = new RequestRouter();
+        SimpleGet simpleGet = new SimpleGet(serverConfig, requestRouter);
 
         assertTrue(simpleGet.running());
 
+    }
+
+    @Test
+    public void runServerSendsHTTPNotFound () throws IOException {
+        int portNumber = 5000;
+        String directoryPath = "/path/to/dir";
+
+        ServerConfig serverConfig = new ServerConfig(portNumber, directoryPath);
+
+        final MockServerSocket serverSocket = new MockServerSocket();
+        final MockRequestRouter mockRequestRouter = new MockRequestRouter();
+        mockRequestRouter.setCheckPathStub(false);
+
+        SimpleGet simpleGet = new SimpleGet(serverConfig, mockRequestRouter) {
+            int runCount = 1;
+
+            @Override
+            protected Boolean running(){
+                if(runCount > 0){
+                    runCount -= 1;
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+
+            @Override
+            protected ServerSocket createServerSocket() throws IOException {
+                return serverSocket;
+            }
+        };
+
+        simpleGet.runServer();
+
+        assertTrue(serverSocket.getMockSocket().getOutgoingString().contains("404"));
     }
 }

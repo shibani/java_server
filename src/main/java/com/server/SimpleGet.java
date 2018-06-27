@@ -1,13 +1,16 @@
 package com.server;
+
 import java.net.*;
 import java.io.*;
 
 public class SimpleGet {
 
     private ServerConfig serverConfig;
+    private RequestRouter requestRouter;
 
-    SimpleGet(ServerConfig serverConfig){
+    SimpleGet(ServerConfig serverConfig, RequestRouter requestRouter){
         this.serverConfig = serverConfig;
+        this.requestRouter = requestRouter;
     }
 
     public void runServer() throws IOException {
@@ -21,12 +24,13 @@ public class SimpleGet {
 
             RequestHeaderReader requestHeaderReader = new RequestHeaderReader(in);
             RequestHeaderParser requestHeaderParser = new RequestHeaderParser(requestHeaderReader.getHeader());
-            RequestRouter requestRouter = new RequestRouter(requestHeaderParser.getPath());
 
             PrintWriter out = openOutputStream(clientSocket);
 
-            if (requestRouter.getResult() == 200){
+            if(requestRouter.checkPath(requestHeaderParser.getPath())){
                 sendHTTPOkHeader(out);
+            } else {
+                sendHTTPNotFoundHeader(out);
             }
 
             stopServer(serverSocket, clientSocket);
@@ -57,6 +61,10 @@ public class SimpleGet {
 
     private void sendHTTPOkHeader(PrintWriter out){
         out.println("HTTP/1.1 200 OK");
+    }
+
+    private void sendHTTPNotFoundHeader(PrintWriter out){
+        out.println("HTTP/1.1 404 Not Found");
     }
 
     private void stopServer(ServerSocket serverSocket, Socket clientSocket) throws IOException {

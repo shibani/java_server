@@ -8,7 +8,9 @@ public class HTTPServer {
 
         ServerConfig serverConfig = cliFlagParser.parse(args);
 
-        SimpleGet simpleGet = new SimpleGet(serverConfig);
+        RequestRouter requestRouter = new RequestRouter();
+
+        SimpleGet simpleGet = new SimpleGet(serverConfig, requestRouter);
 
         simpleGet.runServer();
     }

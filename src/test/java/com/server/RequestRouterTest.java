@@ -7,20 +7,20 @@ import static org.junit.Assert.*;
 public class RequestRouterTest {
 
     @Test
-    public void anyWhiteListedPathResultsIn200(){
+    public void anyWhiteListedPathReturnsTrue(){
 
-        RequestRouter requestRouter = new RequestRouter("/form");
+        RequestRouter requestRouter = new RequestRouter();
+        boolean result = requestRouter.checkPath("/form");
 
-        assertEquals(200, requestRouter.getResult());
-
+        assertTrue(result);
     }
 
     @Test
-    public void anyNonWhiteListedPathResultsIn404(){
+    public void anyNonWhiteListedPathReturnFalse(){
 
-        RequestRouter requestRouter = new RequestRouter("/foobar");
+        RequestRouter requestRouter = new RequestRouter();
+        boolean result = requestRouter.checkPath("/foobar");
 
-        assertEquals(404, requestRouter.getResult());
-
+        assertFalse(result);
     }
 }

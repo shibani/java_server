@@ -63,6 +63,6 @@
     <property name="ftp.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="sun.cpu.isalist" value=""/>
   </properties>
-  <testcase classname="com.server.RequestRouterTest" name="anyWhiteListedPathResultsIn200" time="0"/>
-  <testcase classname="com.server.RequestRouterTest" name="anyNonWhiteListedPathResultsIn404" time="0"/>
+  <testcase classname="com.server.RequestRouterTest" name="anyWhiteListedPathReturnsTrue" time="0"/>
+  <testcase classname="com.server.RequestRouterTest" name="anyNonWhiteListedPathReturnFalse" time="0"/>
 </testsuite>
