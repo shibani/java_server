@@ -13,7 +13,7 @@ public class RequestHeaderParserTest {
 
         RequestHeaderParser requestHeaderParser = new RequestHeaderParser(headerString);
 
-        assertEquals("GET", requestHeaderParser.getVerb());
+        assertEquals("GET", requestHeaderParser.getMethod());
     }
 
     @Test
@@ -23,7 +23,7 @@ public class RequestHeaderParserTest {
 
         RequestHeaderParser requestHeaderParser = new RequestHeaderParser(headerString);
 
-        assertEquals("POST", requestHeaderParser.getVerb());
+        assertEquals("POST", requestHeaderParser.getMethod());
     }
 
     @Test
@@ -33,7 +33,7 @@ public class RequestHeaderParserTest {
 
         RequestHeaderParser requestHeaderParser = new RequestHeaderParser(headerString);
 
-        assertEquals("/", requestHeaderParser.getURI());
+        assertEquals("/", requestHeaderParser.getPath());
     }
 
     @Test
@@ -43,6 +43,6 @@ public class RequestHeaderParserTest {
 
         RequestHeaderParser requestHeaderParser = new RequestHeaderParser(headerString);
 
-        assertEquals("/form", requestHeaderParser.getURI());
+        assertEquals("/form", requestHeaderParser.getPath());
     }
 }
