@@ -12,11 +12,8 @@ public class RequestRouter {
             "/put-target"
     );
 
-    //RequestRouter(){}
-
     public boolean checkPath(String requestPath){
         return whiteListedPaths.contains(requestPath);
     }
-
 
 }
