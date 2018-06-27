@@ -4,12 +4,12 @@ public class RequestHeaderParser {
 
     private String headerString;
     private String verb;
-    private String route;
+    private String URI;
 
     RequestHeaderParser(String headerString){
         this.headerString = headerString;
         extractVerb();
-        extractRoute();
+        extractURI();
     }
 
     private void extractVerb() {
@@ -18,17 +18,17 @@ public class RequestHeaderParser {
         this.verb = verb.trim();
     }
 
-    private void extractRoute() {
+    private void extractURI() {
         String requestLine = headerString.split("\n")[0];
         String route = requestLine.split(" ")[1];
-        this.route = route.trim();
+        this.URI = route.trim();
     }
 
     public String getVerb(){
         return this.verb;
     }
 
-    public String getRoute(){
-        return this.route;
+    public String getURI(){
+        return this.URI;
     }
 }

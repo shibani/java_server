@@ -33,7 +33,7 @@ public class RequestHeaderParserTest {
 
         RequestHeaderParser requestHeaderParser = new RequestHeaderParser(headerString);
 
-        assertEquals("/", requestHeaderParser.getRoute());
+        assertEquals("/", requestHeaderParser.getURI());
     }
 
     @Test
@@ -43,6 +43,6 @@ public class RequestHeaderParserTest {
 
         RequestHeaderParser requestHeaderParser = new RequestHeaderParser(headerString);
 
-        assertEquals("/form", requestHeaderParser.getRoute());
+        assertEquals("/form", requestHeaderParser.getURI());
     }
 }
