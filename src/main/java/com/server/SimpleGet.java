@@ -18,10 +18,16 @@ public class SimpleGet {
             Socket clientSocket = openSocket(serverSocket);
 
             BufferedReader in = openInputStream(clientSocket);
+
             RequestHeaderReader requestHeaderReader = new RequestHeaderReader(in);
+            RequestHeaderParser requestHeaderParser = new RequestHeaderParser(requestHeaderReader.getHeader());
+            RequestRouter requestRouter = new RequestRouter(requestHeaderParser.getPath());
 
             PrintWriter out = openOutputStream(clientSocket);
-            sendHTTPOkHeader(out);
+
+            if (requestRouter.getResult() == 200){
+                sendHTTPOkHeader(out);
+            }
 
             stopServer(serverSocket, clientSocket);
         }
