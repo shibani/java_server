@@ -21,7 +21,7 @@ public class CLIFlagParserTest {
 
     @Test
     public void successful_parse_with_swapped_flags() throws IOException {
-        String[] args = {"-p", "5000", "-d", "/path/to/directory"};
+        String[] args = {"-d", "/path/to/directory", "-p", "5000"};
 
         final CLIFlagParser parser = new CLIFlagParser();
         final ServerConfig serverConfig = parser.parse(args);
