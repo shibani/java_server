@@ -18,8 +18,8 @@ public class SimpleGetTest {
         ServerConfig serverConfig = new ServerConfig(portNumber, directoryPath);
 
         final MockServerSocket serverSocket = new MockServerSocket();
-        final MockRequestRouter mockRequestRouter = new MockRequestRouter();
-        mockRequestRouter.setCheckPathStub(true);
+        MockRequestRouter mockRequestRouter = new MockRequestRouter();
+        mockRequestRouter.setResponseCode(200);
 
         SimpleGet simpleGet = new SimpleGet(serverConfig, mockRequestRouter) {
             int runCount = 1;
@@ -46,32 +46,6 @@ public class SimpleGetTest {
     }
 
     @Test
-    public void createServerSocketReturnsAServerSocketWithConfigPortNumber() throws IOException {
-        int portNumber = 5000;
-        String directoryPath = "/path/to/dir";
-        ServerConfig serverConfig = new ServerConfig(portNumber, directoryPath);
-        final RequestRouter requestRouter = new RequestRouter();
-        SimpleGet simpleGet = new SimpleGet(serverConfig, requestRouter);
-
-        ServerSocket serverSocket = simpleGet.createServerSocket();
-
-        assertEquals(serverSocket.getLocalPort(), portNumber);
-    }
-
-    @Test
-    public void runningReturnsTrue(){
-
-        int portNumber = 5000;
-        String directoryPath = "/path/to/dir";
-        ServerConfig serverConfig = new ServerConfig(portNumber, directoryPath);
-        final RequestRouter requestRouter = new RequestRouter();
-        SimpleGet simpleGet = new SimpleGet(serverConfig, requestRouter);
-
-        assertTrue(simpleGet.running());
-
-    }
-
-    @Test
     public void runServerSendsHTTPNotFound () throws IOException {
         int portNumber = 5000;
         String directoryPath = "/path/to/dir";
@@ -79,8 +53,8 @@ public class SimpleGetTest {
         ServerConfig serverConfig = new ServerConfig(portNumber, directoryPath);
 
         final MockServerSocket serverSocket = new MockServerSocket();
-        final MockRequestRouter mockRequestRouter = new MockRequestRouter();
-        mockRequestRouter.setCheckPathStub(false);
+        MockRequestRouter mockRequestRouter = new MockRequestRouter();
+        mockRequestRouter.setResponseCode(404);
 
         SimpleGet simpleGet = new SimpleGet(serverConfig, mockRequestRouter) {
             int runCount = 1;
@@ -104,5 +78,31 @@ public class SimpleGetTest {
         simpleGet.runServer();
 
         assertTrue(serverSocket.getMockSocket().getOutgoingString().contains("404"));
+    }
+
+    @Test
+    public void createServerSocketReturnsAServerSocketWithConfigPortNumber() throws IOException {
+        int portNumber = 5000;
+        String directoryPath = "/path/to/dir";
+        ServerConfig serverConfig = new ServerConfig(portNumber, directoryPath);
+        final RequestRouter requestRouter = new RequestRouter();
+        SimpleGet simpleGet = new SimpleGet(serverConfig, requestRouter);
+
+        ServerSocket serverSocket = simpleGet.createServerSocket();
+
+        assertEquals(serverSocket.getLocalPort(), portNumber);
+    }
+
+    @Test
+    public void runningReturnsTrue(){
+
+        int portNumber = 5000;
+        String directoryPath = "/path/to/dir";
+        ServerConfig serverConfig = new ServerConfig(portNumber, directoryPath);
+        final RequestRouter requestRouter = new RequestRouter();
+        SimpleGet simpleGet = new SimpleGet(serverConfig, requestRouter);
+
+        assertTrue(simpleGet.running());
+
     }
 }

@@ -27,7 +27,7 @@ public class SimpleGet {
 
             PrintWriter out = openOutputStream(clientSocket);
 
-            if(requestRouter.checkPath(requestHeaderParser.getPath())){
+            if(requestRouter.getResponseCode(requestHeaderParser.getPath(), requestHeaderParser.getMethod()) == 200){
                 sendHTTPOkHeader(out);
             } else {
                 sendHTTPNotFoundHeader(out);

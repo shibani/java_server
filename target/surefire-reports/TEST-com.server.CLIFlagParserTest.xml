@@ -63,9 +63,9 @@
     <property name="ftp.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="sun.cpu.isalist" value=""/>
   </properties>
-  <testcase classname="com.server.CLIFlagParserTest" name="successful_parse_with_swapped_flags" time="0.005"/>
+  <testcase classname="com.server.CLIFlagParserTest" name="successful_parse_with_swapped_flags" time="0.004"/>
   <testcase classname="com.server.CLIFlagParserTest" name="failed_parse_with_swapped_flags" time="0"/>
   <testcase classname="com.server.CLIFlagParserTest" name="failed_parse_with_missing_portnumber" time="0"/>
   <testcase classname="com.server.CLIFlagParserTest" name="failed_parse_with_missing_directory" time="0"/>
-  <testcase classname="com.server.CLIFlagParserTest" name="successful_parse" time="0"/>
+  <testcase classname="com.server.CLIFlagParserTest" name="successful_parse" time="0.001"/>
 </testsuite>
