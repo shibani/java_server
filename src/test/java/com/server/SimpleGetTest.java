@@ -81,6 +81,41 @@ public class SimpleGetTest {
     }
 
     @Test
+    public void runServerSendsHTTPMethodNotAllowed () throws IOException {
+        int portNumber = 5000;
+        String directoryPath = "/path/to/dir";
+
+        ServerConfig serverConfig = new ServerConfig(portNumber, directoryPath);
+
+        final MockServerSocket serverSocket = new MockServerSocket();
+        MockRequestRouter mockRequestRouter = new MockRequestRouter();
+        mockRequestRouter.setResponseCode(405);
+
+        SimpleGet simpleGet = new SimpleGet(serverConfig, mockRequestRouter) {
+            int runCount = 1;
+
+            @Override
+            protected Boolean running(){
+                if(runCount > 0){
+                    runCount -= 1;
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+
+            @Override
+            protected ServerSocket createServerSocket() throws IOException {
+                return serverSocket;
+            }
+        };
+
+        simpleGet.runServer();
+
+        assertTrue(serverSocket.getMockSocket().getOutgoingString().contains("405"));
+    }
+
+    @Test
     public void createServerSocketReturnsAServerSocketWithConfigPortNumber() throws IOException {
         int portNumber = 5000;
         String directoryPath = "/path/to/dir";

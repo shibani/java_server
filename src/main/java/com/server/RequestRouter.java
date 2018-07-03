@@ -18,9 +18,17 @@ public class RequestRouter {
         Hashtable putTargetHash = new Hashtable();
         putTargetHash.put("PUT", 200);
 
+        Hashtable fileOneHash = new Hashtable();
+        fileOneHash.put("GET", 200);
+
+        Hashtable textFileHash = new Hashtable();
+        textFileHash.put("GET", 200);
+
         routeTable.put("/", rootHash);
         routeTable.put("/form", formHash);
         routeTable.put("/put-target", putTargetHash);
+        routeTable.put("/file1", fileOneHash);
+        routeTable.put("/text-file.txt", textFileHash);
 
         return routeTable;
     }
