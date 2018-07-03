@@ -1,5 +1,6 @@
 /Users/thomascountz/Documents/apprenticeship/java_server/src/test/java/com/server/RequestRouterTest.java
 /Users/thomascountz/Documents/apprenticeship/java_server/src/test/java/com/server/MockRequestRouterTest.java
+/Users/thomascountz/Documents/apprenticeship/java_server/src/test/java/com/server/ResponseHeaderBuilderTest.java
 /Users/thomascountz/Documents/apprenticeship/java_server/src/test/java/com/server/CLIFlagParserTest.java
 /Users/thomascountz/Documents/apprenticeship/java_server/src/test/java/com/server/RequestHeaderParserTest.java
 /Users/thomascountz/Documents/apprenticeship/java_server/src/test/java/com/server/MockServerSocketTest.java

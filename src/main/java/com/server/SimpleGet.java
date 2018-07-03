@@ -28,14 +28,9 @@ public class SimpleGet {
             PrintWriter out = openOutputStream(clientSocket);
 
             int responseCode = requestRouter.getResponseCode(requestHeaderParser.getPath(), requestHeaderParser.getMethod());
+            ResponseStatusLineBuilder responseStatusLineBuilder = new ResponseStatusLineBuilder(responseCode);
 
-            if(responseCode == 200) {
-                sendHTTPOkHeader(out);
-            } else if(responseCode == 405) {
-                sendHTTPNotAllowedHeader(out);
-            } else {
-                sendHTTPNotFoundHeader(out);
-            }
+            out.println(responseStatusLineBuilder.getHeader());
 
             stopServer(serverSocket, clientSocket);
         }
@@ -61,18 +56,6 @@ public class SimpleGet {
     private PrintWriter openOutputStream(Socket socket) throws IOException {
         PrintWriter printWriter = new PrintWriter(socket.getOutputStream(), true);
         return printWriter;
-    }
-
-    private void sendHTTPOkHeader(PrintWriter out){
-        out.println("HTTP/1.1 200 OK");
-    }
-
-    private void sendHTTPNotFoundHeader(PrintWriter out){
-        out.println("HTTP/1.1 404 Not Found");
-    }
-
-    private void sendHTTPNotAllowedHeader(PrintWriter out){
-        out.println("HTTP/1.1 405 Method Not Allowed");
     }
 
     private void stopServer(ServerSocket serverSocket, Socket clientSocket) throws IOException {

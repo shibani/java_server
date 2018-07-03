@@ -64,8 +64,8 @@
     <property name="ftp.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="sun.cpu.isalist" value=""/>
   </properties>
-  <testcase classname="com.server.RequestHeaderParserTest" name="getRouteReturnsHTTPRoute" time="0"/>
   <testcase classname="com.server.RequestHeaderParserTest" name="getVerbReturnsGetHTTPVerb" time="0"/>
   <testcase classname="com.server.RequestHeaderParserTest" name="getVerbReturnsHTTPPostVerb" time="0"/>
+  <testcase classname="com.server.RequestHeaderParserTest" name="getRouteReturnsHTTPRoute" time="0"/>
   <testcase classname="com.server.RequestHeaderParserTest" name="getRouteReturnsFormHTTPRoute" time="0"/>
 </testsuite>
