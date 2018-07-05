@@ -2,13 +2,17 @@ package com.server;
 
 public class MockRequestRouter extends RequestRouter{
 
-    private boolean dummyResult;
+    private int dummyResult;
 
-    public void setCheckPathStub(boolean dummyResult){
+    MockRequestRouter(){
+        this.dummyResult=404;
+    }
+
+    public void setResponseCode(int dummyResult){
         this.dummyResult = dummyResult;
     }
 
-    public boolean checkPath(String requestPath){
-        return dummyResult;
+    public int getResponseCode(String requestPath, String method){
+        return this.dummyResult;
     }
 }

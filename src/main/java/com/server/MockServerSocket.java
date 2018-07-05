@@ -8,12 +8,15 @@ public class MockServerSocket extends ServerSocket {
     private MockSocket mockSocket;
 
     public MockServerSocket() throws IOException {
+        this.mockSocket = new MockSocket();
+    }
+
+    public MockServerSocket(MockSocket socket) throws IOException {
+        this.mockSocket = socket;
     }
 
     public MockSocket accept(){
-        MockSocket ms = new MockSocket();
-        mockSocket = ms;
-        return ms;
+        return this.mockSocket;
     }
 
     public MockSocket getMockSocket(){

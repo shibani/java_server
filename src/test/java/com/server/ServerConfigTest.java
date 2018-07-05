@@ -2,8 +2,6 @@ package com.server;
 
 import org.junit.Test;
 
-import java.lang.reflect.Field;
-
 import static org.junit.Assert.*;
 
 public class ServerConfigTest {

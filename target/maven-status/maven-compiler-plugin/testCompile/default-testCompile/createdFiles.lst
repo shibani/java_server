@@ -1,4 +1,3 @@
-com/server/CLIFlagParserTest.class
 com/server/SimpleGetTest.class
-com/server/ServerConfigTest.class
 com/server/SimpleGetTest$1.class
+com/server/CLIFlagParserTest.class

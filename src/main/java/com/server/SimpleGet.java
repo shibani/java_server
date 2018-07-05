@@ -27,11 +27,24 @@ public class SimpleGet {
 
             PrintWriter out = openOutputStream(clientSocket);
 
-            if(requestRouter.checkPath(requestHeaderParser.getPath())){
-                sendHTTPOkHeader(out);
-            } else {
-                sendHTTPNotFoundHeader(out);
+            String method = requestHeaderParser.getMethod();
+            String path = requestHeaderParser.getPath();
+            int responseCode = requestRouter.getResponseCode(path, method);
+
+            String optionsLine = "";
+            if (method.equals("OPTIONS")) {
+                String[] allowedMethods = requestRouter.getAllowedMethods(path);
+                String allAllowedMethods = String.join(", ", allowedMethods);
+                ResponseHeaderLineBuilder headerLineBuilder = new ResponseHeaderLineBuilder("Allow", allAllowedMethods);
+                StringBuilder stringBuilder = new StringBuilder();
+                stringBuilder.append(headerLineBuilder.getLine());
+                stringBuilder.append("\r\n");
+                optionsLine = stringBuilder.toString();
             }
+
+            ResponseHeaderBuilder responseHeaderBuilder = new ResponseHeaderBuilder(responseCode, method);
+
+            out.println(responseHeaderBuilder.getHeader() + optionsLine);
 
             stopServer(serverSocket, clientSocket);
         }
@@ -57,14 +70,6 @@ public class SimpleGet {
     private PrintWriter openOutputStream(Socket socket) throws IOException {
         PrintWriter printWriter = new PrintWriter(socket.getOutputStream(), true);
         return printWriter;
-    }
-
-    private void sendHTTPOkHeader(PrintWriter out){
-        out.println("HTTP/1.1 200 OK");
-    }
-
-    private void sendHTTPNotFoundHeader(PrintWriter out){
-        out.println("HTTP/1.1 404 Not Found");
     }
 
     private void stopServer(ServerSocket serverSocket, Socket clientSocket) throws IOException {

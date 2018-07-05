@@ -7,30 +7,30 @@ import static org.junit.Assert.*;
 public class MockRequestRouterTest {
 
     @Test
-    public void checkPathReturnsFalseByDefault(){
+    public void checkPathReturns404ByDefault(){
 
         MockRequestRouter mockRequestRouter = new MockRequestRouter();
 
-        assertFalse(mockRequestRouter.checkPath(""));
+        assertEquals(404, mockRequestRouter.getResponseCode("", ""));
     }
 
     @Test
-    public void checkPathReturnsTrueWhenSetToTrue(){
+    public void checkPathReturns200WhenSetTo200(){
 
         MockRequestRouter mockRequestRouter = new MockRequestRouter();
 
-        mockRequestRouter.setCheckPathStub(true);
+        mockRequestRouter.setResponseCode(200);
 
-        assertTrue(mockRequestRouter.checkPath(""));
+        assertEquals(200, mockRequestRouter.getResponseCode("", ""));
     }
 
     @Test
-    public void checkPathReturnsFalseWhenSetToFalse(){
+    public void checkPathReturns404WhenSetTo404(){
 
         MockRequestRouter mockRequestRouter = new MockRequestRouter();
 
-        mockRequestRouter.setCheckPathStub(false);
+        mockRequestRouter.setResponseCode(404);
 
-        assertFalse(mockRequestRouter.checkPath(""));
+        assertEquals(404, mockRequestRouter.getResponseCode("", ""));
     }
 }
