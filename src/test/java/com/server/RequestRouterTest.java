@@ -2,6 +2,8 @@ package com.server;
 
 import org.junit.Test;
 
+import java.util.Arrays;
+
 import static org.junit.Assert.*;
 
 public class RequestRouterTest {
@@ -34,5 +36,17 @@ public class RequestRouterTest {
         int result = requestRouter.getResponseCode(path, method);
 
         assertEquals(405, result);
+    }
+
+    @Test
+    public void getAllowedMethodsReturnsAnArrayOfAllowedMethods(){
+        String path = "/method_options";
+        String method = "OPTIONS";
+        RequestRouter requestRouter = new RequestRouter();
+        String[] actual = requestRouter.getAllowedMethods(path);
+        String[] expected = new String[] {"GET", "HEAD", "POST", "OPTIONS", "PUT"};
+        Arrays.sort(expected);
+        Arrays.sort(actual);
+        assertEquals(expected, actual);
     }
 }

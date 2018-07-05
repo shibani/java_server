@@ -28,10 +28,23 @@ public class SimpleGet {
             PrintWriter out = openOutputStream(clientSocket);
 
             String method = requestHeaderParser.getMethod();
-            int responseCode = requestRouter.getResponseCode(requestHeaderParser.getPath(), method);
+            String path = requestHeaderParser.getPath();
+            int responseCode = requestRouter.getResponseCode(path, method);
+
+            String optionsLine = "";
+            if (method.equals("OPTIONS")) {
+                String[] allowedMethods = requestRouter.getAllowedMethods(path);
+                String allAllowedMethods = String.join(", ", allowedMethods);
+                ResponseHeaderLineBuilder headerLineBuilder = new ResponseHeaderLineBuilder("Allow", allAllowedMethods);
+                StringBuilder stringBuilder = new StringBuilder();
+                stringBuilder.append(headerLineBuilder.getLine());
+                stringBuilder.append("\r\n");
+                optionsLine = stringBuilder.toString();
+            }
+
             ResponseHeaderBuilder responseHeaderBuilder = new ResponseHeaderBuilder(responseCode, method);
 
-            out.println(responseHeaderBuilder.getHeader());
+            out.println(responseHeaderBuilder.getHeader() + optionsLine);
 
             stopServer(serverSocket, clientSocket);
         }

@@ -20,14 +20,7 @@ public class ResponseHeaderBuilder {
         stringBuilder.append(HTTP_VERSION);
         stringBuilder.append(" ");
         stringBuilder.append(responseStatusCodes.get(responseCode));
-
-        //Adding the Allow line IFF method = OPTIONS
-        if (this.method.equals("OPTIONS")) {
-            ResponseHeaderLineBuilder headerLineBuilder = new ResponseHeaderLineBuilder("Allow", "GET, HEAD, POST, OPTIONS, PUT");
-            stringBuilder.append("\r\n");
-            stringBuilder.append(headerLineBuilder.getLine());
-            stringBuilder.append("\r\n\r\n");
-        }
+        stringBuilder.append("\r\n");
 
         return stringBuilder.toString();
     }

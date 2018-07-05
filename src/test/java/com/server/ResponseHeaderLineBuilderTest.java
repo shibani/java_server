@@ -10,7 +10,7 @@ public class ResponseHeaderLineBuilderTest {
 
     @Test
     public void ReturnsAStringWithExpectedKey() throws IOException {
-        String expected = "Allow: GET, POST, HEAD";
+        String expected = "Allow: GET, POST, HEAD\r\n";
         ResponseHeaderLineBuilder builder = new ResponseHeaderLineBuilder("Allow", "GET, POST, HEAD");
 
         String actual = builder.getLine();

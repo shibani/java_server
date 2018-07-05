@@ -11,6 +11,6 @@ public class ResponseHeaderLineBuilder {
     }
 
     public String getLine() {
-        return this.key + ": " + this.value;
+        return this.key + ": " + this.value + "\r\n";
     }
 }
