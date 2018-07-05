@@ -15,7 +15,7 @@
     * run __mvn package__ in the root of your server dir to build the executable jar file  
 * Set up cobspec as below
 
-## To run Cobspec tests:
+## To run Cobspec tests:  
 ####In Terminal:
 * __Get source code:__  
     * __Copy repo URL:__
