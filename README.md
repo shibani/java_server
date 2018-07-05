@@ -16,7 +16,7 @@
 * Set up cobspec as below
 
 ## To run Cobspec tests:  
-####In Terminal:
+#### In Terminal:
 * __Get source code:__  
     * __Copy repo URL:__
       * In browser, navigate to: https://github.com/8thlight/cob_spec
