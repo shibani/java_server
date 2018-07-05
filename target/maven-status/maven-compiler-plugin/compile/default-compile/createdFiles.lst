@@ -1,4 +1,4 @@
 com/server/ServerConfig.class
 com/server/HTTPServer.class
-com/server/SimpleGet.class
 com/server/CLIFlagParser.class
+com/server/SimpleGet.class

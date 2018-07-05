@@ -27,10 +27,11 @@ public class SimpleGet {
 
             PrintWriter out = openOutputStream(clientSocket);
 
-            int responseCode = requestRouter.getResponseCode(requestHeaderParser.getPath(), requestHeaderParser.getMethod());
-            ResponseStatusLineBuilder responseStatusLineBuilder = new ResponseStatusLineBuilder(responseCode);
+            String method = requestHeaderParser.getMethod();
+            int responseCode = requestRouter.getResponseCode(requestHeaderParser.getPath(), method);
+            ResponseHeaderBuilder responseHeaderBuilder = new ResponseHeaderBuilder(responseCode, method);
 
-            out.println(responseStatusLineBuilder.getHeader());
+            out.println(responseHeaderBuilder.getHeader());
 
             stopServer(serverSocket, clientSocket);
         }

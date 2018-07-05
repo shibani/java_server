@@ -18,10 +18,11 @@ public class SimpleGetTest {
         ServerConfig serverConfig = new ServerConfig(portNumber, directoryPath);
 
         final MockServerSocket serverSocket = new MockServerSocket();
-        MockRequestRouter mockRequestRouter = new MockRequestRouter();
-        mockRequestRouter.setResponseCode(200);
+//        MockRequestRouter mockRequestRouter = new MockRequestRouter();
+//        mockRequestRouter.setResponseCode(200);
+        RequestRouter requestRouter = new RequestRouter();
 
-        SimpleGet simpleGet = new SimpleGet(serverConfig, mockRequestRouter) {
+        SimpleGet simpleGet = new SimpleGet(serverConfig, requestRouter) {
             int runCount = 1;
 
             @Override

@@ -2,14 +2,16 @@ package com.server;
 
 import java.util.Hashtable;
 
-public class ResponseStatusLineBuilder {
+public class ResponseHeaderBuilder {
 
     private int responseCode;
     private static final String HTTP_VERSION = "HTTP/1.1";
     private static Hashtable responseStatusCodes;
+    private String method;
 
-    ResponseStatusLineBuilder(int responseCode){
+    ResponseHeaderBuilder(int responseCode, String method){
         this.responseCode = responseCode;
+        this.method = method;
         buildResponseStatusCodes();
     }
 
@@ -18,6 +20,15 @@ public class ResponseStatusLineBuilder {
         stringBuilder.append(HTTP_VERSION);
         stringBuilder.append(" ");
         stringBuilder.append(responseStatusCodes.get(responseCode));
+
+        //Adding the Allow line IFF method = OPTIONS
+        if (this.method.equals("OPTIONS")) {
+            ResponseHeaderLineBuilder headerLineBuilder = new ResponseHeaderLineBuilder("Allow", "GET, HEAD, POST, OPTIONS, PUT");
+            stringBuilder.append("\r\n");
+            stringBuilder.append(headerLineBuilder.getLine());
+            stringBuilder.append("\r\n\r\n");
+        }
+
         return stringBuilder.toString();
     }
 

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<testsuite tests="4" failures="0" name="com.server.ResponseHeaderBuilderTest" time="0.002" errors="0" skipped="0">
+<testsuite tests="1" failures="0" name="com.server.ResponseHeaderLineBuilderTest" time="0" errors="0" skipped="0">
   <properties>
     <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
     <property name="java.vm.version" value="9.0.4+11"/>
@@ -63,8 +63,5 @@
     <property name="ftp.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="sun.cpu.isalist" value=""/>
   </properties>
-  <testcase classname="com.server.ResponseHeaderBuilderTest" name="getHeaderReturnsHTTP200Ok" time="0.002"/>
-  <testcase classname="com.server.ResponseHeaderBuilderTest" name="getHeaderReturnsHTTP404NotFound" time="0"/>
-  <testcase classname="com.server.ResponseHeaderBuilderTest" name="getHeaderReturnsHTTP405MethodNotAllowed" time="0"/>
-  <testcase classname="com.server.ResponseHeaderBuilderTest" name="getHeaderReturnsAllowLineForOptionsRequest" time="0"/>
+  <testcase classname="com.server.ResponseHeaderLineBuilderTest" name="ReturnsAStringWithExpectedKey" time="0"/>
 </testsuite>
