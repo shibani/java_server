@@ -19,4 +19,13 @@ public class MockServerSocketTest {
         assertEquals(result.getClass(), MockSocket.class);
     }
 
+    @Test
+    public void acceptReturnsProvidedMockSocket() throws IOException {
+        MockSocket mockSocket = new MockSocket();
+        MockServerSocket mockServerSocket = new MockServerSocket(mockSocket);
+        MockSocket result = mockServerSocket.accept();
+
+        assertSame(mockSocket, result);
+    }
+
 }

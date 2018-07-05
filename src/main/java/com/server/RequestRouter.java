@@ -24,11 +24,15 @@ public class RequestRouter {
         Hashtable textFileHash = new Hashtable();
         textFileHash.put("GET", 200);
 
+        Hashtable optionsHash = new Hashtable();
+        optionsHash.put("OPTIONS", 200);
+
         routeTable.put("/", rootHash);
         routeTable.put("/form", formHash);
         routeTable.put("/put-target", putTargetHash);
         routeTable.put("/file1", fileOneHash);
         routeTable.put("/text-file.txt", textFileHash);
+        routeTable.put("/method_options", optionsHash);
 
         return routeTable;
     }
