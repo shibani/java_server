@@ -37,6 +37,8 @@ public class SimpleGet {
                 String[] allowedMethods = requestRouter.getAllowedMethods(path);
                 String allAllowedMethods = String.join(", ", allowedMethods);
                 responseHeaderBuilder.addLine("Allow", allAllowedMethods);
+            } else if (method.equals("GET") && path.equals("/redirect")) {
+                responseHeaderBuilder.addLine("Location", "/");
             }
 
             out.println(responseHeaderBuilder.getHeader());

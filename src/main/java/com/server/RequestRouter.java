@@ -36,6 +36,9 @@ public class RequestRouter {
         options2Hash.put("HEAD", 200);
         options2Hash.put("OPTIONS", 200);
 
+        Hashtable redirectPathHash = new Hashtable();
+        redirectPathHash.put("GET", 302);
+
         routeTable.put("/", rootHash);
         routeTable.put("/form", formHash);
         routeTable.put("/put-target", putTargetHash);
@@ -43,6 +46,7 @@ public class RequestRouter {
         routeTable.put("/text-file.txt", textFileHash);
         routeTable.put("/method_options", optionsHash);
         routeTable.put("/method_options2", options2Hash);
+        routeTable.put("/redirect", redirectPathHash);
 
         return routeTable;
     }

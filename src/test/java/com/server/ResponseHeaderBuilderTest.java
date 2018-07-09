@@ -14,6 +14,13 @@ public class ResponseHeaderBuilderTest {
     }
 
     @Test
+    public void getHeaderReturnsHTTP302Found() {
+        ResponseHeaderBuilder responseHeaderBuilder = new ResponseHeaderBuilder(302);
+
+        assertEquals("HTTP/1.1 302 Found\r\n\r\n", responseHeaderBuilder.getHeader());
+    }
+
+    @Test
     public void getHeaderReturnsHTTP404NotFound() {
         ResponseHeaderBuilder responseHeaderBuilder = new ResponseHeaderBuilder(404);
 
