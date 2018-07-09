@@ -31,20 +31,14 @@ public class SimpleGet {
             String path = requestHeaderParser.getPath();
             int responseCode = requestRouter.getResponseCode(path, method);
 
-            String optionsLine = "";
+            ResponseHeaderBuilder responseHeaderBuilder = new ResponseHeaderBuilder(responseCode, method);
             if (method.equals("OPTIONS")) {
                 String[] allowedMethods = requestRouter.getAllowedMethods(path);
                 String allAllowedMethods = String.join(", ", allowedMethods);
-                ResponseHeaderLineBuilder headerLineBuilder = new ResponseHeaderLineBuilder("Allow", allAllowedMethods);
-                StringBuilder stringBuilder = new StringBuilder();
-                stringBuilder.append(headerLineBuilder.getLine());
-                stringBuilder.append("\r\n");
-                optionsLine = stringBuilder.toString();
+                responseHeaderBuilder.addLine("Allow", allAllowedMethods);
             }
 
-            ResponseHeaderBuilder responseHeaderBuilder = new ResponseHeaderBuilder(responseCode, method);
-
-            out.println(responseHeaderBuilder.getHeader() + optionsLine);
+            out.println(responseHeaderBuilder.getHeader());
 
             stopServer(serverSocket, clientSocket);
         }
