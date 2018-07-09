@@ -32,6 +32,7 @@ public class SimpleGet {
             int responseCode = requestRouter.getResponseCode(path, method);
 
             ResponseHeaderBuilder responseHeaderBuilder = new ResponseHeaderBuilder(responseCode, method);
+
             if (method.equals("OPTIONS")) {
                 String[] allowedMethods = requestRouter.getAllowedMethods(path);
                 String allAllowedMethods = String.join(", ", allowedMethods);
