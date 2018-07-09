@@ -5,6 +5,12 @@ import java.util.Hashtable;
 
 public class RequestRouter {
 
+    private Hashtable routeTable;
+
+    RequestRouter() {
+        this.routeTable = createHashtable();
+    }
+
     private Hashtable createHashtable(){
         Hashtable routeTable = new Hashtable();
 
@@ -53,16 +59,16 @@ public class RequestRouter {
 
     private boolean checkPath(String requestPath){
 
-        return createHashtable().containsKey(requestPath);
+        return this.routeTable.containsKey(requestPath);
     }
 
     private boolean checkMethod(String requestPath, String method){
-        Hashtable methodTable = (Hashtable) createHashtable().get(requestPath);
+        Hashtable methodTable = (Hashtable) this.routeTable.get(requestPath);
         return methodTable.containsKey(method);
     }
 
     private int findCode(String requestPath, String method){
-        Hashtable methodTable = (Hashtable) createHashtable().get(requestPath);
+        Hashtable methodTable = (Hashtable) this.routeTable.get(requestPath);
         return (int) methodTable.get(method);
     }
 
@@ -81,7 +87,7 @@ public class RequestRouter {
     public String[] getAllowedMethods(String path) {
         String[] keysArray = new String[] {};
         if(checkPath(path)) {
-            Hashtable hash = (Hashtable)createHashtable().get(path);
+            Hashtable hash = (Hashtable)this.routeTable.get(path);
             keysArray = (String[]) hash.keySet().toArray(new String[hash.size()]);
         }
         return keysArray;
