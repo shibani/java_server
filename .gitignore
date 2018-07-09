@@ -33,6 +33,10 @@ cmake-build-*/
 # IntelliJ
 out/
 
+# Maven
+log/
+target/
+
 # mpeltonen/sbt-idea plugin
 .idea_modules/
 
