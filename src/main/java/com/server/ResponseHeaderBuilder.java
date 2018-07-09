@@ -7,12 +7,10 @@ public class ResponseHeaderBuilder {
     private int responseCode;
     private static final String HTTP_VERSION = "HTTP/1.1";
     private static Hashtable responseStatusCodes;
-    private String method;
     private String header;
 
-    ResponseHeaderBuilder(int responseCode, String method){
+    ResponseHeaderBuilder(int responseCode){
         this.responseCode = responseCode;
-        this.method = method;
         buildResponseStatusCodes();
         buildStatusLine();
     }
