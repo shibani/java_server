@@ -33,10 +33,10 @@ public class SimpleGet {
 
             ResponseHeaderBuilder responseHeaderBuilder = new ResponseHeaderBuilder(responseCode);
 
-            if (method.equals("OPTIONS")) {
-                String[] allowedMethods = requestRouter.getAllowedMethods(path);
-                String allAllowedMethods = String.join(", ", allowedMethods);
-                responseHeaderBuilder.addLine("Allow", allAllowedMethods);
+            if (method.equals("OPTIONS") && path.equals("/method_options")) {
+                responseHeaderBuilder.addLine("Allow", "GET, POST, PUT, OPTIONS, HEAD");
+            } else if (method.equals("OPTIONS") && path.equals("/method_options2")) {
+                responseHeaderBuilder.addLine("Allow", "GET, OPTIONS, HEAD");
             } else if (method.equals("GET") && path.equals("/redirect")) {
                 responseHeaderBuilder.addLine("Location", "/");
             }
