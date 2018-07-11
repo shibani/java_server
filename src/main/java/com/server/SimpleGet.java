@@ -29,19 +29,8 @@ public class SimpleGet {
 
             String method = requestHeaderParser.getMethod();
             String path = requestHeaderParser.getPath();
-            int responseCode = requestRouter.getResponseCode(path, method);
 
-            ResponseHeaderBuilder responseHeaderBuilder = new ResponseHeaderBuilder(responseCode);
-
-            if (method.equals("OPTIONS") && path.equals("/method_options")) {
-                responseHeaderBuilder.addLine("Allow", "GET, POST, PUT, OPTIONS, HEAD");
-            } else if (method.equals("OPTIONS") && path.equals("/method_options2")) {
-                responseHeaderBuilder.addLine("Allow", "GET, OPTIONS, HEAD");
-            } else if (method.equals("GET") && path.equals("/redirect")) {
-                responseHeaderBuilder.addLine("Location", "/");
-            }
-
-            out.println(responseHeaderBuilder.getHeader());
+            out.println(requestRouter.getHeader(path, method));
 
             stopServer(serverSocket, clientSocket);
         }

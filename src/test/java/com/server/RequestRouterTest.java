@@ -43,10 +43,25 @@ public class RequestRouterTest {
         String path = "/method_options";
         String method = "OPTIONS";
         RequestRouter requestRouter = new RequestRouter();
-        String[] actual = requestRouter.getAllowedMethods(path);
-        String[] expected = new String[] {"GET", "HEAD", "POST", "OPTIONS", "PUT"};
-        Arrays.sort(expected);
-        Arrays.sort(actual);
-        assertEquals(expected, actual);
+        String actual = requestRouter.getAllowedMethods(path);
+
+        assertTrue(actual.contains("GET"));
+        assertTrue(actual.contains("HEAD"));
+        assertTrue(actual.contains("POST"));
+        assertTrue(actual.contains("OPTIONS"));
+        assertTrue(actual.contains("PUT"));
+        assertEquals("GET, PUT, OPTIONS, POST, HEAD", actual);
+    }
+
+    @Test
+    public void getHeaderReturnsAFormattedHeader(){
+        String path = "/method_options";
+        String method = "OPTIONS";
+        RequestRouter requestRouter = new RequestRouter();
+        String header = requestRouter.getHeader(path, method);
+
+        String expected = "HTTP/1.1 200 OK\r\nAllow: GET, PUT, OPTIONS, POST, HEAD\r\n\r\n";
+
+        assertEquals(expected, header);
     }
 }

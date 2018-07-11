@@ -35,10 +35,20 @@ public class ResponseHeaderBuilderTest {
     }
 
     @Test
-    public void addLineAppendsAHeaderLineToTheHeader() {
+    public void addLineAppendsAKeyValueHeaderLineToTheHeader() {
         ResponseHeaderBuilder responseHeaderBuilder = new ResponseHeaderBuilder(200);
 
         responseHeaderBuilder.addLine("Allow", "GET");
+
+        assertEquals("HTTP/1.1 200 OK\r\nAllow: GET\r\n\r\n", responseHeaderBuilder.getHeader());
+
+    }
+
+    @Test
+    public void appendLineAppendsAHeaderLineToTheHeader() {
+        ResponseHeaderBuilder responseHeaderBuilder = new ResponseHeaderBuilder(200);
+
+        responseHeaderBuilder.appendLine("Allow: GET");
 
         assertEquals("HTTP/1.1 200 OK\r\nAllow: GET\r\n\r\n", responseHeaderBuilder.getHeader());
 

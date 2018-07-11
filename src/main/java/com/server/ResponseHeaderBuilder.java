@@ -23,6 +23,12 @@ public class ResponseHeaderBuilder {
         this.header = this.header + key + ": " + value + "\r\n";
     }
 
+    public void appendLine(String line) {
+        if(!line.equals("")){
+            this.header = this.header + line + "\r\n";
+        }
+    }
+
     private void buildStatusLine(){
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(HTTP_VERSION);
