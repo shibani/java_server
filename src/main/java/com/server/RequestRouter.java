@@ -11,25 +11,6 @@ public class RequestRouter {
         createHashtable();
     }
 
-    public String getHeader(String path, String method){
-        int responseCode = getResponseCode(path, method);
-        ResponseHeaderBuilder responseHeaderBuilder = new ResponseHeaderBuilder(responseCode);
-
-        if (method.equals("OPTIONS")) {
-            responseHeaderBuilder.addLine("Allow", getAllowedMethods(path));
-        }
-
-        LocationHandler locationHandler = new LocationHandler();
-        String locationLine = locationHandler.createLine(path, method);
-        responseHeaderBuilder.appendLine(locationLine);
-
-        ContentTypeHandler contentTypeHandler = new ContentTypeHandler();
-        String contentTypeLine = contentTypeHandler.createLine(path, method);
-        responseHeaderBuilder.appendLine(contentTypeLine);
-
-        return responseHeaderBuilder.getHeader();
-    }
-
     public int getResponseCode(String path, String method){
         int responseCode = 404;
         if(checkPath(path)){

@@ -1,49 +1,39 @@
 package com.server;
 
-import java.util.Hashtable;
-
 public class ResponseHeaderBuilder {
 
-    private int responseCode;
-    private static final String HTTP_VERSION = "HTTP/1.1";
-    private static Hashtable responseStatusCodes;
-    private String header;
+    private String header = "";
+    private RequestRouter requestRouter;
 
-    ResponseHeaderBuilder(int responseCode){
-        this.responseCode = responseCode;
-        buildResponseStatusCodes();
-        buildStatusLine();
+    ResponseHeaderBuilder(RequestRouter requestRouter){
+        this.requestRouter = requestRouter;
     }
 
-    public String getHeader() {
+    public String getHeader(String path, String method) {
+        StatusHandler statusHandler = new StatusHandler(requestRouter);
+        String statusLine = statusHandler.createLine(path, method);
+        appendLine(statusLine);
+
+        if (requestRouter.getResponseCode(path, method) <= 400){
+            AllowHandler allowHandler = new AllowHandler();
+            String allowLine = allowHandler.createLine(path, method);
+            appendLine(allowLine);
+
+            LocationHandler locationHandler = new LocationHandler();
+            String locationLine = locationHandler.createLine(path, method);
+            appendLine(locationLine);
+
+            ContentTypeHandler contentTypeHandler = new ContentTypeHandler();
+            String contentTypeLine = contentTypeHandler.createLine(path, method);
+            appendLine(contentTypeLine);
+        }
+
         return this.header + "\r\n";
     }
 
-    public void addLine(String key, String value) {
-        this.header = this.header + key + ": " + value + "\r\n";
-    }
-
-    public void appendLine(String line) {
+    private void appendLine(String line) {
         if(!line.equals("")){
             this.header = this.header + line + "\r\n";
         }
-    }
-
-    private void buildStatusLine(){
-        StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(HTTP_VERSION);
-        stringBuilder.append(" ");
-        stringBuilder.append(responseStatusCodes.get(responseCode));
-        stringBuilder.append("\r\n");
-
-        this.header = stringBuilder.toString();
-    }
-
-     private void buildResponseStatusCodes() {
-        responseStatusCodes = new Hashtable();
-        responseStatusCodes.put(200, "200 OK");
-        responseStatusCodes.put(302, "302 Found");
-        responseStatusCodes.put(404, "404 Not Found");
-        responseStatusCodes.put(405, "405 Method Not Allowed");
     }
 }

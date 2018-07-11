@@ -1,6 +1,6 @@
 package com.server;
 
-        import java.util.Hashtable;
+import java.util.Hashtable;
 
 public class LocationHandler {
     private Hashtable locationHashtable;

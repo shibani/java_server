@@ -29,8 +29,9 @@ public class SimpleGet {
 
             String method = requestHeaderParser.getMethod();
             String path = requestHeaderParser.getPath();
+            ResponseHeaderBuilder responseHeaderBuilder = new ResponseHeaderBuilder(requestRouter);
 
-            out.println(requestRouter.getHeader(path, method));
+            out.println(responseHeaderBuilder.getHeader(path, method));
 
             stopServer(serverSocket, clientSocket);
         }
