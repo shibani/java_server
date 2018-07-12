@@ -14,7 +14,7 @@ public class ResponseHeaderBuilder {
         String statusLine = statusHandler.createLine(path, method);
         appendLine(statusLine);
 
-        if (requestRouter.getResponseCode(path, method) <= 400){
+        if (requestRouter.getResponseCode(path, method) < 400){
             AllowHandler allowHandler = new AllowHandler();
             String allowLine = allowHandler.createLine(path, method);
             appendLine(allowLine);
