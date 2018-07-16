@@ -3,12 +3,12 @@ package com.server;
 import java.net.*;
 import java.io.*;
 
-public class SimpleGet {
+public class HTTPServerManager {
 
     private ServerConfig serverConfig;
     private RequestRouter requestRouter;
 
-    SimpleGet(ServerConfig serverConfig, RequestRouter requestRouter){
+    HTTPServerManager(ServerConfig serverConfig, RequestRouter requestRouter){
         this.serverConfig = serverConfig;
         this.requestRouter = requestRouter;
     }
