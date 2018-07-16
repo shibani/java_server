@@ -11,7 +11,8 @@ public class LocationHandlerTest {
         String path = "/redirect";
         String method = "GET";
         LocationHandler locationHandler = new LocationHandler();
-        String result = locationHandler.createLine(path, method);
+        RequestParams requestParams = new RequestParams(path, method);
+        String result = locationHandler.createLine(requestParams);
 
         assertEquals("Location: /", result);
     }
@@ -21,7 +22,8 @@ public class LocationHandlerTest {
         String path = "/foo";
         String method = "GET";
         LocationHandler locationHandler = new LocationHandler();
-        String result = locationHandler.createLine(path, method);
+        RequestParams requestParams = new RequestParams(path, method);
+        String result = locationHandler.createLine(requestParams);
 
         assertEquals("", result);
     }

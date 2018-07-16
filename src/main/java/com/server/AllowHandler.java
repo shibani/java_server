@@ -2,7 +2,7 @@ package com.server;
 
 import java.util.Hashtable;
 
-public class AllowHandler {
+public class AllowHandler implements IResponseHeaderHandler {
     private Hashtable allowHashtable;
     private static final String ALLOW_KEY = "Allow";
 
@@ -12,8 +12,8 @@ public class AllowHandler {
         allowHashtable.put("/method_options2", "GET, OPTIONS, HEAD");
     }
 
-    public String createLine(String path, String method){
-        String value = (String)this.allowHashtable.get(path);
+    public String createLine(RequestParams requestParams){
+        String value = (String)this.allowHashtable.get(requestParams.getPath());
         return value == null ? "" : ALLOW_KEY + ": " + value;
     }
 

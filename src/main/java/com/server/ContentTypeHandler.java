@@ -2,7 +2,7 @@ package com.server;
 
 import java.util.Hashtable;
 
-public class ContentTypeHandler {
+public class ContentTypeHandler implements IResponseHeaderHandler {
     private Hashtable contentTypeHashtable;
     private static final String CONTENT_TYPE_KEY = "Content-Type";
 
@@ -14,8 +14,8 @@ public class ContentTypeHandler {
         contentTypeHashtable.put("/text-file.txt", "text/plain");
     }
 
-    public String createLine(String path, String method){
-        String value = (String)this.contentTypeHashtable.get(path);
+    public String createLine(RequestParams requestParams){
+        String value = (String)this.contentTypeHashtable.get(requestParams.getPath());
         return value == null ? "" : CONTENT_TYPE_KEY + ": " + value;
     }
 }

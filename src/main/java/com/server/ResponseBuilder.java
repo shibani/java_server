@@ -9,9 +9,9 @@ public class ResponseBuilder {
         this.responseBodyBuilder = responseBodyBuilder;
     }
 
-    public String getResponse(String path, String method) {
-        String header = this.responseHeaderBuilder.getHeader(path, method);
-        String body = this.responseBodyBuilder.getBody(path, method);
+    public String getResponse(RequestParams requestParams) {
+        String header = this.responseHeaderBuilder.getHeader(requestParams);
+        String body = this.responseBodyBuilder.getBody(requestParams);
 
         return body == null ? header : header + body;
     }

@@ -12,7 +12,8 @@ public class ResponseBodyBuilderTest {
         String method = "GET";
         RequestRouter rr = new RequestRouter();
         ResponseBodyBuilder responseBodyBuilder = new ResponseBodyBuilder(rr);
-        String body = responseBodyBuilder.getBody(path, method);
+        RequestParams requestParams = new RequestParams(path, method);
+        String body = responseBodyBuilder.getBody(requestParams);
 
         String expected = "I'm a teapot";
 
