@@ -43,10 +43,13 @@ public class RequestRouterTest {
         String path = "/method_options";
         String method = "OPTIONS";
         RequestRouter requestRouter = new RequestRouter();
-        String[] actual = requestRouter.getAllowedMethods(path);
-        String[] expected = new String[] {"GET", "HEAD", "POST", "OPTIONS", "PUT"};
-        Arrays.sort(expected);
-        Arrays.sort(actual);
-        assertEquals(expected, actual);
+        String actual = requestRouter.getAllowedMethods(path);
+
+        assertTrue(actual.contains("GET"));
+        assertTrue(actual.contains("HEAD"));
+        assertTrue(actual.contains("POST"));
+        assertTrue(actual.contains("OPTIONS"));
+        assertTrue(actual.contains("PUT"));
+        assertEquals("GET, PUT, OPTIONS, POST, HEAD", actual);
     }
 }

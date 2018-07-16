@@ -139,7 +139,6 @@ public class SimpleGetTest {
         SimpleGet simpleGet = new SimpleGet(serverConfig, requestRouter);
 
         assertTrue(simpleGet.running());
-
     }
 
     @Test
@@ -178,5 +177,4 @@ public class SimpleGetTest {
         String outgoingString = m.getOutgoingString();
         assertEquals(true, outgoingString.contains("200"));
     }
-
 }

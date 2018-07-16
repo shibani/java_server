@@ -29,19 +29,9 @@ public class SimpleGet {
 
             String method = requestHeaderParser.getMethod();
             String path = requestHeaderParser.getPath();
-            int responseCode = requestRouter.getResponseCode(path, method);
+            ResponseHeaderBuilder responseHeaderBuilder = new ResponseHeaderBuilder(requestRouter);
 
-            ResponseHeaderBuilder responseHeaderBuilder = new ResponseHeaderBuilder(responseCode);
-
-            if (method.equals("OPTIONS")) {
-                String[] allowedMethods = requestRouter.getAllowedMethods(path);
-                String allAllowedMethods = String.join(", ", allowedMethods);
-                responseHeaderBuilder.addLine("Allow", allAllowedMethods);
-            } else if (method.equals("GET") && path.equals("/redirect")) {
-                responseHeaderBuilder.addLine("Location", "/");
-            }
-
-            out.println(responseHeaderBuilder.getHeader());
+            out.println(responseHeaderBuilder.getHeader(path, method));
 
             stopServer(serverSocket, clientSocket);
         }

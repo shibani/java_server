@@ -1,6 +1,5 @@
 package com.server;
 
-import java.util.*;
 import java.util.Hashtable;
 
 public class RequestRouter {
@@ -10,6 +9,27 @@ public class RequestRouter {
     RequestRouter() {
         this.routeTable = new Hashtable();
         createHashtable();
+    }
+
+    public int getResponseCode(String path, String method){
+        int responseCode = 404;
+        if(checkPath(path)){
+            if(checkMethod(path, method)){
+                responseCode = findCode(path, method);
+            } else {
+                responseCode = 405;
+            }
+        }
+        return responseCode;
+    }
+
+    public String getAllowedMethods(String path) {
+        String methods = "";
+        if(checkPath(path)) {
+            Hashtable hash = (Hashtable)this.routeTable.get(path);
+            methods = String.join(", ", hash.keySet());
+        }
+        return methods;
     }
 
     private void createHashtable(){
@@ -35,6 +55,11 @@ public class RequestRouter {
         addRoute("/method_options2" ,"OPTIONS", 200);
 
         addRoute("/redirect" ,"GET", 302);
+
+        addRoute("/image.jpeg", "GET", 200);
+        addRoute("/image.png", "GET", 200);
+        addRoute("/image.gif", "GET", 200);
+        addRoute("/text-file.txt", "GET", 200);
     }
 
     private void addRoute(String path, String method, int statusCode) {
@@ -61,26 +86,4 @@ public class RequestRouter {
         Hashtable methodTable = (Hashtable) this.routeTable.get(requestPath);
         return (int) methodTable.get(method);
     }
-
-    public int getResponseCode(String path, String method){
-        int responseCode = 404;
-        if(checkPath(path)){
-            if(checkMethod(path, method)){
-                responseCode = findCode(path, method);
-            } else {
-                responseCode = 405;
-            }
-        }
-        return responseCode;
-    }
-
-    public String[] getAllowedMethods(String path) {
-        String[] keysArray = new String[] {};
-        if(checkPath(path)) {
-            Hashtable hash = (Hashtable)this.routeTable.get(path);
-            keysArray = (String[]) hash.keySet().toArray(new String[hash.size()]);
-        }
-        return keysArray;
-    }
-
 }
