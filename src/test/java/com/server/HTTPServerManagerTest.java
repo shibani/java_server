@@ -16,8 +16,6 @@ public class HTTPServerManagerTest {
         ServerConfig serverConfig = new ServerConfig(portNumber, directoryPath);
 
         final MockServerSocket serverSocket = new MockServerSocket();
-//        MockRequestRouter mockRequestRouter = new MockRequestRouter();
-//        mockRequestRouter.setResponseCode(200);
         RequestRouter requestRouter = new RequestRouter();
 
         HTTPServerManager HTTPServerManager = new HTTPServerManager(serverConfig, requestRouter) {
