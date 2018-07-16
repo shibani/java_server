@@ -36,6 +36,7 @@ public class ResponseHeaderBuilder {
      private void buildResponseStatusCodes() {
         responseStatusCodes = new Hashtable();
         responseStatusCodes.put(200, "200 OK");
+        responseStatusCodes.put(302, "302 Found");
         responseStatusCodes.put(404, "404 Not Found");
         responseStatusCodes.put(405, "405 Method Not Allowed");
     }

@@ -5,60 +5,60 @@ import java.util.Hashtable;
 
 public class RequestRouter {
 
-    private Hashtable createHashtable(){
-        Hashtable routeTable = new Hashtable();
+    private Hashtable routeTable;
 
-        Hashtable rootHash = new Hashtable();
-        rootHash.put("GET", 200);
-        rootHash.put("HEAD", 200);
+    RequestRouter() {
+        this.routeTable = new Hashtable();
+        createHashtable();
+    }
 
-        Hashtable formHash = new Hashtable();
-        formHash.put("POST", 200);
+    private void createHashtable(){
+        addRoute("/", "GET", 200);
+        addRoute("/" ,"HEAD", 200);
 
-        Hashtable putTargetHash = new Hashtable();
-        putTargetHash.put("PUT", 200);
+        addRoute("/form" ,"POST", 200);
 
-        Hashtable fileOneHash = new Hashtable();
-        fileOneHash.put("GET", 200);
+        addRoute("/put-target" ,"PUT", 200);
 
-        Hashtable textFileHash = new Hashtable();
-        textFileHash.put("GET", 200);
+        addRoute("/file1" ,"GET", 200);
 
-        Hashtable optionsHash = new Hashtable();
-        optionsHash.put("GET", 200);
-        optionsHash.put("HEAD", 200);
-        optionsHash.put("POST", 200);
-        optionsHash.put("OPTIONS", 200);
-        optionsHash.put("PUT", 200);
+        addRoute("/text-file.txt" ,"GET", 200);
 
-        Hashtable options2Hash = new Hashtable();
-        options2Hash.put("GET", 200);
-        options2Hash.put("HEAD", 200);
-        options2Hash.put("OPTIONS", 200);
+        addRoute("/method_options" ,"GET", 200);
+        addRoute("/method_options" ,"HEAD", 200);
+        addRoute("/method_options" ,"POST", 200);
+        addRoute("/method_options" ,"OPTIONS", 200);
+        addRoute("/method_options" ,"PUT", 200);
 
-        routeTable.put("/", rootHash);
-        routeTable.put("/form", formHash);
-        routeTable.put("/put-target", putTargetHash);
-        routeTable.put("/file1", fileOneHash);
-        routeTable.put("/text-file.txt", textFileHash);
-        routeTable.put("/method_options", optionsHash);
-        routeTable.put("/method_options2", options2Hash);
+        addRoute("/method_options2" ,"GET", 200);
+        addRoute("/method_options2" ,"HEAD", 200);
+        addRoute("/method_options2" ,"OPTIONS", 200);
 
-        return routeTable;
+        addRoute("/redirect" ,"GET", 302);
+    }
+
+    private void addRoute(String path, String method, int statusCode) {
+        if (checkPath(path)) {
+            Hashtable methodHashTable = (Hashtable) this.routeTable.get(path);
+            methodHashTable.put(method, statusCode);
+        } else {
+            Hashtable hashtable = new Hashtable();
+            hashtable.put(method, statusCode);
+            this.routeTable.put(path, hashtable);
+        }
     }
 
     private boolean checkPath(String requestPath){
-
-        return createHashtable().containsKey(requestPath);
+        return this.routeTable.containsKey(requestPath);
     }
 
     private boolean checkMethod(String requestPath, String method){
-        Hashtable methodTable = (Hashtable) createHashtable().get(requestPath);
+        Hashtable methodTable = (Hashtable) this.routeTable.get(requestPath);
         return methodTable.containsKey(method);
     }
 
     private int findCode(String requestPath, String method){
-        Hashtable methodTable = (Hashtable) createHashtable().get(requestPath);
+        Hashtable methodTable = (Hashtable) this.routeTable.get(requestPath);
         return (int) methodTable.get(method);
     }
 
@@ -77,7 +77,7 @@ public class RequestRouter {
     public String[] getAllowedMethods(String path) {
         String[] keysArray = new String[] {};
         if(checkPath(path)) {
-            Hashtable hash = (Hashtable)createHashtable().get(path);
+            Hashtable hash = (Hashtable)this.routeTable.get(path);
             keysArray = (String[]) hash.keySet().toArray(new String[hash.size()]);
         }
         return keysArray;
