@@ -13,8 +13,9 @@ public class StatusHandlerTest {
         StatusHandler statusHandler = new StatusHandler(mockRequestRouter);
         String path = "foo";
         String method = "bar";
+        RequestParams requestParams = new RequestParams(path, method);
 
-        assertEquals("HTTP/1.1 200 OK", statusHandler.createLine(path, method));
+        assertEquals("HTTP/1.1 200 OK", statusHandler.createLine(requestParams));
     }
 
     @Test
@@ -24,8 +25,9 @@ public class StatusHandlerTest {
         StatusHandler statusHandler = new StatusHandler(mockRequestRouter);
         String path = "foo";
         String method = "bar";
+        RequestParams requestParams = new RequestParams(path, method);
 
-        assertEquals("HTTP/1.1 302 Found", statusHandler.createLine(path, method));
+        assertEquals("HTTP/1.1 302 Found", statusHandler.createLine(requestParams));
     }
 
     @Test
@@ -35,8 +37,9 @@ public class StatusHandlerTest {
         StatusHandler statusHandler = new StatusHandler(mockRequestRouter);
         String path = "foo";
         String method = "bar";
+        RequestParams requestParams = new RequestParams(path, method);
 
-        assertEquals("HTTP/1.1 404 Not Found", statusHandler.createLine(path, method));
+        assertEquals("HTTP/1.1 404 Not Found", statusHandler.createLine(requestParams));
     }
 
     @Test
@@ -46,8 +49,9 @@ public class StatusHandlerTest {
         StatusHandler statusHandler = new StatusHandler(mockRequestRouter);
         String path = "foo";
         String method = "bar";
+        RequestParams requestParams = new RequestParams(path, method);
 
-        assertEquals("HTTP/1.1 405 Method Not Allowed", statusHandler.createLine(path, method));
+        assertEquals("HTTP/1.1 405 Method Not Allowed", statusHandler.createLine(requestParams));
     }
 
 }

@@ -2,7 +2,7 @@ package com.server;
 
 import java.util.Hashtable;
 
-public class LocationHandler {
+public class LocationHandler implements IResponseHeaderHandler {
     private Hashtable locationHashtable;
     private static final String LOCATION_KEY = "Location";
 
@@ -11,8 +11,8 @@ public class LocationHandler {
         locationHashtable.put("/redirect", "/");
     }
 
-    public String createLine(String path, String method){
-        String value = (String)this.locationHashtable.get(path);
+    public String createLine(RequestParams requestParams){
+        String value = (String)this.locationHashtable.get(requestParams.getPath());
         return value == null ? "" : LOCATION_KEY + ": " + value;
     }
 }

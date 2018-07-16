@@ -10,7 +10,8 @@ public class AllowHandlerTest {
         String path = "/method_options";
         String method = "OPTIONS";
         AllowHandler allowHandler = new AllowHandler();
-        String result = allowHandler.createLine(path, method);
+        RequestParams requestParams = new RequestParams(path, method);
+        String result = allowHandler.createLine(requestParams);
 
         assertEquals("Allow: GET, PUT, OPTIONS, POST, HEAD", result);
     }
@@ -20,7 +21,8 @@ public class AllowHandlerTest {
         String path = "/foo";
         String method = "GET";
         AllowHandler allowHandler = new AllowHandler();
-        String result = allowHandler.createLine(path, method);
+        RequestParams requestParams = new RequestParams(path, method);
+        String result = allowHandler.createLine(requestParams);
 
         assertEquals("", result);
     }
