@@ -29,9 +29,12 @@ public class HTTPServerManager {
 
             String method = requestHeaderParser.getMethod();
             String path = requestHeaderParser.getPath();
-            ResponseHeaderBuilder responseHeaderBuilder = new ResponseHeaderBuilder(requestRouter);
 
-            out.println(responseHeaderBuilder.getHeader(path, method));
+            ResponseHeaderBuilder responseHeaderBuilder = new ResponseHeaderBuilder(requestRouter);
+            ResponseBodyBuilder responseBodyBuilder = new ResponseBodyBuilder(requestRouter);
+            ResponseBuilder responseBuilder = new ResponseBuilder(responseHeaderBuilder, responseBodyBuilder);
+
+            out.println(responseBuilder.getResponse(path, method));
 
             stopServer(serverSocket, clientSocket);
         }
