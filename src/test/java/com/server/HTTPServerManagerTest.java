@@ -1,15 +1,13 @@
 package com.server;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.*;
 import java.net.ServerSocket;
-import java.net.Socket;
 
 import static org.junit.Assert.*;
 
-public class SimpleGetTest {
+public class HTTPServerManagerTest {
 
     @Test
     public void runServerSendsHTTPOKHeader () throws IOException {
@@ -18,11 +16,9 @@ public class SimpleGetTest {
         ServerConfig serverConfig = new ServerConfig(portNumber, directoryPath);
 
         final MockServerSocket serverSocket = new MockServerSocket();
-//        MockRequestRouter mockRequestRouter = new MockRequestRouter();
-//        mockRequestRouter.setResponseCode(200);
         RequestRouter requestRouter = new RequestRouter();
 
-        SimpleGet simpleGet = new SimpleGet(serverConfig, requestRouter) {
+        HTTPServerManager HTTPServerManager = new HTTPServerManager(serverConfig, requestRouter) {
             int runCount = 1;
 
             @Override
@@ -41,7 +37,7 @@ public class SimpleGetTest {
             }
         };
 
-        simpleGet.runServer();
+        HTTPServerManager.runServer();
 
         assertTrue(serverSocket.getMockSocket().getOutgoingString().contains("200"));
     }
@@ -57,7 +53,7 @@ public class SimpleGetTest {
         MockRequestRouter mockRequestRouter = new MockRequestRouter();
         mockRequestRouter.setResponseCode(404);
 
-        SimpleGet simpleGet = new SimpleGet(serverConfig, mockRequestRouter) {
+        HTTPServerManager HTTPServerManager = new HTTPServerManager(serverConfig, mockRequestRouter) {
             int runCount = 1;
 
             @Override
@@ -76,7 +72,7 @@ public class SimpleGetTest {
             }
         };
 
-        simpleGet.runServer();
+        HTTPServerManager.runServer();
 
         assertTrue(serverSocket.getMockSocket().getOutgoingString().contains("404"));
     }
@@ -92,7 +88,7 @@ public class SimpleGetTest {
         MockRequestRouter mockRequestRouter = new MockRequestRouter();
         mockRequestRouter.setResponseCode(405);
 
-        SimpleGet simpleGet = new SimpleGet(serverConfig, mockRequestRouter) {
+        HTTPServerManager HTTPServerManager = new HTTPServerManager(serverConfig, mockRequestRouter) {
             int runCount = 1;
 
             @Override
@@ -111,7 +107,7 @@ public class SimpleGetTest {
             }
         };
 
-        simpleGet.runServer();
+        HTTPServerManager.runServer();
 
         assertTrue(serverSocket.getMockSocket().getOutgoingString().contains("405"));
     }
@@ -122,9 +118,9 @@ public class SimpleGetTest {
         String directoryPath = "/path/to/dir";
         ServerConfig serverConfig = new ServerConfig(portNumber, directoryPath);
         final RequestRouter requestRouter = new RequestRouter();
-        SimpleGet simpleGet = new SimpleGet(serverConfig, requestRouter);
+        HTTPServerManager HTTPServerManager = new HTTPServerManager(serverConfig, requestRouter);
 
-        ServerSocket serverSocket = simpleGet.createServerSocket();
+        ServerSocket serverSocket = HTTPServerManager.createServerSocket();
 
         assertEquals(serverSocket.getLocalPort(), portNumber);
     }
@@ -136,9 +132,9 @@ public class SimpleGetTest {
         String directoryPath = "/path/to/dir";
         ServerConfig serverConfig = new ServerConfig(portNumber, directoryPath);
         final RequestRouter requestRouter = new RequestRouter();
-        SimpleGet simpleGet = new SimpleGet(serverConfig, requestRouter);
+        HTTPServerManager HTTPServerManager = new HTTPServerManager(serverConfig, requestRouter);
 
-        assertTrue(simpleGet.running());
+        assertTrue(HTTPServerManager.running());
     }
 
     @Test
@@ -152,7 +148,7 @@ public class SimpleGetTest {
         final MockServerSocket serverSocket = new MockServerSocket(mockSocket);
         RequestRouter requestRouter = new RequestRouter();
 
-        SimpleGet simpleGet = new SimpleGet(serverConfig, requestRouter) {
+        HTTPServerManager HTTPServerManager = new HTTPServerManager(serverConfig, requestRouter) {
             int runCount = 1;
 
             @Override
@@ -171,7 +167,7 @@ public class SimpleGetTest {
             }
         };
 
-        simpleGet.runServer();
+        HTTPServerManager.runServer();
 
         MockSocket m = serverSocket.getMockSocket();
         String outgoingString = m.getOutgoingString();

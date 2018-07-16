@@ -10,8 +10,8 @@ public class HTTPServer {
 
         RequestRouter requestRouter = new RequestRouter();
 
-        SimpleGet simpleGet = new SimpleGet(serverConfig, requestRouter);
+        HTTPServerManager HTTPServerManager = new HTTPServerManager(serverConfig, requestRouter);
 
-        simpleGet.runServer();
+        HTTPServerManager.runServer();
     }
 }
