@@ -60,6 +60,8 @@ public class RequestRouter {
         addRoute("/image.png", "GET", 200);
         addRoute("/image.gif", "GET", 200);
         addRoute("/text-file.txt", "GET", 200);
+        addRoute("/coffee", "GET", 418);
+        addRoute("/tea", "GET", 200);
     }
 
     private void addRoute(String path, String method, int statusCode) {
