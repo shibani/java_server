@@ -68,6 +68,8 @@ public class RequestRouter {
 
         addRoute("/cookie", "GET", 200);
         addRoute("/eat_cookie", "GET", 200);
+
+        addRoute("/parameters", "GET", 200);
     }
 
     private void addRoute(String path, String method, int statusCode) {

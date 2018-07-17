@@ -21,10 +21,20 @@ public class ResponseBodyBuilder {
             this.body = eatCookieBody(requestParams);
         } else if (requestParams.getPath().equals("/")) {
             this.body = directoryListingBody(requestParams.getPath());
+        } else if (requestParams.getPath().equals("/parameters")) {
+            this.body = parametersBody(requestParams);
         } else {
             this.body = "";
         }
         return this.body;
+    }
+
+    private String parametersBody(RequestParams requestParams) {
+        String parameterBody = "";
+        for (Object key : requestParams.getQueryComponent().keySet()) {
+            parameterBody = parameterBody + key.toString() + " = " + requestParams.getQueryComponent().get(key) + "\n";
+        }
+        return parameterBody.trim();
     }
 
     private String coffeeBody(RequestParams requestParams){

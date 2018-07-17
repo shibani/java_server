@@ -1,5 +1,7 @@
 package com.server;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.Hashtable;
 
 public class RequestHeaderParser {
@@ -7,12 +9,12 @@ public class RequestHeaderParser {
     private String headerString;
     private RequestParams requestParams;
 
-    RequestHeaderParser(String headerString){
+    RequestHeaderParser(String headerString) throws UnsupportedEncodingException {
         this.headerString = headerString;
         buildRequestParams();
     }
 
-    private void buildRequestParams() {
+    private void buildRequestParams() throws UnsupportedEncodingException {
         requestParams = new RequestParamsBuilder()
                 .setPath(extractPath())
                 .setMethod(extractMethod())
@@ -34,7 +36,7 @@ public class RequestHeaderParser {
         return route.trim();
     }
 
-    private Hashtable<String, String> extractQueryComponent() {
+    private Hashtable<String, String> extractQueryComponent() throws UnsupportedEncodingException {
         Hashtable<String, String> queryComponent = new Hashtable<>();
         String requestLine = headerString.split("\n")[0];
         String uri = requestLine.split(" ")[1];
@@ -44,7 +46,9 @@ public class RequestHeaderParser {
 
             for (String keyValuePair : queries) {
                 String[] query = keyValuePair.split("[=]");
-                queryComponent.put(query[0], query[1]);
+                String key = query[0];
+                String value = URLDecoder.decode(query[1], "UTF-8");
+                queryComponent.put(key, value);
             }
         }
         return queryComponent;
