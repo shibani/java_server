@@ -11,8 +11,11 @@ public class RequestRouter {
         createHashtable();
     }
 
-    public int getResponseCode(String path, String method){
+    public int getResponseCode(RequestParams requestParams){
         int responseCode = 404;
+        String path = requestParams.getPath();
+        String method = requestParams.getMethod();
+
         if(checkPath(path)){
             if(checkMethod(path, method)){
                 responseCode = findCode(path, method);

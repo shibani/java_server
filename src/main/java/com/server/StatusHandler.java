@@ -19,7 +19,7 @@ public class StatusHandler implements IResponseHeaderHandler {
     }
 
     public String createLine(RequestParams requestParams){
-        int responseCode = this.requestRouter.getResponseCode(requestParams.getPath(), requestParams.getMethod());
+        int responseCode = this.requestRouter.getResponseCode(requestParams);
 
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(HTTP_VERSION);

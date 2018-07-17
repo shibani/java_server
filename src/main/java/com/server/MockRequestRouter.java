@@ -12,7 +12,7 @@ public class MockRequestRouter extends RequestRouter{
         this.dummyResult = dummyResult;
     }
 
-    public int getResponseCode(String requestPath, String method){
+    public int getResponseCode(RequestParams requestParams){
         return this.dummyResult;
     }
 }

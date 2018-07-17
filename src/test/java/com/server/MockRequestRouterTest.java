@@ -10,8 +10,9 @@ public class MockRequestRouterTest {
     public void checkPathReturns404ByDefault(){
 
         MockRequestRouter mockRequestRouter = new MockRequestRouter();
+        RequestParams requestParams = new RequestParams("", "");
 
-        assertEquals(404, mockRequestRouter.getResponseCode("", ""));
+        assertEquals(404, mockRequestRouter.getResponseCode(requestParams));
     }
 
     @Test
@@ -20,8 +21,9 @@ public class MockRequestRouterTest {
         MockRequestRouter mockRequestRouter = new MockRequestRouter();
 
         mockRequestRouter.setResponseCode(200);
+        RequestParams requestParams = new RequestParams("", "");
 
-        assertEquals(200, mockRequestRouter.getResponseCode("", ""));
+        assertEquals(200, mockRequestRouter.getResponseCode(requestParams));
     }
 
     @Test
@@ -30,7 +32,8 @@ public class MockRequestRouterTest {
         MockRequestRouter mockRequestRouter = new MockRequestRouter();
 
         mockRequestRouter.setResponseCode(404);
+        RequestParams requestParams = new RequestParams("", "");
 
-        assertEquals(404, mockRequestRouter.getResponseCode("", ""));
+        assertEquals(404, mockRequestRouter.getResponseCode(requestParams));
     }
 }

@@ -14,7 +14,7 @@ public class ResponseBodyBuilder {
     }
 
     public String getBody(RequestParams requestParams) {
-        if(this.requestRouter.getResponseCode(requestParams.getPath(), requestParams.getMethod()) != 0){
+        if(this.requestRouter.getResponseCode(requestParams) != 0){
             String value = (String)this.bodyHashtable.get(requestParams.getPath());
             this.body = value;
         }

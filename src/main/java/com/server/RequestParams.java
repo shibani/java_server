@@ -31,16 +31,4 @@ public class RequestParams {
     public Hashtable getQueryComponent() {
         return this.queryComponent;
     }
-
-    public void setPath(String newPath) {
-        this.path = newPath;
-    }
-
-    public void setMethod(String newMethod) {
-        this.method = newMethod;
-    }
-
-    public void setQueryComponent(Hashtable newQueryComponent) {
-        this.queryComponent = newQueryComponent;
-    }
 }
