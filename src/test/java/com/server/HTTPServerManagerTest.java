@@ -12,7 +12,8 @@ public class HTTPServerManagerTest {
     @Test
     public void runServerSendsHTTPOKHeader () throws IOException {
         int portNumber = 5000;
-        String directoryPath = "/path/to/dir";
+        File resourcesDirectory = new File("src/test/resources/test-listing");
+        String directoryPath = resourcesDirectory.getAbsolutePath();
         ServerConfig serverConfig = new ServerConfig(portNumber, directoryPath);
 
         final MockServerSocket serverSocket = new MockServerSocket();
@@ -45,7 +46,8 @@ public class HTTPServerManagerTest {
     @Test
     public void runServerSendsHTTPNotFound () throws IOException {
         int portNumber = 5000;
-        String directoryPath = "/path/to/dir";
+        File resourcesDirectory = new File("src/test/resources/test-listing");
+        String directoryPath = resourcesDirectory.getAbsolutePath();
 
         ServerConfig serverConfig = new ServerConfig(portNumber, directoryPath);
 
@@ -80,7 +82,8 @@ public class HTTPServerManagerTest {
     @Test
     public void runServerSendsHTTPMethodNotAllowed () throws IOException {
         int portNumber = 5000;
-        String directoryPath = "/path/to/dir";
+        File resourcesDirectory = new File("src/test/resources/test-listing");
+        String directoryPath = resourcesDirectory.getAbsolutePath();
 
         ServerConfig serverConfig = new ServerConfig(portNumber, directoryPath);
 
