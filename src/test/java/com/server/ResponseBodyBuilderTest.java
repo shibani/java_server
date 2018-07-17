@@ -74,4 +74,22 @@ public class ResponseBodyBuilderTest {
         assertEquals(expected, body);
     }
 
+    @Test
+    public void getBodyReturnsDecodedQueryComponents(){
+        String path = "/parameters";
+        String method = "GET";
+        String publicDir = "/foo";
+        Hashtable<String, String> queryComponents = new Hashtable<>();
+        queryComponents.put("key", "value");
+        RequestRouter rr = new RequestRouter();
+
+        ResponseBodyBuilder responseBodyBuilder = new ResponseBodyBuilder(rr, publicDir);
+        RequestParams requestParams = new RequestParamsBuilder().setPath(path).setMethod(method).setQueryComponent(queryComponents).build();
+        String body = responseBodyBuilder.getBody(requestParams);
+
+        String expected = "key = value";
+
+        assertEquals(expected, body);
+    }
+
 }

@@ -2,6 +2,7 @@ package com.server;
 
 import org.junit.Test;
 
+import java.io.UnsupportedEncodingException;
 import java.util.Hashtable;
 
 import static org.junit.Assert.*;
@@ -9,7 +10,7 @@ import static org.junit.Assert.*;
 public class RequestHeaderParserTest {
 
     @Test
-    public void getVerbReturnsGetHTTPVerb() {
+    public void getVerbReturnsGetHTTPVerb() throws UnsupportedEncodingException {
 
         String headerString = "GET / HTTP/1.1";
 
@@ -19,7 +20,7 @@ public class RequestHeaderParserTest {
     }
 
     @Test
-    public void getVerbReturnsHTTPPostVerb() {
+    public void getVerbReturnsHTTPPostVerb() throws UnsupportedEncodingException {
 
         String headerString = "POST / HTTP/1.1";
 
@@ -29,7 +30,7 @@ public class RequestHeaderParserTest {
     }
 
     @Test
-    public void getRouteReturnsHTTPRoute() {
+    public void getRouteReturnsHTTPRoute() throws UnsupportedEncodingException {
 
         String headerString = "POST / HTTP/1.1";
 
@@ -39,7 +40,7 @@ public class RequestHeaderParserTest {
     }
 
     @Test
-    public void getRouteReturnsFormHTTPRoute() {
+    public void getRouteReturnsFormHTTPRoute() throws UnsupportedEncodingException {
 
         String headerString = "POST /form HTTP/1.1";
 
@@ -49,7 +50,7 @@ public class RequestHeaderParserTest {
     }
 
     @Test
-    public void getRouteReturnsPathWithoutQueryComponent() {
+    public void getRouteReturnsPathWithoutQueryComponent() throws UnsupportedEncodingException {
 
         String headerString = "GET /cookie?type=chocolate HTTP/1.1";
 
@@ -59,7 +60,7 @@ public class RequestHeaderParserTest {
     }
 
     @Test
-    public void getQueryComponentReturnsAHashTableFromRequestURI() {
+    public void getQueryComponentReturnsAHashTableFromRequestURI() throws UnsupportedEncodingException {
 
         String headerString = "GET /cookie?type=chocolate&foo=bar HTTP/1.1";
 
@@ -72,7 +73,19 @@ public class RequestHeaderParserTest {
     }
 
     @Test
-    public void getQueryComponentReturnsAnEmptyHashTableIfNoQueriesAreInURI() {
+    public void getQueryComponentReturnsADecodedHashTableFromRequestURI() throws UnsupportedEncodingException {
+
+        String headerString = "GET /cookie?foo=%3D%40%23%24%25%5E HTTP/1.1";
+
+        RequestHeaderParser requestHeaderParser = new RequestHeaderParser(headerString);
+
+        Hashtable result = requestHeaderParser.getRequestParams().getQueryComponent();
+
+        assertEquals("=@#$%^", result.get("foo"));
+    }
+
+    @Test
+    public void getQueryComponentReturnsAnEmptyHashTableIfNoQueriesAreInURI() throws UnsupportedEncodingException {
 
         String headerString = "GET / HTTP/1.1";
 
@@ -84,7 +97,7 @@ public class RequestHeaderParserTest {
     }
 
     @Test
-    public void getCookiesReturnsAHashTableFromRequestHeaders() {
+    public void getCookiesReturnsAHashTableFromRequestHeaders() throws UnsupportedEncodingException {
 
         String headerString = "GET /cookie HTTP/1.1\r\nCookie: type=chocolate\r\n\r\n";
 
@@ -96,7 +109,7 @@ public class RequestHeaderParserTest {
     }
 
     @Test
-    public void getCookieReturnsAnEmptyHashTableIfNoCookiesInRequestHeaders() {
+    public void getCookieReturnsAnEmptyHashTableIfNoCookiesInRequestHeaders() throws UnsupportedEncodingException {
 
         String headerString = "GET /cookie?type=chocolate&foo=bar HTTP/1.1";
 
