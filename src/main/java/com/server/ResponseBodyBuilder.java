@@ -13,9 +13,9 @@ public class ResponseBodyBuilder {
         bodyHashtable.put("/coffee", "I'm a teapot");
     }
 
-    public String getBody(String path, String method) {
-        if(this.requestRouter.getResponseCode(path, method) != 0){
-            String value = (String)this.bodyHashtable.get(path);
+    public String getBody(RequestParams requestParams) {
+        if(this.requestRouter.getResponseCode(requestParams) != 0){
+            String value = (String)this.bodyHashtable.get(requestParams.getPath());
             this.body = value;
         }
         return this.body == null ? "" : this.body;

@@ -14,7 +14,8 @@ public class ResponseBuilderTest {
         ResponseHeaderBuilder rhb = new ResponseHeaderBuilder(rr);
         ResponseBodyBuilder rbb = new ResponseBodyBuilder(rr);
         ResponseBuilder responseBuilder = new ResponseBuilder(rhb, rbb);
-        String response = responseBuilder.getResponse(path, method);
+        RequestParams requestParams = new RequestParams(path, method);
+        String response = responseBuilder.getResponse(requestParams);
 
         String expected = "HTTP/1.1 418 I'm a teapot\r\n\r\nI'm a teapot";
 
@@ -29,7 +30,8 @@ public class ResponseBuilderTest {
         ResponseHeaderBuilder rhb = new ResponseHeaderBuilder(rr);
         ResponseBodyBuilder rbb = new ResponseBodyBuilder(rr);
         ResponseBuilder responseBuilder = new ResponseBuilder(rhb, rbb);
-        String response = responseBuilder.getResponse(path, method);
+        RequestParams requestParams = new RequestParams(path, method);
+        String response = responseBuilder.getResponse(requestParams);
 
         String expected = "HTTP/1.1 200 OK\r\n\r\n";
 

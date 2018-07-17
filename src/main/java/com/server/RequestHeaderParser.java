@@ -3,32 +3,30 @@ package com.server;
 public class RequestHeaderParser {
 
     private String headerString;
-    private String method;
-    private String path;
+    private RequestParams requestParams;
 
     RequestHeaderParser(String headerString){
         this.headerString = headerString;
-        extractMethod();
-        extractPath();
+        buildRequestParams();
     }
 
-    private void extractMethod() {
+    private void buildRequestParams() {
+        requestParams = new RequestParams(extractPath(), extractMethod());
+    }
+
+    private String extractMethod() {
         String requestLine = headerString.split("\n")[0];
         String verb = requestLine.split(" ")[0];
-        this.method = verb.trim();
+        return verb.trim();
     }
 
-    private void extractPath() {
+    private String extractPath() {
         String requestLine = headerString.split("\n")[0];
         String route = requestLine.split(" ")[1];
-        this.path = route.trim();
+        return route.trim();
     }
 
-    public String getMethod(){
-        return this.method;
-    }
-
-    public String getPath(){
-        return this.path;
+    public RequestParams getRequestParams() {
+        return this.requestParams;
     }
 }

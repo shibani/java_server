@@ -9,22 +9,22 @@ public class ResponseHeaderBuilder {
         this.requestRouter = requestRouter;
     }
 
-    public String getHeader(String path, String method) {
+    public String getHeader(RequestParams requestParams) {
         StatusHandler statusHandler = new StatusHandler(requestRouter);
-        String statusLine = statusHandler.createLine(path, method);
+        String statusLine = statusHandler.createLine(requestParams);
         appendLine(statusLine);
 
-        if (requestRouter.getResponseCode(path, method) < 400){
+        if (requestRouter.getResponseCode(requestParams) < 400){
             AllowHandler allowHandler = new AllowHandler();
-            String allowLine = allowHandler.createLine(path, method);
+            String allowLine = allowHandler.createLine(requestParams);
             appendLine(allowLine);
 
             LocationHandler locationHandler = new LocationHandler();
-            String locationLine = locationHandler.createLine(path, method);
+            String locationLine = locationHandler.createLine(requestParams);
             appendLine(locationLine);
 
             ContentTypeHandler contentTypeHandler = new ContentTypeHandler();
-            String contentTypeLine = contentTypeHandler.createLine(path, method);
+            String contentTypeLine = contentTypeHandler.createLine(requestParams);
             appendLine(contentTypeLine);
         }
 

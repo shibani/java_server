@@ -2,7 +2,7 @@ package com.server;
 
 import java.util.Hashtable;
 
-public class StatusHandler {
+public class StatusHandler implements IResponseHeaderHandler {
     private Hashtable statusHashtable;
     private static final String HTTP_VERSION = "HTTP/1.1";
     private RequestRouter requestRouter;
@@ -18,8 +18,8 @@ public class StatusHandler {
         statusHashtable.put(418, "418 I'm a teapot");
     }
 
-    public String createLine(String path, String method){
-        int responseCode = this.requestRouter.getResponseCode(path, method);
+    public String createLine(RequestParams requestParams){
+        int responseCode = this.requestRouter.getResponseCode(requestParams);
 
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append(HTTP_VERSION);

@@ -27,14 +27,13 @@ public class HTTPServerManager {
 
             PrintWriter out = openOutputStream(clientSocket);
 
-            String method = requestHeaderParser.getMethod();
-            String path = requestHeaderParser.getPath();
+            RequestParams requestParams = requestHeaderParser.getRequestParams();
 
             ResponseHeaderBuilder responseHeaderBuilder = new ResponseHeaderBuilder(requestRouter);
             ResponseBodyBuilder responseBodyBuilder = new ResponseBodyBuilder(requestRouter);
             ResponseBuilder responseBuilder = new ResponseBuilder(responseHeaderBuilder, responseBodyBuilder);
 
-            out.println(responseBuilder.getResponse(path, method));
+            out.println(responseBuilder.getResponse(requestParams));
 
             stopServer(serverSocket, clientSocket);
         }

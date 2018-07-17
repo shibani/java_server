@@ -13,7 +13,8 @@ public class RequestRouterTest {
         String path = "/";
         String method = "GET";
         RequestRouter requestRouter = new RequestRouter();
-        int result = requestRouter.getResponseCode(path, method);
+        RequestParams requestParams = new RequestParams(path, method);
+        int result = requestRouter.getResponseCode(requestParams);
 
         assertEquals(200, result);
     }
@@ -23,7 +24,8 @@ public class RequestRouterTest {
         String path = "/foobar";
         String method = "HEAD";
         RequestRouter requestRouter = new RequestRouter();
-        int result = requestRouter.getResponseCode(path, method);
+        RequestParams requestParams = new RequestParams(path, method);
+        int result = requestRouter.getResponseCode(requestParams);
 
         assertEquals(404, result);
     }
@@ -33,7 +35,8 @@ public class RequestRouterTest {
         String path = "/";
         String method = "DELETE";
         RequestRouter requestRouter = new RequestRouter();
-        int result = requestRouter.getResponseCode(path, method);
+        RequestParams requestParams = new RequestParams(path, method);
+        int result = requestRouter.getResponseCode(requestParams);
 
         assertEquals(405, result);
     }
