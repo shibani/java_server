@@ -39,8 +39,11 @@ public class ResponseBodyBuilderTest {
 
         String body = responseBodyBuilder.getBody(requestParams);
         String expected = "mmmm chocolate";
+
+        assertEquals(expected, body);
     }
 
+    @Test
     public void getBodyReturnsListOfFilesIfDIrectoryHasContents(){
         String path = "/";
         String method = "GET";
