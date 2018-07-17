@@ -1,31 +1,61 @@
 package com.server;
 
-import java.util.Hashtable;
+import java.io.File;
 
 public class ResponseBodyBuilder {
     private String body = "";
-    private Hashtable bodyHashtable;
+    private String publicDir = "";
     private RequestRouter requestRouter;
 
-    ResponseBodyBuilder(RequestRouter requestRouter){
+    ResponseBodyBuilder(RequestRouter requestRouter, String directory){
         this.requestRouter = requestRouter;
-        this.bodyHashtable = new Hashtable();
-        bodyHashtable.put("/coffee", "I'm a teapot");
-        bodyHashtable.put("/cookie", "Eat");
+        this.publicDir = directory;
     }
 
     public String getBody(RequestParams requestParams) {
-        if (requestParams.getPath().equals("/eat_cookie")){
-           bodyHashtable.put("/eat_cookie", eatCookieBody(requestParams));
+        if (requestParams.getPath().equals("/coffee")) {
+            this.body = coffeeBody(requestParams);
+        } else if (requestParams.getPath().equals("/cookie")) {
+            this.body = cookieBody(requestParams);
+        } else if (requestParams.getPath().equals("/eat_cookie")) {
+            this.body = eatCookieBody(requestParams);
+        } else if (requestParams.getPath().equals("/")) {
+            this.body = directoryListingBody(requestParams.getPath());
+        } else {
+            this.body = "";
         }
-        if(this.requestRouter.getResponseCode(requestParams) != 0){
-            String value = (String)this.bodyHashtable.get(requestParams.getPath());
-            this.body = value;
-        }
-        return this.body == null ? "" : this.body;
+        return this.body;
+    }
+
+    private String coffeeBody(RequestParams requestParams){
+        return "I'm a teapot";
+    }
+
+    private String cookieBody(RequestParams requestParams){
+        return "Eat";
     }
 
     public String eatCookieBody(RequestParams requestParams) {
-       return "mmmm " + requestParams.getCookies().get("type");
+        return "mmmm " + requestParams.getCookies().get("type");
+    }
+
+    private String directoryListingBody(String path){
+        String dirPath = this.publicDir + path;
+        return getFiles(dirPath);
+    }
+
+    private String getFiles(String dirPath){
+        StringBuilder fileNames = new StringBuilder();
+        final File folder = new File(dirPath);
+
+        if(folder.listFiles() != null){
+            for (final File fileEntry : folder.listFiles()) {
+                fileNames.append(fileEntry.getName());
+                fileNames.append(" ");
+            }
+            return fileNames.toString();
+        } else {
+            return "";
+        }
     }
 }

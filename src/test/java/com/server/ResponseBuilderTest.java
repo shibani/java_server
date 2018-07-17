@@ -10,9 +10,10 @@ public class ResponseBuilderTest {
     public void getResponseReturnsAHeaderAndBodyIfBothHaveContent(){
         String path = "/coffee";
         String method = "GET";
+        String publicDir = "/foo";
         RequestRouter rr = new RequestRouter();
         ResponseHeaderBuilder rhb = new ResponseHeaderBuilder(rr);
-        ResponseBodyBuilder rbb = new ResponseBodyBuilder(rr);
+        ResponseBodyBuilder rbb = new ResponseBodyBuilder(rr, publicDir);
         ResponseBuilder responseBuilder = new ResponseBuilder(rhb, rbb);
         RequestParams requestParams = new RequestParamsBuilder().setPath(path).setMethod(method).build();
         String response = responseBuilder.getResponse(requestParams);
@@ -26,9 +27,10 @@ public class ResponseBuilderTest {
     public void getResponseReturnsOnlyAHeaderIfBodyHasNoContent(){
         String path = "/tea";
         String method = "GET";
+        String publicDir = "/foo";
         RequestRouter rr = new RequestRouter();
         ResponseHeaderBuilder rhb = new ResponseHeaderBuilder(rr);
-        ResponseBodyBuilder rbb = new ResponseBodyBuilder(rr);
+        ResponseBodyBuilder rbb = new ResponseBodyBuilder(rr, publicDir);
         ResponseBuilder responseBuilder = new ResponseBuilder(rhb, rbb);
         RequestParams requestParams = new RequestParamsBuilder().setPath(path).setMethod(method).build();
         String response = responseBuilder.getResponse(requestParams);
