@@ -22,7 +22,7 @@ public class HTTPServerManager {
 
             BufferedReader in = openInputStream(clientSocket);
 
-            RequestHeaderReader requestHeaderReader = new RequestHeaderReader(in);
+            RequestReader requestHeaderReader = new RequestReader(in);
             RequestHeaderParser requestHeaderParser = new RequestHeaderParser(requestHeaderReader.getHeader());
 
             PrintWriter out = openOutputStream(clientSocket);

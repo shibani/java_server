@@ -1,6 +1,6 @@
 package com.server;
 
-import java.io.File;
+import java.io.*;
 
 public class ResponseBodyBuilder {
     private String body = "";
@@ -12,8 +12,13 @@ public class ResponseBodyBuilder {
         this.publicDir = directory;
     }
 
-    public String getBody(RequestParams requestParams) {
-        if (requestParams.getPath().equals("/coffee")) {
+    public String getBody(RequestParams requestParams) throws IOException {
+        String filePath = publicDir + requestParams.getPath();
+        File file = new File(filePath);
+        if (requestedResourceIsAFile(file)) {
+            this.body = getFileContents(file);
+        }
+        else if (requestParams.getPath().equals("/coffee")) {
             this.body = coffeeBody(requestParams);
         } else if (requestParams.getPath().equals("/cookie")) {
             this.body = cookieBody(requestParams);
@@ -67,5 +72,16 @@ public class ResponseBodyBuilder {
         } else {
             return "";
         }
+    }
+
+    private boolean requestedResourceIsAFile(File file) {
+        return file.isFile();
+    }
+
+    private String getFileContents(File file) throws IOException {
+        FileReader fileReader = new FileReader(file);
+        BufferedReader bufferedReader = new BufferedReader(fileReader);
+        RequestReader reader = new RequestReader(bufferedReader);
+        return reader.getBody();
     }
 }

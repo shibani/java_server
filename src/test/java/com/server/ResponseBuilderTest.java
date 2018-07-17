@@ -1,13 +1,13 @@
 package com.server;
 
+import java.io.IOException;
 import org.junit.Test;
-
 import static org.junit.Assert.*;
 
 public class ResponseBuilderTest {
 
     @Test
-    public void getResponseReturnsAHeaderAndBodyIfBothHaveContent(){
+    public void getResponseReturnsAHeaderAndBodyIfBothHaveContent() throws IOException {
         String path = "/coffee";
         String method = "GET";
         String publicDir = "/foo";
@@ -24,7 +24,7 @@ public class ResponseBuilderTest {
     }
 
     @Test
-    public void getResponseReturnsOnlyAHeaderIfBodyHasNoContent(){
+    public void getResponseReturnsOnlyAHeaderIfBodyHasNoContent() throws IOException {
         String path = "/tea";
         String method = "GET";
         String publicDir = "/foo";

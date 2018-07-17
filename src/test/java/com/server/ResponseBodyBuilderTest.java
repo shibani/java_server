@@ -1,7 +1,7 @@
 package com.server;
 
 import org.junit.Test;
-
+import java.io.IOException;
 import java.util.Hashtable;
 import java.io.File;
 
@@ -10,7 +10,7 @@ import static org.junit.Assert.*;
 public class ResponseBodyBuilderTest {
 
     @Test
-    public void getBodyReturnsImATeapotIfPathIsCoffee(){
+    public void getBodyReturnsImATeapotIfPathIsCoffee() throws IOException {
         String path = "/coffee";
         String method = "GET";
         String publicDir = "/foo";
@@ -26,7 +26,7 @@ public class ResponseBodyBuilderTest {
     }
 
     @Test
-    public void getBodyReturnsMmmmChocolateIfRequestIncludesCookie() {
+    public void getBodyReturnsMmmmChocolateIfRequestIncludesCookie() throws IOException {
         String path = "/eat_cookie";
         String method = "GET";
         String publicDir = "/foo";
@@ -44,7 +44,7 @@ public class ResponseBodyBuilderTest {
     }
 
     @Test
-    public void getBodyReturnsListOfFilesIfDIrectoryHasContents(){
+    public void getBodyReturnsListOfFilesIfDIrectoryHasContents() throws IOException {
         String path = "/";
         String method = "GET";
         File resourcesDirectory = new File("src/test/resources/test-listing");
@@ -59,7 +59,7 @@ public class ResponseBodyBuilderTest {
     }
 
     @Test
-    public void getBodyReturnsEmptyStringIfDIrectoryIsEmpty(){
+    public void getBodyReturnsEmptyStringIfDIrectoryIsEmpty() throws IOException {
         String path = "/";
         String method = "GET";
         File resourcesDirectory = new File("src/test/resources/test-empty");
@@ -75,7 +75,7 @@ public class ResponseBodyBuilderTest {
     }
 
     @Test
-    public void getBodyReturnsDecodedQueryComponents(){
+    public void getBodyReturnsDecodedQueryComponents() throws IOException {
         String path = "/parameters";
         String method = "GET";
         String publicDir = "/foo";
@@ -92,4 +92,18 @@ public class ResponseBodyBuilderTest {
         assertEquals(expected, body);
     }
 
+    public void getBodyReturnsContentsOfFile1() throws IOException {
+        String path = "/file1";
+        String method = "GET";
+        File resourcesDirectory = new File("src/test/resources/test-file1-contents");
+        String testDir = resourcesDirectory.getAbsolutePath();
+        RequestRouter rr = new RequestRouter();
+        ResponseBodyBuilder responseBodyBuilder = new ResponseBodyBuilder(rr, testDir);
+        RequestParams requestParams = new RequestParamsBuilder().setPath(path).setMethod(method).build();
+        String body = responseBodyBuilder.getBody(requestParams);
+
+        String expected = "file1 contents";
+
+        assertEquals(expected, body);
+    }
 }
