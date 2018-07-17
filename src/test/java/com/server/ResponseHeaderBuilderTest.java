@@ -13,7 +13,7 @@ public class ResponseHeaderBuilderTest {
         MockRequestRouter mrr = new MockRequestRouter();
         mrr.setResponseCode(200);
         ResponseHeaderBuilder responseHeaderBuilder = new ResponseHeaderBuilder(mrr);
-        RequestParams requestParams = new RequestParams(path, method);
+        RequestParams requestParams = new RequestParamsBuilder().setPath(path).setMethod(method).build();
 
         assertEquals("HTTP/1.1 200 OK\r\n\r\n", responseHeaderBuilder.getHeader(requestParams));
     }
@@ -25,7 +25,7 @@ public class ResponseHeaderBuilderTest {
         MockRequestRouter mrr = new MockRequestRouter();
         mrr.setResponseCode(200);
         ResponseHeaderBuilder responseHeaderBuilder = new ResponseHeaderBuilder(mrr);
-        RequestParams requestParams = new RequestParams(path, method);
+        RequestParams requestParams = new RequestParamsBuilder().setPath(path).setMethod(method).build();
         String header = responseHeaderBuilder.getHeader(requestParams);
 
         String expected = "HTTP/1.1 200 OK\r\nAllow: GET, PUT, OPTIONS, POST, HEAD\r\n\r\n";
@@ -40,7 +40,7 @@ public class ResponseHeaderBuilderTest {
         MockRequestRouter mrr = new MockRequestRouter();
         mrr.setResponseCode(405);
         ResponseHeaderBuilder responseHeaderBuilder = new ResponseHeaderBuilder(mrr);
-        RequestParams requestParams = new RequestParams(path, method);
+        RequestParams requestParams = new RequestParamsBuilder().setPath(path).setMethod(method).build();
         String header = responseHeaderBuilder.getHeader(requestParams);
 
         String expected = "HTTP/1.1 405 Method Not Allowed\r\n\r\n";

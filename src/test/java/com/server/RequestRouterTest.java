@@ -2,8 +2,6 @@ package com.server;
 
 import org.junit.Test;
 
-import java.util.Arrays;
-
 import static org.junit.Assert.*;
 
 public class RequestRouterTest {
@@ -13,7 +11,7 @@ public class RequestRouterTest {
         String path = "/";
         String method = "GET";
         RequestRouter requestRouter = new RequestRouter();
-        RequestParams requestParams = new RequestParams(path, method);
+        RequestParams requestParams = new RequestParamsBuilder().setPath(path).setMethod(method).build();
         int result = requestRouter.getResponseCode(requestParams);
 
         assertEquals(200, result);
@@ -24,7 +22,7 @@ public class RequestRouterTest {
         String path = "/foobar";
         String method = "HEAD";
         RequestRouter requestRouter = new RequestRouter();
-        RequestParams requestParams = new RequestParams(path, method);
+        RequestParams requestParams = new RequestParamsBuilder().setPath(path).setMethod(method).build();
         int result = requestRouter.getResponseCode(requestParams);
 
         assertEquals(404, result);
@@ -35,7 +33,7 @@ public class RequestRouterTest {
         String path = "/";
         String method = "DELETE";
         RequestRouter requestRouter = new RequestRouter();
-        RequestParams requestParams = new RequestParams(path, method);
+        RequestParams requestParams = new RequestParamsBuilder().setPath(path).setMethod(method).build();
         int result = requestRouter.getResponseCode(requestParams);
 
         assertEquals(405, result);

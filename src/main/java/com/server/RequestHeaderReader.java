@@ -16,6 +16,7 @@ public class RequestHeaderReader {
         StringBuilder header = new StringBuilder();
         while(!(line = br.readLine()).equals("")){
             header.append(line);
+            header.append("\r\n");
         }
         return header.toString().trim();
     }

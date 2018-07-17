@@ -26,6 +26,10 @@ public class ResponseHeaderBuilder {
             ContentTypeHandler contentTypeHandler = new ContentTypeHandler();
             String contentTypeLine = contentTypeHandler.createLine(requestParams);
             appendLine(contentTypeLine);
+
+            SetCookieHandler setCookieHandler = new SetCookieHandler();
+            String setCookieHandlerLine = setCookieHandler.createLine(requestParams);
+            appendLine(setCookieHandlerLine);
         }
 
         return this.header + "\r\n";
