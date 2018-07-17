@@ -7,10 +7,10 @@ public class RequestHeaderParser {
 
     RequestHeaderParser(String headerString){
         this.headerString = headerString;
-        buildRequestLine();
+        buildRequestParams();
     }
 
-    private void buildRequestLine() {
+    private void buildRequestParams() {
         requestParams = new RequestParams(extractPath(), extractMethod());
     }
 
