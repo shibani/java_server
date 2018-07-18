@@ -77,12 +77,7 @@ public class ResponseBodyBuilder {
         if(folder.listFiles() != null){
             for (final File fileEntry : folder.listFiles()) {
                 if(!(fileEntry.getName().equals(".DS_Store"))){
-                    fileNames.append("<a href=\"")
-                        .append("/" + fileEntry.getName())
-                        .append("\">")
-                        .append(fileEntry.getName())
-                        .append("</a>")
-                        .append("<br />");
+                    fileNames.append(htmlLinkBuilder(fileEntry));
                 }
             }
             return fileNames.toString();
@@ -91,7 +86,24 @@ public class ResponseBodyBuilder {
         }
     }
 
+    private String htmlLinkBuilder(File file){
+        StringBuilder fileLink = new StringBuilder();
+        fileLink.append("<a href=\"")
+                .append("/" + file.getName())
+                .append("\">")
+                .append(file.getName())
+                .append("</a>")
+                .append("<br />");
+        return fileLink.toString();
+    }
+
     private String htmlBuilder() {
-        return "<!DOCTYPE html><html><head><title>HTTP Server</title></head><body>$body</body></html>";
+        return "<!DOCTYPE html>" +
+                "<html>" +
+                "<head>" +
+                "<title>HTTP Server</title>" +
+                "</head>" +
+                "<body>$body</body>" +
+                "</html>";
     }
 }
