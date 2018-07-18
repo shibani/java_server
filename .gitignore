@@ -54,3 +54,9 @@ fabric.properties
 
 # Editor-based Rest Client
 .idea/httpRequests
+
+#Mac OS-specific files
+.DS_Store
+src/.DS_Store
+src/test/.DS_Store
+src/test/resources/.DS_Store
