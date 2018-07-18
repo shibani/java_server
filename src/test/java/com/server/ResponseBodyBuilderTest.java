@@ -44,21 +44,6 @@ public class ResponseBodyBuilderTest {
     }
 
     @Test
-    public void getBodyReturnsListOfFilesIfDIrectoryHasContents() throws IOException {
-        String path = "/";
-        String method = "GET";
-        File resourcesDirectory = new File("src/test/resources/test-listing");
-        String testDir = resourcesDirectory.getAbsolutePath();
-        RequestRouter rr = new RequestRouter();
-        ResponseBodyBuilder responseBodyBuilder = new ResponseBodyBuilder(rr, testDir);
-        RequestParams requestParams = new RequestParamsBuilder().setPath(path).setMethod(method).build();
-        String body = responseBodyBuilder.getBody(requestParams);
-
-        assertTrue(body.contains("foo.txt"));
-        assertTrue(body.contains("bar.txt"));
-    }
-
-    @Test
     public void getBodyReturnsEmptyStringIfDIrectoryIsEmpty() throws IOException {
         String path = "/";
         String method = "GET";
@@ -92,6 +77,7 @@ public class ResponseBodyBuilderTest {
         assertEquals(expected, body);
     }
 
+    @Test
     public void getBodyReturnsContentsOfFile1() throws IOException {
         String path = "/file1";
         String method = "GET";
@@ -105,5 +91,52 @@ public class ResponseBodyBuilderTest {
         String expected = "file1 contents";
 
         assertEquals(expected, body);
+    }
+
+
+    @Test
+    public void getBodyReturnsListOfFilesIfDIrectoryHasContents() throws IOException {
+        String path = "/";
+        String method = "GET";
+        File resourcesDirectory = new File("src/test/resources/test-listing");
+        String testDir = resourcesDirectory.getAbsolutePath();
+        RequestRouter rr = new RequestRouter();
+        ResponseBodyBuilder responseBodyBuilder = new ResponseBodyBuilder(rr, testDir);
+        RequestParams requestParams = new RequestParamsBuilder().setPath(path).setMethod(method).build();
+        String body = responseBodyBuilder.getBody(requestParams);
+
+        assertTrue(body.contains("foo.txt"));
+        assertTrue(body.contains("bar.txt"));
+    }
+
+    @Test
+    public void getBodyReturnsListOfLinksToFilesIfDIrectoryHasContents() throws IOException {
+        String path = "/";
+        String method = "GET";
+        File resourcesDirectory = new File("src/test/resources/test-listing");
+        String testDir = resourcesDirectory.getAbsolutePath();
+        RequestRouter rr = new RequestRouter();
+        ResponseBodyBuilder responseBodyBuilder = new ResponseBodyBuilder(rr, testDir);
+        RequestParams requestParams = new RequestParamsBuilder().setPath(path).setMethod(method).build();
+        String body = responseBodyBuilder.getBody(requestParams);
+
+        assertTrue(body.contains("<a href=\""));
+        assertTrue(body.contains("foo.txt"));
+        assertTrue(body.contains("bar.txt"));
+    }
+
+    @Test
+    public void getBodyReturnsDirectoryLinksInListOfLinks() throws IOException {
+        String path = "/";
+        String method = "GET";
+        File resourcesDirectory = new File("src/test/resources/test-listing");
+        String testDir = resourcesDirectory.getAbsolutePath();
+        RequestRouter rr = new RequestRouter();
+        ResponseBodyBuilder responseBodyBuilder = new ResponseBodyBuilder(rr, testDir);
+        RequestParams requestParams = new RequestParamsBuilder().setPath(path).setMethod(method).build();
+        String body = responseBodyBuilder.getBody(requestParams);
+
+        assertTrue(body.contains("<a href=\""));
+        assertTrue(body.contains("cat-form"));
     }
 }

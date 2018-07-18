@@ -24,7 +24,7 @@ public class ResponseBodyBuilder {
         } else if (requestParams.getPath().equals("/eat_cookie")) {
             this.body = eatCookieBody(requestParams);
         } else if (requestParams.getPath().equals("/")) {
-            this.body = directoryListingBody(requestParams.getPath());
+            this.body = directoryLinksBody(requestParams);
         } else if (requestParams.getPath().equals("/parameters")) {
             this.body = parametersBody(requestParams);
         } else {
@@ -53,21 +53,11 @@ public class ResponseBodyBuilder {
         return "mmmm " + requestParams.getCookies().get("type");
     }
 
-    private String directoryListingBody(String path){
-        String dirPath = this.publicDir + path;
-        return getFiles(dirPath);
-    }
-
-    private String getFiles(String dirPath){
-        StringBuilder fileNames = new StringBuilder();
-        final File folder = new File(dirPath);
-
-        if(folder.listFiles() != null){
-            for (final File fileEntry : folder.listFiles()) {
-                fileNames.append(fileEntry.getName());
-                fileNames.append(" ");
-            }
-            return fileNames.toString();
+    private String directoryLinksBody(RequestParams requestParams) throws IOException {
+        String dirPath = this.publicDir + requestParams.getPath();
+        String linkedFilesBody = getLinkedFiles(dirPath);
+        if(!linkedFilesBody.equals("")) {
+            return htmlBuilder().replace("$body", linkedFilesBody);
         } else {
             return "";
         }
@@ -78,5 +68,42 @@ public class ResponseBodyBuilder {
         BufferedReader bufferedReader = new BufferedReader(fileReader);
         RequestReader reader = new RequestReader(bufferedReader);
         return reader.getRequestedFileContents();
+    }
+
+    private String getLinkedFiles(String dirPath){
+        StringBuilder fileNames = new StringBuilder();
+        final File folder = new File(dirPath);
+
+        if(folder.listFiles() != null){
+            for (final File fileEntry : folder.listFiles()) {
+                if(!(fileEntry.getName().equals(".DS_Store"))){
+                    fileNames.append(htmlLinkBuilder(fileEntry));
+                }
+            }
+            return fileNames.toString();
+        } else {
+            return "";
+        }
+    }
+
+    private String htmlLinkBuilder(File file){
+        StringBuilder fileLink = new StringBuilder();
+        fileLink.append("<a href=\"")
+                .append("/" + file.getName())
+                .append("\">")
+                .append(file.getName())
+                .append("</a>")
+                .append("<br />");
+        return fileLink.toString();
+    }
+
+    private String htmlBuilder() {
+        return "<!DOCTYPE html>" +
+                "<html>" +
+                "<head>" +
+                "<title>HTTP Server</title>" +
+                "</head>" +
+                "<body>$body</body>" +
+                "</html>";
     }
 }

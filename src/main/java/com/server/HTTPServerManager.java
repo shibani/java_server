@@ -28,9 +28,9 @@ public class HTTPServerManager {
             PrintWriter out = openOutputStream(clientSocket);
 
             RequestParams requestParams = requestHeaderParser.getRequestParams();
-
             ResponseHeaderBuilder responseHeaderBuilder = new ResponseHeaderBuilder(requestRouter);
             ResponseBodyBuilder responseBodyBuilder = new ResponseBodyBuilder(requestRouter, serverConfig.getDirectory());
+
             ResponseBuilder responseBuilder = new ResponseBuilder(responseHeaderBuilder, responseBodyBuilder);
 
             out.println(responseBuilder.getResponse(requestParams));
