@@ -12,28 +12,28 @@ public class RequestReader {
     }
 
     public String getHeader() throws IOException {
-        return readHeader(this.bufferedReader);
+        return readHeader();
     }
 
-    public String getBody() throws IOException {
-        return readBody(this.bufferedReader);
+    public String getRequestedFileContents() throws IOException {
+        return readRequestedFileContents();
     }
 
-    private String readHeader(BufferedReader br) throws IOException {
-        return read(br, "\r\n");
+    private String readHeader() throws IOException {
+        return read("\r\n");
     }
 
-    private String readBody(BufferedReader br) throws IOException {
-        return read(br, "");
+    private String readRequestedFileContents() throws IOException {
+        return read("");
     }
 
-    private String read(BufferedReader br, String separator) throws IOException {
+    private String read(String separator) throws IOException {
         StringBuilder content = new StringBuilder();
-        String line = br.readLine();
+        String line = this.bufferedReader.readLine();
         while(line != null && !(line).equals("")){
             content.append(line);
             content.append(separator);
-            line = br.readLine();
+            line = this.bufferedReader.readLine();
         }
         return content.toString().trim();
     }

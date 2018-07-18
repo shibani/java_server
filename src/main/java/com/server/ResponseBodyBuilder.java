@@ -13,12 +13,11 @@ public class ResponseBodyBuilder {
     }
 
     public String getBody(RequestParams requestParams) throws IOException {
-        String filePath = publicDir + requestParams.getPath();
-        File file = new File(filePath);
-        if (requestedResourceIsAFile(file)) {
+        if (requestParams.getPath().equals("/file1")) {
+            String filePath = this.publicDir + requestParams.getPath();
+            File file = new File(filePath);
             this.body = getFileContents(file);
-        }
-        else if (requestParams.getPath().equals("/coffee")) {
+        } else if (requestParams.getPath().equals("/coffee")) {
             this.body = coffeeBody(requestParams);
         } else if (requestParams.getPath().equals("/cookie")) {
             this.body = cookieBody(requestParams);
@@ -74,14 +73,10 @@ public class ResponseBodyBuilder {
         }
     }
 
-    private boolean requestedResourceIsAFile(File file) {
-        return file.isFile();
-    }
-
     private String getFileContents(File file) throws IOException {
         FileReader fileReader = new FileReader(file);
         BufferedReader bufferedReader = new BufferedReader(fileReader);
         RequestReader reader = new RequestReader(bufferedReader);
-        return reader.getBody();
+        return reader.getRequestedFileContents();
     }
 }
