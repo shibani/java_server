@@ -22,15 +22,15 @@ public class HTTPServerManager {
 
             BufferedReader in = openInputStream(clientSocket);
 
-            RequestHeaderReader requestHeaderReader = new RequestHeaderReader(in);
+            RequestReader requestHeaderReader = new RequestReader(in);
             RequestHeaderParser requestHeaderParser = new RequestHeaderParser(requestHeaderReader.getHeader());
 
             PrintWriter out = openOutputStream(clientSocket);
 
             RequestParams requestParams = requestHeaderParser.getRequestParams();
-
             ResponseHeaderBuilder responseHeaderBuilder = new ResponseHeaderBuilder(requestRouter);
             ResponseBodyBuilder responseBodyBuilder = new ResponseBodyBuilder(requestRouter, serverConfig.getDirectory());
+
             ResponseBuilder responseBuilder = new ResponseBuilder(responseHeaderBuilder, responseBodyBuilder);
 
             out.println(responseBuilder.getResponse(requestParams));
