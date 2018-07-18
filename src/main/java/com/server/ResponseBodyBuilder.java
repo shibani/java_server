@@ -24,7 +24,7 @@ public class ResponseBodyBuilder {
         } else if (requestParams.getPath().equals("/eat_cookie")) {
             this.body = eatCookieBody(requestParams);
         } else if (requestParams.getPath().equals("/")) {
-            this.body = directoryLinksBody(requestParams.getPath());
+            this.body = directoryLinksBody(requestParams);
         } else if (requestParams.getPath().equals("/parameters")) {
             this.body = parametersBody(requestParams);
         } else {
@@ -53,12 +53,11 @@ public class ResponseBodyBuilder {
         return "mmmm " + requestParams.getCookies().get("type");
     }
 
-    private String directoryLinksBody(String path) throws IOException {
-        String dirPath = this.publicDir + path;
+    private String directoryLinksBody(RequestParams requestParams) throws IOException {
+        String dirPath = this.publicDir + requestParams.getPath();
         String linkedFilesBody = getLinkedFiles(dirPath);
         if(!linkedFilesBody.equals("")) {
-            String htmlString = htmlBuilder().replace("$body", linkedFilesBody);
-            return htmlString;
+            return htmlBuilder().replace("$body", linkedFilesBody);
         } else {
             return "";
         }
