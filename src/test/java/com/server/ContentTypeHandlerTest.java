@@ -16,7 +16,7 @@ public class ContentTypeHandlerTest {
 
         String result = contentTypeHandler.createLine(requestParams, responseParams);
 
-        assertEquals("Content-Type: image/jpeg", result);
+        assertTrue(result.contains("Content-Type: image/jpeg"));
     }
 
     @Test

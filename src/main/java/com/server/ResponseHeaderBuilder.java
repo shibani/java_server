@@ -9,7 +9,7 @@ public class ResponseHeaderBuilder {
         this.requestRouter = requestRouter;
     }
 
-    public String getHeader(RequestParams requestParams, ResponseParams responseParams) {
+    public byte[] getHeader(RequestParams requestParams, ResponseParams responseParams) {
         StatusHandler statusHandler = new StatusHandler(requestRouter);
         String statusLine = statusHandler.createLine(requestParams, responseParams);
         appendLine(statusLine);
@@ -27,12 +27,17 @@ public class ResponseHeaderBuilder {
             String contentTypeLine = contentTypeHandler.createLine(requestParams, responseParams);
             appendLine(contentTypeLine);
 
+            ContentLengthHandler contentLengthHandler = new ContentLengthHandler(requestParams.getDirectory());
+            String contentLengthLine = contentLengthHandler.createLine(requestParams, new ResponseParams(200));
+            appendLine(contentLengthLine);
+
             SetCookieHandler setCookieHandler = new SetCookieHandler();
             String setCookieHandlerLine = setCookieHandler.createLine(requestParams, responseParams);
             appendLine(setCookieHandlerLine);
         }
+        String endOfHeader = "\r\n";
 
-        return this.header + "\r\n";
+        return (this.header + endOfHeader).getBytes();
     }
 
     private void appendLine(String line) {

@@ -25,14 +25,19 @@ public class HTTPServerManager {
             RequestReader requestHeaderReader = new RequestReader(in);
             RequestHeaderParser requestHeaderParser = new RequestHeaderParser(requestHeaderReader.getHeader(), serverConfig.getDirectory());
 
-            PrintWriter out = openOutputStream(clientSocket);
-
             RequestParams requestParams = requestHeaderParser.getRequestParams();
 
             ResponseBuilder responseBuilder = new ResponseBuilder(requestRouter);
 
 
-            out.println(responseBuilder.getResponse(requestParams));
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            baos.write(responseBuilder.getResponse(requestParams));
+            byte[] result = baos.toByteArray();
+            BufferedOutputStream outputStream = new BufferedOutputStream(clientSocket.getOutputStream());
+            outputStream.write(result);
+            baos.flush();
+            baos.close();
+            outputStream.close();
 
             stopServer(serverSocket, clientSocket);
         }
