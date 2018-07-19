@@ -14,7 +14,7 @@ public class ContentTypeHandlerTest {
         RequestParams requestParams = new RequestParamsBuilder().setPath(path).setMethod(method).build();
         String result = contentTypeHandler.createLine(requestParams);
 
-        assertEquals("Content-Type: image/jpeg", result);
+        assertTrue(result.contains("Content-Type: image/jpeg"));
     }
 
     @Test

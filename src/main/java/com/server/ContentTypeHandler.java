@@ -16,6 +16,12 @@ public class ContentTypeHandler implements IResponseHeaderHandler {
 
     public String createLine(RequestParams requestParams){
         String value = (String)this.contentTypeHashtable.get(requestParams.getPath());
-        return value == null ? "" : CONTENT_TYPE_KEY + ": " + value;
+        if (requestParams.getPath().contains("/image.jpeg")){
+            return value == null ? "" : CONTENT_TYPE_KEY + ": " + value + "\r\n" + "Content-Length: 157751";
+            //return value == null ? "" : CONTENT_TYPE_KEY + ": " + value + "\r\n" + "Content-Length: 23199";
+        }
+        else {
+            return value == null ? "" : CONTENT_TYPE_KEY + ": " + value;
+        }
     }
 }
