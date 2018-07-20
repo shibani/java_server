@@ -1,5 +1,6 @@
 package com.server;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
 public class ResponseBuilder {
@@ -11,10 +12,24 @@ public class ResponseBuilder {
         this.responseBodyBuilder = responseBodyBuilder;
     }
 
-    public String getResponse(RequestParams requestParams) throws IOException {
+    public byte[] getResponse(RequestParams requestParams) throws IOException {
         String header = this.responseHeaderBuilder.getHeader(requestParams);
-        String body = this.responseBodyBuilder.getBody(requestParams);
+        byte[] body = this.responseBodyBuilder.getBody(requestParams);
 
-        return body == null ? header : header + body;
+        if (body.length == 0) {
+            return header.getBytes();
+        }
+        else {
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
+            baos.write(header.getBytes());
+            baos.write(body);
+            byte[] response = baos.toByteArray();
+            baos.flush();
+            baos.close();
+            return response;
+        }
+
+        //return body == null ? header : header + body;
     }
 }

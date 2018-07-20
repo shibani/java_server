@@ -6,6 +6,7 @@ import java.awt.image.BufferedImage;
 import java.net.*;
 import java.io.*;
 import java.nio.ByteBuffer;
+import java.util.Arrays;
 
 public class HTTPServerManager {
 
@@ -37,31 +38,14 @@ public class HTTPServerManager {
             ResponseBodyBuilder responseBodyBuilder = new ResponseBodyBuilder(requestRouter, serverConfig.getDirectory());
             ResponseBuilder responseBuilder = new ResponseBuilder(responseHeaderBuilder, responseBodyBuilder);
 
-            out.println(responseBuilder.getResponse(requestParams));
-
-            if (requestParams.getPath().contains("image.jpeg")) {
-//                File resourcesDirectory = new File("src/test/resources/test-imagejpeg-contents/image.jpeg");
-//                String testDir = resourcesDirectory.getAbsolutePath();
-                //String testDir = "/users/ranizilpelwar/documents/github/java_server/src/test/resources/test-imagejpeg-contents/image.jpeg";
-                String testDir = "/Users/ranizilpelwar/documents/github/cob_spec/public/image.jpeg";
-
-                File f = new File(testDir);
-
-                ImageInputStream iis = ImageIO.createImageInputStream(f);
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
-                int byteToBeRead = -1;
-                while((byteToBeRead = iis.read())!=-1){
-                    baos.write(byteToBeRead);
-                }
-                byte[] mybytearray = baos.toByteArray();
-                baos.write(mybytearray, 0,mybytearray.length);
-                OutputStream outputStream = clientSocket.getOutputStream();
-                outputStream.write(mybytearray);
-
-                baos.flush();
-                baos.close();
-                //outputStream.close();
-            }
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            baos.write(responseBuilder.getResponse(requestParams));
+            byte[] result = baos.toByteArray();
+            BufferedOutputStream outputStream = new BufferedOutputStream(clientSocket.getOutputStream());
+            outputStream.write(result);
+            baos.flush();
+            baos.close();
+            outputStream.close();
 
             stopServer(serverSocket, clientSocket);
         }

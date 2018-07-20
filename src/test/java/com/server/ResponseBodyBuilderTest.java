@@ -2,6 +2,7 @@ package com.server;
 
 import org.junit.Test;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Hashtable;
 import java.io.File;
 
@@ -18,11 +19,12 @@ public class ResponseBodyBuilderTest {
 
         ResponseBodyBuilder responseBodyBuilder = new ResponseBodyBuilder(rr, publicDir);
         RequestParams requestParams = new RequestParamsBuilder().setPath(path).setMethod(method).build();
-        String body = responseBodyBuilder.getBody(requestParams);
-
+        byte[] body = responseBodyBuilder.getBody(requestParams);
         String expected = "I'm a teapot";
 
-        assertEquals(expected, body);
+        byte[] expectedBytes = expected.getBytes();
+
+        assertTrue(Arrays.equals(expectedBytes, body));
     }
 
     @Test
@@ -37,10 +39,12 @@ public class ResponseBodyBuilderTest {
         ResponseBodyBuilder responseBodyBuilder = new ResponseBodyBuilder(rr, publicDir);
         RequestParams requestParams = new RequestParamsBuilder().setPath(path).setMethod(method).setCookies(cookies).build();
 
-        String body = responseBodyBuilder.getBody(requestParams);
+        byte[] body = responseBodyBuilder.getBody(requestParams);
         String expected = "mmmm chocolate";
 
-        assertEquals(expected, body);
+        byte[] expectedBytes = expected.getBytes();
+
+        assertTrue(Arrays.equals(expectedBytes, body));
     }
 
     @Test
@@ -52,10 +56,12 @@ public class ResponseBodyBuilderTest {
         RequestRouter rr = new RequestRouter();
         ResponseBodyBuilder responseBodyBuilder = new ResponseBodyBuilder(rr, testDir);
         RequestParams requestParams = new RequestParamsBuilder().setPath(path).setMethod(method).build();
-        String body = responseBodyBuilder.getBody(requestParams);
+        byte[] body = responseBodyBuilder.getBody(requestParams);
 
-        assertTrue(body.contains("foo.txt"));
-        assertTrue(body.contains("bar.txt"));
+        String text = new String(body, "UTF-8");
+
+        assertTrue(text.contains("foo.txt"));
+        assertTrue(text.contains("bar.txt"));
     }
 
     @Test
@@ -67,11 +73,13 @@ public class ResponseBodyBuilderTest {
         RequestRouter rr = new RequestRouter();
         ResponseBodyBuilder responseBodyBuilder = new ResponseBodyBuilder(rr, testDir);
         RequestParams requestParams = new RequestParamsBuilder().setPath(path).setMethod(method).build();
-        String body = responseBodyBuilder.getBody(requestParams);
+        byte[] body = responseBodyBuilder.getBody(requestParams);
 
         String expected = "";
 
-        assertEquals(expected, body);
+        byte[] expectedBytes = expected.getBytes();
+
+        assertTrue(Arrays.equals(expectedBytes, body));
     }
 
     @Test
@@ -85,11 +93,13 @@ public class ResponseBodyBuilderTest {
 
         ResponseBodyBuilder responseBodyBuilder = new ResponseBodyBuilder(rr, publicDir);
         RequestParams requestParams = new RequestParamsBuilder().setPath(path).setMethod(method).setQueryComponent(queryComponents).build();
-        String body = responseBodyBuilder.getBody(requestParams);
+        byte[] body = responseBodyBuilder.getBody(requestParams);
 
         String expected = "key = value";
 
-        assertEquals(expected, body);
+        byte[] expectedBytes = expected.getBytes();
+
+        assertTrue(Arrays.equals(expectedBytes, body));
     }
 
     public void getBodyReturnsContentsOfFile1() throws IOException {
@@ -100,7 +110,7 @@ public class ResponseBodyBuilderTest {
         RequestRouter rr = new RequestRouter();
         ResponseBodyBuilder responseBodyBuilder = new ResponseBodyBuilder(rr, testDir);
         RequestParams requestParams = new RequestParamsBuilder().setPath(path).setMethod(method).build();
-        String body = responseBodyBuilder.getBody(requestParams);
+        String body = responseBodyBuilder.getBody(requestParams).toString();
 
         String expected = "file1 contents";
 
