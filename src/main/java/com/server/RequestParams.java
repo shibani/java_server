@@ -8,8 +8,9 @@ public class RequestParams {
     private String method;
     private Hashtable<String, String> queryComponent;
     private Hashtable<String, String> cookies;
+    private String directory;
 
-    public RequestParams(String path, String method, Hashtable<String, String> queryComponent, Hashtable<String, String> cookies) throws NullPointerException {
+    public RequestParams(String path, String method, Hashtable<String, String> queryComponent, Hashtable<String, String> cookies, String directory) throws NullPointerException {
         if ((path == null) || (method == null)) {
             throw new NullPointerException();
         }
@@ -17,6 +18,7 @@ public class RequestParams {
         this.method = method;
         this.queryComponent = queryComponent;
         this.cookies = cookies;
+        this.directory = directory;
     }
 
     public String getPath() {
@@ -33,5 +35,9 @@ public class RequestParams {
 
     public Hashtable getCookies() {
         return this.cookies;
+    }
+
+    public String getDirectory() {
+        return this.directory;
     }
 }

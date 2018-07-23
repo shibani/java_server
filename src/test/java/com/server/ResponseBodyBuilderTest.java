@@ -13,12 +13,13 @@ public class ResponseBodyBuilderTest {
     public void getBodyReturnsImATeapotIfPathIsCoffee() throws IOException {
         String path = "/coffee";
         String method = "GET";
-        String publicDir = "/foo";
-        RequestRouter rr = new RequestRouter();
 
-        ResponseBodyBuilder responseBodyBuilder = new ResponseBodyBuilder(rr, publicDir);
+        RequestRouter rr = new RequestRouter();
+        ResponseParams responseParams = new ResponseParams();
+
+        ResponseBodyBuilder responseBodyBuilder = new ResponseBodyBuilder(rr);
         RequestParams requestParams = new RequestParamsBuilder().setPath(path).setMethod(method).build();
-        String body = responseBodyBuilder.getBody(requestParams);
+        String body = responseBodyBuilder.getBody(requestParams, responseParams);
 
         String expected = "I'm a teapot";
 
@@ -29,15 +30,17 @@ public class ResponseBodyBuilderTest {
     public void getBodyReturnsMmmmChocolateIfRequestIncludesCookie() throws IOException {
         String path = "/eat_cookie";
         String method = "GET";
-        String publicDir = "/foo";
+
         Hashtable<String, String> cookies = new Hashtable<>();
         cookies.put("type", "chocolate");
 
         RequestRouter rr = new RequestRouter();
-        ResponseBodyBuilder responseBodyBuilder = new ResponseBodyBuilder(rr, publicDir);
+        ResponseParams responseParams = new ResponseParams();
+
+        ResponseBodyBuilder responseBodyBuilder = new ResponseBodyBuilder(rr);
         RequestParams requestParams = new RequestParamsBuilder().setPath(path).setMethod(method).setCookies(cookies).build();
 
-        String body = responseBodyBuilder.getBody(requestParams);
+        String body = responseBodyBuilder.getBody(requestParams, responseParams);
         String expected = "mmmm chocolate";
 
         assertEquals(expected, body);
@@ -49,10 +52,13 @@ public class ResponseBodyBuilderTest {
         String method = "GET";
         File resourcesDirectory = new File("src/test/resources/test-empty");
         String testDir = resourcesDirectory.getAbsolutePath();
+
         RequestRouter rr = new RequestRouter();
-        ResponseBodyBuilder responseBodyBuilder = new ResponseBodyBuilder(rr, testDir);
-        RequestParams requestParams = new RequestParamsBuilder().setPath(path).setMethod(method).build();
-        String body = responseBodyBuilder.getBody(requestParams);
+        ResponseParams responseParams = new ResponseParams();
+
+        ResponseBodyBuilder responseBodyBuilder = new ResponseBodyBuilder(rr);
+        RequestParams requestParams = new RequestParamsBuilder().setPath(path).setMethod(method).setDirectory(testDir).build();
+        String body = responseBodyBuilder.getBody(requestParams, responseParams);
 
         String expected = "";
 
@@ -67,10 +73,11 @@ public class ResponseBodyBuilderTest {
         Hashtable<String, String> queryComponents = new Hashtable<>();
         queryComponents.put("key", "value");
         RequestRouter rr = new RequestRouter();
+        ResponseParams responseParams = new ResponseParams();
 
-        ResponseBodyBuilder responseBodyBuilder = new ResponseBodyBuilder(rr, publicDir);
+        ResponseBodyBuilder responseBodyBuilder = new ResponseBodyBuilder(rr);
         RequestParams requestParams = new RequestParamsBuilder().setPath(path).setMethod(method).setQueryComponent(queryComponents).build();
-        String body = responseBodyBuilder.getBody(requestParams);
+        String body = responseBodyBuilder.getBody(requestParams, responseParams);
 
         String expected = "key = value";
 
@@ -84,29 +91,15 @@ public class ResponseBodyBuilderTest {
         File resourcesDirectory = new File("src/test/resources/test-file1-contents");
         String testDir = resourcesDirectory.getAbsolutePath();
         RequestRouter rr = new RequestRouter();
-        ResponseBodyBuilder responseBodyBuilder = new ResponseBodyBuilder(rr, testDir);
-        RequestParams requestParams = new RequestParamsBuilder().setPath(path).setMethod(method).build();
-        String body = responseBodyBuilder.getBody(requestParams);
+        ResponseParams responseParams = new ResponseParams();
+
+        ResponseBodyBuilder responseBodyBuilder = new ResponseBodyBuilder(rr);
+        RequestParams requestParams = new RequestParamsBuilder().setPath(path).setMethod(method).setDirectory(testDir).build();
+        String body = responseBodyBuilder.getBody(requestParams, responseParams);
 
         String expected = "file1 contents";
 
         assertEquals(expected, body);
-    }
-
-
-    @Test
-    public void getBodyReturnsListOfFilesIfDIrectoryHasContents() throws IOException {
-        String path = "/";
-        String method = "GET";
-        File resourcesDirectory = new File("src/test/resources/test-listing");
-        String testDir = resourcesDirectory.getAbsolutePath();
-        RequestRouter rr = new RequestRouter();
-        ResponseBodyBuilder responseBodyBuilder = new ResponseBodyBuilder(rr, testDir);
-        RequestParams requestParams = new RequestParamsBuilder().setPath(path).setMethod(method).build();
-        String body = responseBodyBuilder.getBody(requestParams);
-
-        assertTrue(body.contains("foo.txt"));
-        assertTrue(body.contains("bar.txt"));
     }
 
     @Test
@@ -116,9 +109,11 @@ public class ResponseBodyBuilderTest {
         File resourcesDirectory = new File("src/test/resources/test-listing");
         String testDir = resourcesDirectory.getAbsolutePath();
         RequestRouter rr = new RequestRouter();
-        ResponseBodyBuilder responseBodyBuilder = new ResponseBodyBuilder(rr, testDir);
-        RequestParams requestParams = new RequestParamsBuilder().setPath(path).setMethod(method).build();
-        String body = responseBodyBuilder.getBody(requestParams);
+        ResponseParams responseParams = new ResponseParams();
+
+        ResponseBodyBuilder responseBodyBuilder = new ResponseBodyBuilder(rr);
+        RequestParams requestParams = new RequestParamsBuilder().setPath(path).setMethod(method).setDirectory(testDir).build();
+        String body = responseBodyBuilder.getBody(requestParams, responseParams);
 
         assertTrue(body.contains("<a href=\""));
         assertTrue(body.contains("foo.txt"));
@@ -132,9 +127,11 @@ public class ResponseBodyBuilderTest {
         File resourcesDirectory = new File("src/test/resources/test-listing");
         String testDir = resourcesDirectory.getAbsolutePath();
         RequestRouter rr = new RequestRouter();
-        ResponseBodyBuilder responseBodyBuilder = new ResponseBodyBuilder(rr, testDir);
-        RequestParams requestParams = new RequestParamsBuilder().setPath(path).setMethod(method).build();
-        String body = responseBodyBuilder.getBody(requestParams);
+        ResponseParams responseParams = new ResponseParams();
+
+        ResponseBodyBuilder responseBodyBuilder = new ResponseBodyBuilder(rr);
+        RequestParams requestParams = new RequestParamsBuilder().setPath(path).setMethod(method).setDirectory(testDir).build();
+        String body = responseBodyBuilder.getBody(requestParams, responseParams);
 
         assertTrue(body.contains("<a href=\""));
         assertTrue(body.contains("cat-form"));

@@ -6,15 +6,17 @@ public class ResponseBodyBuilder {
     private String body = "";
     private String publicDir = "";
     private RequestRouter requestRouter;
+    public ResponseParams responseParams;
 
-    ResponseBodyBuilder(RequestRouter requestRouter, String directory){
+    ResponseBodyBuilder(RequestRouter requestRouter){
         this.requestRouter = requestRouter;
-        this.publicDir = directory;
     }
 
-    public String getBody(RequestParams requestParams) throws IOException {
+    public String getBody(RequestParams requestParams, ResponseParams responseParams) throws IOException {
+        this.responseParams = responseParams;
+
         if (requestParams.getPath().equals("/file1")) {
-            String filePath = this.publicDir + requestParams.getPath();
+            String filePath = requestParams.getDirectory() + requestParams.getPath();
             File file = new File(filePath);
             this.body = getFileContents(file);
         } else if (requestParams.getPath().equals("/coffee")) {
@@ -54,7 +56,7 @@ public class ResponseBodyBuilder {
     }
 
     private String directoryLinksBody(RequestParams requestParams) throws IOException {
-        String dirPath = this.publicDir + requestParams.getPath();
+        String dirPath = requestParams.getDirectory() + requestParams.getPath();
         String linkedFilesBody = getLinkedFiles(dirPath);
         if(!linkedFilesBody.equals("")) {
             return htmlBuilder().replace("$body", linkedFilesBody);

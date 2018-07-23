@@ -9,7 +9,7 @@ public class ResponseHeaderBuilder {
         this.requestRouter = requestRouter;
     }
 
-    public String getHeader(RequestParams requestParams) {
+    public String getHeader(RequestParams requestParams, ResponseParams responseParams) {
         StatusHandler statusHandler = new StatusHandler(requestRouter);
         String statusLine = statusHandler.createLine(requestParams);
         appendLine(statusLine);
