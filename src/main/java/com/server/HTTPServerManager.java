@@ -6,6 +6,7 @@ import java.awt.image.BufferedImage;
 import java.net.*;
 import java.io.*;
 import java.nio.ByteBuffer;
+import java.util.Arrays;
 
 public class HTTPServerManager {
 
@@ -32,7 +33,6 @@ public class HTTPServerManager {
             RequestParams requestParams = requestHeaderParser.getRequestParams();
 
             ResponseBuilder responseBuilder = new ResponseBuilder(requestRouter);
-
 
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             baos.write(responseBuilder.getResponse(requestParams));

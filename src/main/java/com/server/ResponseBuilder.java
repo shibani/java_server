@@ -22,13 +22,12 @@ public class ResponseBuilder {
             return header;
         }
         else {
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-
-            baos.write(header);
-            baos.write(body);
-            byte[] response = baos.toByteArray();
-            baos.flush();
-            baos.close();
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            outputStream.write(header);
+            outputStream.write(body);
+            byte[] response = outputStream.toByteArray();
+            outputStream.flush();
+            outputStream.close();
             return response;
         }
     }

@@ -21,7 +21,6 @@ public class ResponseBodyBuilderTest {
         ResponseBodyBuilder responseBodyBuilder = new ResponseBodyBuilder(rr);
         RequestParams requestParams = new RequestParamsBuilder().setPath(path).setMethod(method).build();
         byte[] body = responseBodyBuilder.getBody(requestParams, responseParams);
-
         String expected = "I'm a teapot";
 
         byte[] expectedBytes = expected.getBytes();
