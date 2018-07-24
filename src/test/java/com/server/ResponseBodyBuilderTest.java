@@ -21,7 +21,6 @@ public class ResponseBodyBuilderTest {
         ResponseBodyBuilder responseBodyBuilder = new ResponseBodyBuilder(rr);
         RequestParams requestParams = new RequestParamsBuilder().setPath(path).setMethod(method).build();
         byte[] body = responseBodyBuilder.getBody(requestParams, responseParams);
-
         String expected = "I'm a teapot";
 
         byte[] expectedBytes = expected.getBytes();
@@ -85,7 +84,6 @@ public class ResponseBodyBuilderTest {
 
         ResponseBodyBuilder responseBodyBuilder = new ResponseBodyBuilder(rr);
         RequestParams requestParams = new RequestParamsBuilder().setPath(path).setMethod(method).setQueryComponent(queryComponents).build();
-
         byte[] body = responseBodyBuilder.getBody(requestParams, responseParams);
 
         String expected = "key = value";
