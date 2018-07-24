@@ -1,7 +1,11 @@
 package com.server;
 
+import javax.imageio.ImageIO;
+import javax.imageio.stream.ImageInputStream;
+import java.awt.image.BufferedImage;
 import java.net.*;
 import java.io.*;
+import java.nio.ByteBuffer;
 
 public class HTTPServerManager {
 
