@@ -15,7 +15,7 @@ public class ResponseBodyBuilderTest {
         String method = "GET";
 
         RequestRouter rr = new RequestRouter();
-        ResponseParams responseParams = new ResponseParams();
+        ResponseParams responseParams = new ResponseParamsBuilder().build();
 
         ResponseBodyBuilder responseBodyBuilder = new ResponseBodyBuilder(rr);
         RequestParams requestParams = new RequestParamsBuilder().setPath(path).setMethod(method).build();
@@ -35,7 +35,7 @@ public class ResponseBodyBuilderTest {
         cookies.put("type", "chocolate");
 
         RequestRouter rr = new RequestRouter();
-        ResponseParams responseParams = new ResponseParams();
+        ResponseParams responseParams = new ResponseParamsBuilder().build();
 
         ResponseBodyBuilder responseBodyBuilder = new ResponseBodyBuilder(rr);
         RequestParams requestParams = new RequestParamsBuilder().setPath(path).setMethod(method).setCookies(cookies).build();
@@ -54,7 +54,7 @@ public class ResponseBodyBuilderTest {
         String testDir = resourcesDirectory.getAbsolutePath();
 
         RequestRouter rr = new RequestRouter();
-        ResponseParams responseParams = new ResponseParams();
+        ResponseParams responseParams = new ResponseParamsBuilder().build();
 
         ResponseBodyBuilder responseBodyBuilder = new ResponseBodyBuilder(rr);
         RequestParams requestParams = new RequestParamsBuilder().setPath(path).setMethod(method).setDirectory(testDir).build();
@@ -73,7 +73,7 @@ public class ResponseBodyBuilderTest {
         Hashtable<String, String> queryComponents = new Hashtable<>();
         queryComponents.put("key", "value");
         RequestRouter rr = new RequestRouter();
-        ResponseParams responseParams = new ResponseParams();
+        ResponseParams responseParams = new ResponseParamsBuilder().build();
 
         ResponseBodyBuilder responseBodyBuilder = new ResponseBodyBuilder(rr);
         RequestParams requestParams = new RequestParamsBuilder().setPath(path).setMethod(method).setQueryComponent(queryComponents).build();
@@ -91,7 +91,7 @@ public class ResponseBodyBuilderTest {
         File resourcesDirectory = new File("src/test/resources/test-file1-contents");
         String testDir = resourcesDirectory.getAbsolutePath();
         RequestRouter rr = new RequestRouter();
-        ResponseParams responseParams = new ResponseParams();
+        ResponseParams responseParams = new ResponseParamsBuilder().build();
 
         ResponseBodyBuilder responseBodyBuilder = new ResponseBodyBuilder(rr);
         RequestParams requestParams = new RequestParamsBuilder().setPath(path).setMethod(method).setDirectory(testDir).build();
@@ -109,7 +109,7 @@ public class ResponseBodyBuilderTest {
         File resourcesDirectory = new File("src/test/resources/test-listing");
         String testDir = resourcesDirectory.getAbsolutePath();
         RequestRouter rr = new RequestRouter();
-        ResponseParams responseParams = new ResponseParams();
+        ResponseParams responseParams = new ResponseParamsBuilder().build();
 
         ResponseBodyBuilder responseBodyBuilder = new ResponseBodyBuilder(rr);
         RequestParams requestParams = new RequestParamsBuilder().setPath(path).setMethod(method).setDirectory(testDir).build();
@@ -127,7 +127,7 @@ public class ResponseBodyBuilderTest {
         File resourcesDirectory = new File("src/test/resources/test-listing");
         String testDir = resourcesDirectory.getAbsolutePath();
         RequestRouter rr = new RequestRouter();
-        ResponseParams responseParams = new ResponseParams();
+        ResponseParams responseParams = new ResponseParamsBuilder().build();
 
         ResponseBodyBuilder responseBodyBuilder = new ResponseBodyBuilder(rr);
         RequestParams requestParams = new RequestParamsBuilder().setPath(path).setMethod(method).setDirectory(testDir).build();

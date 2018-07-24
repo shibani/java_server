@@ -12,7 +12,9 @@ public class ContentTypeHandlerTest {
         String method = "GET";
         ContentTypeHandler contentTypeHandler = new ContentTypeHandler();
         RequestParams requestParams = new RequestParamsBuilder().setPath(path).setMethod(method).build();
-        String result = contentTypeHandler.createLine(requestParams);
+        ResponseParams responseParams = new ResponseParamsBuilder().build();
+
+        String result = contentTypeHandler.createLine(requestParams, responseParams);
 
         assertEquals("Content-Type: image/jpeg", result);
     }
@@ -23,7 +25,9 @@ public class ContentTypeHandlerTest {
         String method = "GET";
         ContentTypeHandler contentTypeHandler = new ContentTypeHandler();
         RequestParams requestParams = new RequestParamsBuilder().setPath(path).setMethod(method).build();
-        String result = contentTypeHandler.createLine(requestParams);
+        ResponseParams responseParams = new ResponseParamsBuilder().build();
+
+        String result = contentTypeHandler.createLine(requestParams, responseParams);
 
         assertEquals("", result);
     }

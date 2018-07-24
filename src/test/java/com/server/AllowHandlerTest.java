@@ -11,7 +11,9 @@ public class AllowHandlerTest {
         String method = "OPTIONS";
         AllowHandler allowHandler = new AllowHandler();
         RequestParams requestParams = new RequestParamsBuilder().setPath(path).setMethod(method).build();
-        String result = allowHandler.createLine(requestParams);
+        ResponseParams responseParams = new ResponseParamsBuilder().build();
+
+        String result = allowHandler.createLine(requestParams, responseParams);
 
         assertEquals("Allow: GET, PUT, OPTIONS, POST, HEAD", result);
     }
@@ -22,7 +24,9 @@ public class AllowHandlerTest {
         String method = "GET";
         AllowHandler allowHandler = new AllowHandler();
         RequestParams requestParams = new RequestParamsBuilder().setPath(path).setMethod(method).build();
-        String result = allowHandler.createLine(requestParams);
+        ResponseParams responseParams = new ResponseParamsBuilder().build();
+
+        String result = allowHandler.createLine(requestParams, responseParams);
 
         assertEquals("", result);
     }

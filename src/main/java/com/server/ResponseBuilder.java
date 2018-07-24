@@ -8,7 +8,7 @@ public class ResponseBuilder {
     private ResponseParams responseParams;
 
     ResponseBuilder(RequestRouter requestRouter){
-        this.responseParams = new ResponseParams();
+        this.responseParams = new ResponseParamsBuilder().build();
         this.responseBodyBuilder = new ResponseBodyBuilder(requestRouter);
         this.responseHeaderBuilder = new ResponseHeaderBuilder(requestRouter);
     }

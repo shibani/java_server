@@ -14,7 +14,7 @@ public class ContentTypeHandler implements IResponseHeaderHandler {
         contentTypeHashtable.put("/text-file.txt", "text/plain");
     }
 
-    public String createLine(RequestParams requestParams){
+    public String createLine(RequestParams requestParams, ResponseParams responseParams){
         String value = (String)this.contentTypeHashtable.get(requestParams.getPath());
         return value == null ? "" : CONTENT_TYPE_KEY + ": " + value;
     }

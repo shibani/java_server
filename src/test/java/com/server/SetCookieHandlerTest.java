@@ -15,8 +15,10 @@ public class SetCookieHandlerTest {
         queryComponent.put("type", "chocolate");
 
         RequestParams requestParams = new RequestParamsBuilder().setPath(path).setMethod(method).setQueryComponent(queryComponent).build();
+        ResponseParams responseParams = new ResponseParamsBuilder().build();
+
         SetCookieHandler setCookieHandler = new SetCookieHandler();
-        String result = setCookieHandler.createLine(requestParams);
+        String result = setCookieHandler.createLine(requestParams, responseParams);
 
         assertEquals("Set-Cookie: type=chocolate", result);
     }
@@ -26,8 +28,10 @@ public class SetCookieHandlerTest {
         String path = "/foo";
         String method = "GET";
         RequestParams requestParams = new RequestParamsBuilder().setPath(path).setMethod(method).build();
+        ResponseParams responseParams = new ResponseParamsBuilder().build();
+
         SetCookieHandler setCookieHandler = new SetCookieHandler();
-        String result = setCookieHandler.createLine(requestParams);
+        String result = setCookieHandler.createLine(requestParams, responseParams);
 
         assertEquals("", result);
     }

@@ -12,7 +12,7 @@ public class AllowHandler implements IResponseHeaderHandler {
         allowHashtable.put("/method_options2", "GET, OPTIONS, HEAD");
     }
 
-    public String createLine(RequestParams requestParams){
+    public String createLine(RequestParams requestParams, ResponseParams responseParams){
         String value = (String)this.allowHashtable.get(requestParams.getPath());
         return value == null ? "" : ALLOW_KEY + ": " + value;
     }

@@ -10,7 +10,7 @@ public class SetCookieHandler implements IResponseHeaderHandler {
         this.setCookieHashtable = new Hashtable<>();
     }
 
-    public String createLine(RequestParams requestParams){
+    public String createLine(RequestParams requestParams, ResponseParams responseParams){
         if (requestParams.getPath().equals("/cookie")) {
             setCookieHashtable.put("/cookie", cookiePathValue(requestParams));
         }
