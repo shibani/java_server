@@ -64,11 +64,6 @@ public class HTTPServerManager {
         return bufferedReader;
     }
 
-    private PrintWriter openOutputStream(Socket socket) throws IOException {
-        PrintWriter printWriter = new PrintWriter(socket.getOutputStream(), true);
-        return printWriter;
-    }
-
     private void stopServer(ServerSocket serverSocket, Socket clientSocket) throws IOException {
         clientSocket.close();
         serverSocket.close();
