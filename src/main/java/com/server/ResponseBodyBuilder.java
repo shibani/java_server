@@ -16,7 +16,7 @@ public class ResponseBodyBuilder {
     public byte[] getBody(RequestParams requestParams, ResponseParams responseParams) throws IOException {
         this.responseParams = responseParams;
         String path = requestParams.getPath();
-        if (requestParams.getPath().equals("/file1")) {
+        if (path.equals("/file1")) {
             String filePath = requestParams.getDirectory() + path;
             File file = new File(filePath);
             this.body = getFileContents(file);
