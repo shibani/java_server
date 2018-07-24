@@ -23,6 +23,7 @@ public class RequestHeaderParser {
                 .setDirectory(extractDirectory())
                 .setQueryComponent(extractQueryComponent())
                 .setCookies(extractCookies())
+                .setRange(extractRange())
                 .build();
     }
 
@@ -82,6 +83,35 @@ public class RequestHeaderParser {
             }
         }
         return cookieTable;
+    }
+
+    private Hashtable<String, Integer> extractRange() {
+        Hashtable<String, Integer> rangeTable = new Hashtable<>();
+        if (headerString.contains("Range")){
+            String rangeLine = "";
+            String[] headerLines = headerString.split("\r\n");
+            for (String headerLine : headerLines){
+                if (headerLine.contains("Range")){
+                    rangeLine = headerLine;
+                    break;
+                }
+            }
+
+            rangeLine = rangeLine.replace("Range: bytes=", "");
+
+            int start = -1;
+            if (!rangeLine.split("[-]")[0].equals("")){
+                start = Integer.parseInt(rangeLine.split("-")[0]);
+            }
+            rangeTable.put("start", start);
+
+            int stop = -1;
+            if (rangeLine.split("[-]").length > 1){
+                stop = Integer.parseInt(rangeLine.split("-")[1]);
+            }
+            rangeTable.put("stop", stop);
+        }
+        return rangeTable;
     }
 
     public RequestParams getRequestParams() {

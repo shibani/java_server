@@ -155,7 +155,8 @@ public class ResponseBodyBuilderTest {
         RequestRouter rr = new RequestRouter();
         ResponseBodyBuilder responseBodyBuilder = new ResponseBodyBuilder(rr);
         RequestParams requestParams = new RequestParamsBuilder().setPath(path).setMethod(method).setDirectory(testDir).build();
-        byte[] body = responseBodyBuilder.getBody(requestParams, new ResponseParams(200));
+        ResponseParams responseParams = new ResponseParamsBuilder().setResponseCode(200).build();
+        byte[] body = responseBodyBuilder.getBody(requestParams, responseParams);
         int expected = 157751;
 
         assertEquals(expected, body.length);
@@ -170,7 +171,8 @@ public class ResponseBodyBuilderTest {
         RequestRouter rr = new RequestRouter();
         ResponseBodyBuilder responseBodyBuilder = new ResponseBodyBuilder(rr);
         RequestParams requestParams = new RequestParamsBuilder().setPath(path).setMethod(method).setDirectory(testDir).build();
-        byte[] body = responseBodyBuilder.getBody(requestParams, new ResponseParams(200));
+        ResponseParams responseParams = new ResponseParamsBuilder().setResponseCode(200).build();
+        byte[] body = responseBodyBuilder.getBody(requestParams, responseParams);
         int expected = 108763;
 
         assertEquals(expected, body.length);
@@ -185,9 +187,97 @@ public class ResponseBodyBuilderTest {
         RequestRouter rr = new RequestRouter();
         ResponseBodyBuilder responseBodyBuilder = new ResponseBodyBuilder(rr);
         RequestParams requestParams = new RequestParamsBuilder().setPath(path).setMethod(method).setDirectory(testDir).build();
-        byte[] body = responseBodyBuilder.getBody(requestParams, new ResponseParams(200));
+        ResponseParams responseParams = new ResponseParamsBuilder().setResponseCode(200).build();
+        byte[] body = responseBodyBuilder.getBody(requestParams, responseParams);
         int expected = 81892;
 
         assertEquals(expected, body.length);
+    }
+
+    @Test
+    public void getBodyReturnsPartialContentsFromTheEndOfTheFileIfStartIsNegativeOne() throws IOException {
+        String path = "/partial_content.txt";
+        String method = "GET";
+        File resourcesDirectory = new File("src/test/resources/test-partial-content");
+        String testDir = resourcesDirectory.getAbsolutePath();
+        Hashtable<String, Integer> rangeTable = new Hashtable<>();
+        rangeTable.put("start", -1);
+        rangeTable.put("stop", 5);
+
+        RequestRouter rr = new RequestRouter();
+        ResponseBodyBuilder responseBodyBuilder = new ResponseBodyBuilder(rr);
+        RequestParams requestParams = new RequestParamsBuilder().setPath(path).setDirectory(testDir).setMethod(method).setRange(rangeTable).build();
+        ResponseParams responseParams = new ResponseParamsBuilder().build();
+
+        String body = new String(responseBodyBuilder.getBody(requestParams, responseParams));
+
+        assertEquals("206.\n", body);
+        assertEquals(206, responseBodyBuilder.responseParams.getResponseCode());
+        assertEquals(77, responseBodyBuilder.responseParams.getContentLength());
+    }
+
+    @Test
+    public void getBodyReturnsPartialContentOfFile() throws IOException {
+        String path = "/partial_content.txt";
+        String method = "GET";
+        File resourcesDirectory = new File("src/test/resources/test-partial-content");
+        String testDir = resourcesDirectory.getAbsolutePath();
+        Hashtable<String, Integer> rangeTable = new Hashtable<>();
+        rangeTable.put("start", 0);
+        rangeTable.put("stop", 4);
+
+        RequestRouter rr = new RequestRouter();
+        ResponseBodyBuilder responseBodyBuilder = new ResponseBodyBuilder(rr);
+        RequestParams requestParams = new RequestParamsBuilder().setPath(path).setDirectory(testDir).setMethod(method).setRange(rangeTable).build();
+        ResponseParams responseParams = new ResponseParamsBuilder().build();
+
+        String body = new String(responseBodyBuilder.getBody(requestParams, responseParams));
+
+        assertEquals("This ", body);
+        assertEquals(206, responseBodyBuilder.responseParams.getResponseCode());
+        assertEquals(77, responseBodyBuilder.responseParams.getContentLength());
+    }
+
+    @Test
+    public void getBodyReturnsPartialContentsFromStartToEOFWhenStopIsNegativeOne() throws IOException {
+        String path = "/partial_content.txt";
+        String method = "GET";
+        File resourcesDirectory = new File("src/test/resources/test-partial-content");
+        String testDir = resourcesDirectory.getAbsolutePath();
+        Hashtable<String, Integer> rangeTable = new Hashtable<>();
+        rangeTable.put("start", 10);
+        rangeTable.put("stop", -1);
+
+        RequestRouter rr = new RequestRouter();
+        ResponseBodyBuilder responseBodyBuilder = new ResponseBodyBuilder(rr);
+        RequestParams requestParams = new RequestParamsBuilder().setPath(path).setDirectory(testDir).setMethod(method).setRange(rangeTable).build();
+        ResponseParams responseParams = new ResponseParamsBuilder().build();
+
+        String body = new String(responseBodyBuilder.getBody(requestParams, responseParams));
+
+        assertEquals("file that contains text to read part of in order to fulfill a 206.\n", body);
+        assertEquals(206, responseBodyBuilder.responseParams.getResponseCode());
+        assertEquals(77, responseBodyBuilder.responseParams.getContentLength());
+    }
+    @Test
+    public void getBodyReturnsAnEmptyStringWithRangeIsUnsatisfiable() throws IOException {
+        String path = "/partial_content.txt";
+        String method = "GET";
+        File resourcesDirectory = new File("src/test/resources/test-partial-content");
+        String testDir = resourcesDirectory.getAbsolutePath();
+        Hashtable<String, Integer> rangeTable = new Hashtable<>();
+        rangeTable.put("start", 10);
+        rangeTable.put("stop", 10000);
+
+        RequestRouter rr = new RequestRouter();
+        ResponseBodyBuilder responseBodyBuilder = new ResponseBodyBuilder(rr);
+        RequestParams requestParams = new RequestParamsBuilder().setPath(path).setDirectory(testDir).setMethod(method).setRange(rangeTable).build();
+        ResponseParams responseParams = new ResponseParamsBuilder().build();
+
+        String body = new String(responseBodyBuilder.getBody(requestParams, responseParams));
+
+        assertEquals("", body);
+        assertEquals(416, responseBodyBuilder.responseParams.getResponseCode());
+        assertEquals(77, responseBodyBuilder.responseParams.getContentLength());
     }
 }

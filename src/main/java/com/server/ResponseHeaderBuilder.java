@@ -14,7 +14,7 @@ public class ResponseHeaderBuilder {
         String statusLine = statusHandler.createLine(requestParams, responseParams);
         appendLine(statusLine);
 
-        if (requestRouter.getResponseCode(requestParams) < 400){
+        if (requestRouter.getResponseCode(requestParams) < 400 || responseParams.getResponseCode() != 0){
             AllowHandler allowHandler = new AllowHandler();
             String allowLine = allowHandler.createLine(requestParams, responseParams);
             appendLine(allowLine);
@@ -28,12 +28,16 @@ public class ResponseHeaderBuilder {
             appendLine(contentTypeLine);
 
             ContentLengthHandler contentLengthHandler = new ContentLengthHandler(requestParams.getDirectory());
-            String contentLengthLine = contentLengthHandler.createLine(requestParams, new ResponseParams(200));
+            String contentLengthLine = contentLengthHandler.createLine(requestParams,responseParams);
             appendLine(contentLengthLine);
 
             SetCookieHandler setCookieHandler = new SetCookieHandler();
             String setCookieHandlerLine = setCookieHandler.createLine(requestParams, responseParams);
             appendLine(setCookieHandlerLine);
+
+            PartialContentHandler partialContentHandler = new PartialContentHandler();
+            String partialContentLine = partialContentHandler.createLine(requestParams, responseParams);
+            appendLine(partialContentLine);
         }
         String endOfHeader = "\r\n";
 

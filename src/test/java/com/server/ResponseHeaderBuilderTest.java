@@ -18,8 +18,9 @@ public class ResponseHeaderBuilderTest {
         mrr.setResponseCode(200);
         ResponseHeaderBuilder responseHeaderBuilder = new ResponseHeaderBuilder(mrr);
         RequestParams requestParams = new RequestParamsBuilder().setPath(path).setMethod(method).setDirectory(directory).build();
+        ResponseParams responseParams = new ResponseParamsBuilder().setResponseCode(200).build();
 
-        assertEquals("HTTP/1.1 200 OK\r\n\r\n", new String(responseHeaderBuilder.getHeader(requestParams, new ResponseParams(200))));
+        assertEquals("HTTP/1.1 200 OK\r\n\r\n", new String(responseHeaderBuilder.getHeader(requestParams,responseParams)));
     }
 
     @Test
@@ -30,8 +31,9 @@ public class ResponseHeaderBuilderTest {
         mrr.setResponseCode(200);
         ResponseHeaderBuilder responseHeaderBuilder = new ResponseHeaderBuilder(mrr);
         RequestParams requestParams = new RequestParamsBuilder().setPath(path).setMethod(method).build();
+        ResponseParams responseParams = new ResponseParamsBuilder().setResponseCode(200).build();
 
-        String header = new String(responseHeaderBuilder.getHeader(requestParams, new ResponseParams(200)));
+        String header = new String(responseHeaderBuilder.getHeader(requestParams, responseParams));
 
         String expected = "HTTP/1.1 200 OK\r\nAllow: GET, PUT, OPTIONS, POST, HEAD\r\n\r\n";
 
@@ -46,8 +48,9 @@ public class ResponseHeaderBuilderTest {
         mrr.setResponseCode(405);
         ResponseHeaderBuilder responseHeaderBuilder = new ResponseHeaderBuilder(mrr);
         RequestParams requestParams = new RequestParamsBuilder().setPath(path).setMethod(method).build();
+        ResponseParams responseParams = new ResponseParamsBuilder().build();
 
-        String header = new String(responseHeaderBuilder.getHeader(requestParams, new ResponseParams(200)));
+        String header = new String(responseHeaderBuilder.getHeader(requestParams, responseParams));
 
         String expected = "HTTP/1.1 405 Method Not Allowed\r\n\r\n";
 
