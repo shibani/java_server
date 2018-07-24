@@ -8,7 +8,6 @@ import java.net.ServerSocket;
 import static org.junit.Assert.*;
 
 public class HTTPServerManagerTest {
-/*
     @Test
     public void runServerSendsHTTPOKHeader () throws IOException {
         int portNumber = 5000;
@@ -214,5 +213,4 @@ public class HTTPServerManagerTest {
         String outgoingString = m.getOutgoingString();
         assertEquals(true, outgoingString.contains("200"));
     }
-    */
 }
