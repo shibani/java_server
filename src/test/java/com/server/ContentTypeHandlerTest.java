@@ -7,7 +7,7 @@ import static org.junit.Assert.*;
 public class ContentTypeHandlerTest {
 
     @Test
-    public void createLineReturnsANewContentTypeLine(){
+    public void createLineReturnsANewContentTypeLineForImageJpeg(){
         String path = "/image.jpeg";
         String method = "GET";
         ContentTypeHandler contentTypeHandler = new ContentTypeHandler();
@@ -16,7 +16,20 @@ public class ContentTypeHandlerTest {
 
         String result = contentTypeHandler.createLine(requestParams, responseParams);
 
-        assertEquals("Content-Type: image/jpeg", result);
+        assertTrue(result.contains("Content-Type: image/jpeg"));
+    }
+
+    @Test
+    public void createLineReturnsANewContentTypeLineForImagePng(){
+        String path = "/image.png";
+        String method = "GET";
+        ContentTypeHandler contentTypeHandler = new ContentTypeHandler();
+        RequestParams requestParams = new RequestParamsBuilder().setPath(path).setMethod(method).build();
+        ResponseParams responseParams = new ResponseParamsBuilder().build();
+
+        String result = contentTypeHandler.createLine(requestParams, responseParams);
+
+        assertTrue(result.contains("Content-Type: image/png"));
     }
 
     @Test

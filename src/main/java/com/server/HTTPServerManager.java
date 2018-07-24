@@ -1,7 +1,12 @@
 package com.server;
 
+import javax.imageio.ImageIO;
+import javax.imageio.stream.ImageInputStream;
+import java.awt.image.BufferedImage;
 import java.net.*;
 import java.io.*;
+import java.nio.ByteBuffer;
+import java.util.Arrays;
 
 public class HTTPServerManager {
 
@@ -25,14 +30,18 @@ public class HTTPServerManager {
             RequestReader requestHeaderReader = new RequestReader(in);
             RequestHeaderParser requestHeaderParser = new RequestHeaderParser(requestHeaderReader.getHeader(), serverConfig.getDirectory());
 
-            PrintWriter out = openOutputStream(clientSocket);
-
             RequestParams requestParams = requestHeaderParser.getRequestParams();
 
             ResponseBuilder responseBuilder = new ResponseBuilder(requestRouter);
 
-
-            out.println(responseBuilder.getResponse(requestParams));
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            baos.write(responseBuilder.getResponse(requestParams));
+            byte[] result = baos.toByteArray();
+            BufferedOutputStream outputStream = new BufferedOutputStream(clientSocket.getOutputStream());
+            outputStream.write(result);
+            baos.flush();
+            baos.close();
+            outputStream.close();
 
             stopServer(serverSocket, clientSocket);
         }
@@ -53,11 +62,6 @@ public class HTTPServerManager {
     private BufferedReader openInputStream(Socket socket) throws IOException {
         BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         return bufferedReader;
-    }
-
-    private PrintWriter openOutputStream(Socket socket) throws IOException {
-        PrintWriter printWriter = new PrintWriter(socket.getOutputStream(), true);
-        return printWriter;
     }
 
     private void stopServer(ServerSocket serverSocket, Socket clientSocket) throws IOException {

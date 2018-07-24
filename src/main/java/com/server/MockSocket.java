@@ -27,7 +27,7 @@ public class MockSocket extends Socket{
     }
 
     public String getOutgoingString() {
-        return outgoingStream.toString();
+        return new String(outgoingStream.toByteArray());
     }
 
     public void setRequestHeader(String method, String path) {

@@ -1,10 +1,11 @@
 package com.server;
 
+import javax.imageio.ImageIO;
+import javax.imageio.stream.ImageInputStream;
 import java.io.*;
 
 public class ResponseBodyBuilder {
-    private String body = "";
-    private String publicDir = "";
+    private byte[] body;
     private RequestRouter requestRouter;
     public ResponseParams responseParams;
 
@@ -12,64 +13,68 @@ public class ResponseBodyBuilder {
         this.requestRouter = requestRouter;
     }
 
-    public String getBody(RequestParams requestParams, ResponseParams responseParams) throws IOException {
+    public byte[] getBody(RequestParams requestParams, ResponseParams responseParams) throws IOException {
         this.responseParams = responseParams;
-
-        if (requestParams.getPath().equals("/file1")) {
-            String filePath = requestParams.getDirectory() + requestParams.getPath();
+        String path = requestParams.getPath();
+        if (path.equals("/file1")) {
+            String filePath = requestParams.getDirectory() + path;
             File file = new File(filePath);
             this.body = getFileContents(file);
-        } else if (requestParams.getPath().equals("/coffee")) {
+        } else if (path.equals("/coffee")) {
             this.body = coffeeBody(requestParams);
-        } else if (requestParams.getPath().equals("/cookie")) {
+        } else if (path.equals("/cookie")) {
             this.body = cookieBody(requestParams);
-        } else if (requestParams.getPath().equals("/eat_cookie")) {
+        } else if (path.equals("/eat_cookie")) {
             this.body = eatCookieBody(requestParams);
-        } else if (requestParams.getPath().equals("/")) {
+        } else if (path.equals("/")) {
             this.body = directoryLinksBody(requestParams);
-        } else if (requestParams.getPath().equals("/parameters")) {
+        } else if (path.equals("/parameters")) {
             this.body = parametersBody(requestParams);
+        } else if (path.equals("/image.jpeg") || path.equals("/image.png") || path.equals("/image.gif")) {
+            this.body = imageBody(requestParams);
         } else {
-            this.body = "";
+            this.body = new byte[0];
         }
         return this.body;
     }
 
-    private String parametersBody(RequestParams requestParams) {
+    private byte[] parametersBody(RequestParams requestParams) {
         String parameterBody = "";
         for (Object key : requestParams.getQueryComponent().keySet()) {
             parameterBody = parameterBody + key.toString() + " = " + requestParams.getQueryComponent().get(key) + "\n";
         }
-        return parameterBody.trim();
+        String value = parameterBody.trim();
+        return value.getBytes();
     }
 
-    private String coffeeBody(RequestParams requestParams){
-        return "I'm a teapot";
+    private byte[] coffeeBody(RequestParams requestParams){
+        return "I'm a teapot".getBytes();
     }
 
-    private String cookieBody(RequestParams requestParams){
-        return "Eat";
+    private byte[] cookieBody(RequestParams requestParams){
+        return "Eat".getBytes();
     }
 
-    public String eatCookieBody(RequestParams requestParams) {
-        return "mmmm " + requestParams.getCookies().get("type");
+    public byte[] eatCookieBody(RequestParams requestParams) {
+        String value = "mmmm " + requestParams.getCookies().get("type");
+        return value.getBytes();
     }
 
-    private String directoryLinksBody(RequestParams requestParams) throws IOException {
+    private byte[] directoryLinksBody(RequestParams requestParams) throws IOException {
         String dirPath = requestParams.getDirectory() + requestParams.getPath();
         String linkedFilesBody = getLinkedFiles(dirPath);
+        String value = "";
         if(!linkedFilesBody.equals("")) {
-            return htmlBuilder().replace("$body", linkedFilesBody);
-        } else {
-            return "";
+            value = htmlBuilder().replace("$body", linkedFilesBody);
         }
+        return value.getBytes();
     }
 
-    private String getFileContents(File file) throws IOException {
+    private byte[] getFileContents(File file) throws IOException {
         FileReader fileReader = new FileReader(file);
         BufferedReader bufferedReader = new BufferedReader(fileReader);
         RequestReader reader = new RequestReader(bufferedReader);
-        return reader.getRequestedFileContents();
+        return reader.getRequestedFileContents().getBytes();
     }
 
     private String getLinkedFiles(String dirPath){
@@ -107,5 +112,23 @@ public class ResponseBodyBuilder {
                 "</head>" +
                 "<body>$body</body>" +
                 "</html>";
+    }
+
+    private byte[] imageBody(RequestParams requestParams) throws IOException {
+        File f = new File(requestParams.getDirectory() + requestParams.getPath());
+
+        ImageInputStream inputStream = ImageIO.createImageInputStream(f);
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+
+        int byteToBeRead = -1;
+        while((byteToBeRead = inputStream.read())!=-1){
+            outputStream.write(byteToBeRead);
+        }
+        byte[] imageContents = outputStream.toByteArray();
+
+        outputStream.flush();
+        outputStream.close();
+
+        return imageContents;
     }
 }
