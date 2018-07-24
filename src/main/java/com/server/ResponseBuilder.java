@@ -18,17 +18,16 @@ public class ResponseBuilder {
         byte[] body = this.responseBodyBuilder.getBody(requestParams, responseParams);
         byte[] header = this.responseHeaderBuilder.getHeader(requestParams, this.responseBodyBuilder.responseParams);
 
-        if (body.length == 0) {
-            return header;
-        }
-        else {
-            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-            outputStream.write(header);
-            outputStream.write(body);
-            byte[] response = outputStream.toByteArray();
-            outputStream.flush();
-            outputStream.close();
-            return response;
-        }
+        return combine(header, body);
+    }
+
+    private byte[] combine(byte[] firstArray, byte[] secondArray) throws IOException {
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        outputStream.write(firstArray);
+        outputStream.write(secondArray);
+        byte[] result = outputStream.toByteArray();
+        outputStream.flush();
+        outputStream.close();
+        return result;
     }
 }
