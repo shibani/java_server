@@ -12,7 +12,8 @@ public class LocationHandlerTest {
         String method = "GET";
         LocationHandler locationHandler = new LocationHandler();
         RequestParams requestParams = new RequestParamsBuilder().setPath(path).setMethod(method).build();
-        String result = locationHandler.createLine(requestParams);
+        ResponseParams responseParams = new ResponseParamsBuilder().build();
+        String result = locationHandler.createLine(requestParams, responseParams);
 
         assertEquals("Location: /", result);
     }
@@ -23,7 +24,9 @@ public class LocationHandlerTest {
         String method = "GET";
         LocationHandler locationHandler = new LocationHandler();
         RequestParams requestParams = new RequestParamsBuilder().setPath(path).setMethod(method).build();
-        String result = locationHandler.createLine(requestParams);
+        ResponseParams responseParams = new ResponseParamsBuilder().build();
+
+        String result = locationHandler.createLine(requestParams, responseParams);
 
         assertEquals("", result);
     }

@@ -8,9 +8,11 @@ public class RequestHeaderParser {
 
     private String headerString;
     private RequestParams requestParams;
+    private String directory;
 
-    RequestHeaderParser(String headerString) throws UnsupportedEncodingException {
+    RequestHeaderParser(String headerString, String directory) throws UnsupportedEncodingException {
         this.headerString = headerString;
+        this.directory = directory;
         buildRequestParams();
     }
 
@@ -18,9 +20,14 @@ public class RequestHeaderParser {
         requestParams = new RequestParamsBuilder()
                 .setPath(extractPath())
                 .setMethod(extractMethod())
+                .setDirectory(extractDirectory())
                 .setQueryComponent(extractQueryComponent())
                 .setCookies(extractCookies())
                 .build();
+    }
+
+    private String extractDirectory(){
+        return this.directory.trim();
     }
 
     private String extractMethod() {

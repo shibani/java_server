@@ -18,7 +18,7 @@ public class StatusHandler implements IResponseHeaderHandler {
         statusHashtable.put(418, "418 I'm a teapot");
     }
 
-    public String createLine(RequestParams requestParams){
+    public String createLine(RequestParams requestParams, ResponseParams responseParams){
         int responseCode = this.requestRouter.getResponseCode(requestParams);
 
         StringBuilder stringBuilder = new StringBuilder();

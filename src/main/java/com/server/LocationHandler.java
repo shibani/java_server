@@ -11,7 +11,7 @@ public class LocationHandler implements IResponseHeaderHandler {
         locationHashtable.put("/redirect", "/");
     }
 
-    public String createLine(RequestParams requestParams){
+    public String createLine(RequestParams requestParams, ResponseParams responseParams){
         String value = (String)this.locationHashtable.get(requestParams.getPath());
         return value == null ? "" : LOCATION_KEY + ": " + value;
     }

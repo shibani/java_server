@@ -13,8 +13,8 @@ public class ResponseBuilderTest {
         String publicDir = "/foo";
         RequestRouter rr = new RequestRouter();
         ResponseHeaderBuilder rhb = new ResponseHeaderBuilder(rr);
-        ResponseBodyBuilder rbb = new ResponseBodyBuilder(rr, publicDir);
-        ResponseBuilder responseBuilder = new ResponseBuilder(rhb, rbb);
+        ResponseBodyBuilder rbb = new ResponseBodyBuilder(rr);
+        ResponseBuilder responseBuilder = new ResponseBuilder(rr);
         RequestParams requestParams = new RequestParamsBuilder().setPath(path).setMethod(method).build();
         String response = responseBuilder.getResponse(requestParams);
 
@@ -30,8 +30,8 @@ public class ResponseBuilderTest {
         String publicDir = "/foo";
         RequestRouter rr = new RequestRouter();
         ResponseHeaderBuilder rhb = new ResponseHeaderBuilder(rr);
-        ResponseBodyBuilder rbb = new ResponseBodyBuilder(rr, publicDir);
-        ResponseBuilder responseBuilder = new ResponseBuilder(rhb, rbb);
+        ResponseBodyBuilder rbb = new ResponseBodyBuilder(rr);
+        ResponseBuilder responseBuilder = new ResponseBuilder(rr);
         RequestParams requestParams = new RequestParamsBuilder().setPath(path).setMethod(method).build();
         String response = responseBuilder.getResponse(requestParams);
 
