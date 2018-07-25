@@ -1,6 +1,9 @@
 package com.server;
 
 import org.junit.Test;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Hashtable;
@@ -16,10 +19,10 @@ public class ResponseBodyBuilderTest {
         String method = "GET";
 
         RequestRouter rr = new RequestRouter();
-        ResponseParams responseParams = new ResponseParamsBuilder().build();
-
         ResponseBodyBuilder responseBodyBuilder = new ResponseBodyBuilder(rr);
         RequestParams requestParams = new RequestParamsBuilder().setPath(path).setMethod(method).build();
+        ResponseParams responseParams = new ResponseParamsBuilder().build();
+
         byte[] body = responseBodyBuilder.getBody(requestParams, responseParams);
         String expected = "I'm a teapot";
 
@@ -37,10 +40,9 @@ public class ResponseBodyBuilderTest {
         cookies.put("type", "chocolate");
 
         RequestRouter rr = new RequestRouter();
-        ResponseParams responseParams = new ResponseParamsBuilder().build();
-
         ResponseBodyBuilder responseBodyBuilder = new ResponseBodyBuilder(rr);
         RequestParams requestParams = new RequestParamsBuilder().setPath(path).setMethod(method).setCookies(cookies).build();
+        ResponseParams responseParams = new ResponseParamsBuilder().build();
 
         byte[] body = responseBodyBuilder.getBody(requestParams, responseParams);
 
@@ -59,10 +61,10 @@ public class ResponseBodyBuilderTest {
         String testDir = resourcesDirectory.getAbsolutePath();
 
         RequestRouter rr = new RequestRouter();
-        ResponseParams responseParams = new ResponseParamsBuilder().build();
-
         ResponseBodyBuilder responseBodyBuilder = new ResponseBodyBuilder(rr);
         RequestParams requestParams = new RequestParamsBuilder().setPath(path).setMethod(method).setDirectory(testDir).build();
+        ResponseParams responseParams = new ResponseParamsBuilder().build();
+
         byte[] body = responseBodyBuilder.getBody(requestParams, responseParams);
 
         String expected = "";
@@ -79,11 +81,12 @@ public class ResponseBodyBuilderTest {
         String publicDir = "/foo";
         Hashtable<String, String> queryComponents = new Hashtable<>();
         queryComponents.put("key", "value");
-        RequestRouter rr = new RequestRouter();
-        ResponseParams responseParams = new ResponseParamsBuilder().build();
 
+        RequestRouter rr = new RequestRouter();
         ResponseBodyBuilder responseBodyBuilder = new ResponseBodyBuilder(rr);
         RequestParams requestParams = new RequestParamsBuilder().setPath(path).setMethod(method).setQueryComponent(queryComponents).build();
+        ResponseParams responseParams = new ResponseParamsBuilder().build();
+
         byte[] body = responseBodyBuilder.getBody(requestParams, responseParams);
 
         String expected = "key = value";
@@ -99,11 +102,12 @@ public class ResponseBodyBuilderTest {
         String method = "GET";
         File resourcesDirectory = new File("src/test/resources/test-file1-contents");
         String testDir = resourcesDirectory.getAbsolutePath();
-        RequestRouter rr = new RequestRouter();
-        ResponseParams responseParams = new ResponseParamsBuilder().build();
 
+        RequestRouter rr = new RequestRouter();
         ResponseBodyBuilder responseBodyBuilder = new ResponseBodyBuilder(rr);
         RequestParams requestParams = new RequestParamsBuilder().setPath(path).setMethod(method).setDirectory(testDir).build();
+        ResponseParams responseParams = new ResponseParamsBuilder().build();
+
         String body = new String(responseBodyBuilder.getBody(requestParams, responseParams));
 
         String expected = "file1 contents";
@@ -117,11 +121,12 @@ public class ResponseBodyBuilderTest {
         String method = "GET";
         File resourcesDirectory = new File("src/test/resources/test-listing");
         String testDir = resourcesDirectory.getAbsolutePath();
-        RequestRouter rr = new RequestRouter();
-        ResponseParams responseParams = new ResponseParamsBuilder().build();
 
+        RequestRouter rr = new RequestRouter();
         ResponseBodyBuilder responseBodyBuilder = new ResponseBodyBuilder(rr);
         RequestParams requestParams = new RequestParamsBuilder().setPath(path).setMethod(method).setDirectory(testDir).build();
+        ResponseParams responseParams = new ResponseParamsBuilder().build();
+
         String body = new String(responseBodyBuilder.getBody(requestParams, responseParams));
 
         assertTrue(body.contains("<a href=\""));
@@ -135,11 +140,12 @@ public class ResponseBodyBuilderTest {
         String method = "GET";
         File resourcesDirectory = new File("src/test/resources/test-listing");
         String testDir = resourcesDirectory.getAbsolutePath();
-        RequestRouter rr = new RequestRouter();
-        ResponseParams responseParams = new ResponseParamsBuilder().build();
 
+        RequestRouter rr = new RequestRouter();
         ResponseBodyBuilder responseBodyBuilder = new ResponseBodyBuilder(rr);
         RequestParams requestParams = new RequestParamsBuilder().setPath(path).setMethod(method).setDirectory(testDir).build();
+        ResponseParams responseParams = new ResponseParamsBuilder().build();
+
         String body = new String(responseBodyBuilder.getBody(requestParams, responseParams));
 
         assertTrue(body.contains("<a href=\""));
@@ -152,10 +158,13 @@ public class ResponseBodyBuilderTest {
         String method = "GET";
         File resourcesDirectory = new File("src/test/resources/test-image-contents");
         String testDir = resourcesDirectory.getAbsolutePath();
+
         RequestRouter rr = new RequestRouter();
         ResponseBodyBuilder responseBodyBuilder = new ResponseBodyBuilder(rr);
         RequestParams requestParams = new RequestParamsBuilder().setPath(path).setMethod(method).setDirectory(testDir).build();
-        byte[] body = responseBodyBuilder.getBody(requestParams, new ResponseParams(200));
+        ResponseParams responseParams = new ResponseParamsBuilder().setResponseCode(200).build();
+
+        byte[] body = responseBodyBuilder.getBody(requestParams, responseParams);
         int expected = 157751;
 
         assertEquals(expected, body.length);
@@ -167,10 +176,13 @@ public class ResponseBodyBuilderTest {
         String method = "GET";
         File resourcesDirectory = new File("src/test/resources/test-image-contents");
         String testDir = resourcesDirectory.getAbsolutePath();
+
         RequestRouter rr = new RequestRouter();
         ResponseBodyBuilder responseBodyBuilder = new ResponseBodyBuilder(rr);
         RequestParams requestParams = new RequestParamsBuilder().setPath(path).setMethod(method).setDirectory(testDir).build();
-        byte[] body = responseBodyBuilder.getBody(requestParams, new ResponseParams(200));
+        ResponseParams responseParams = new ResponseParamsBuilder().setResponseCode(200).build();
+
+        byte[] body = responseBodyBuilder.getBody(requestParams, responseParams);
         int expected = 108763;
 
         assertEquals(expected, body.length);
@@ -182,12 +194,218 @@ public class ResponseBodyBuilderTest {
         String method = "GET";
         File resourcesDirectory = new File("src/test/resources/test-image-contents");
         String testDir = resourcesDirectory.getAbsolutePath();
+
         RequestRouter rr = new RequestRouter();
         ResponseBodyBuilder responseBodyBuilder = new ResponseBodyBuilder(rr);
         RequestParams requestParams = new RequestParamsBuilder().setPath(path).setMethod(method).setDirectory(testDir).build();
-        byte[] body = responseBodyBuilder.getBody(requestParams, new ResponseParams(200));
+        ResponseParams responseParams = new ResponseParamsBuilder().setResponseCode(200).build();
+
+        byte[] body = responseBodyBuilder.getBody(requestParams, responseParams);
         int expected = 81892;
 
         assertEquals(expected, body.length);
+    }
+
+    @Test
+    public void getBodyReturnsPartialContentsFromTheEndOfTheFileIfStartIsNegativeOne() throws IOException {
+        String path = "/partial_content.txt";
+        String method = "GET";
+        File resourcesDirectory = new File("src/test/resources/test-partial-content");
+        String testDir = resourcesDirectory.getAbsolutePath();
+        Hashtable<String, Integer> rangeTable = new Hashtable<>();
+        rangeTable.put("start", -1);
+        rangeTable.put("stop", 5);
+
+        RequestRouter rr = new RequestRouter();
+        ResponseBodyBuilder responseBodyBuilder = new ResponseBodyBuilder(rr);
+        RequestParams requestParams = new RequestParamsBuilder().setPath(path).setDirectory(testDir).setMethod(method).setRange(rangeTable).build();
+        ResponseParams responseParams = new ResponseParamsBuilder().build();
+
+        String body = new String(responseBodyBuilder.getBody(requestParams, responseParams));
+
+        assertEquals("206.\n", body);
+        assertEquals(206, responseBodyBuilder.responseParams.getResponseCode());
+        assertEquals(77, responseBodyBuilder.responseParams.getContentLength());
+    }
+
+    @Test
+    public void getBodyReturnsPartialContentOfFile() throws IOException {
+        String path = "/partial_content.txt";
+        String method = "GET";
+        File resourcesDirectory = new File("src/test/resources/test-partial-content");
+        String testDir = resourcesDirectory.getAbsolutePath();
+        Hashtable<String, Integer> rangeTable = new Hashtable<>();
+        rangeTable.put("start", 0);
+        rangeTable.put("stop", 4);
+
+        RequestRouter rr = new RequestRouter();
+        ResponseBodyBuilder responseBodyBuilder = new ResponseBodyBuilder(rr);
+        RequestParams requestParams = new RequestParamsBuilder().setPath(path).setDirectory(testDir).setMethod(method).setRange(rangeTable).build();
+        ResponseParams responseParams = new ResponseParamsBuilder().build();
+
+        String body = new String(responseBodyBuilder.getBody(requestParams, responseParams));
+
+        assertEquals("This ", body);
+        assertEquals(206, responseBodyBuilder.responseParams.getResponseCode());
+        assertEquals(77, responseBodyBuilder.responseParams.getContentLength());
+    }
+
+    @Test
+    public void getBodyReturnsPartialContentsFromStartToEOFWhenStopIsNegativeOne() throws IOException {
+        String path = "/partial_content.txt";
+        String method = "GET";
+        File resourcesDirectory = new File("src/test/resources/test-partial-content");
+        String testDir = resourcesDirectory.getAbsolutePath();
+        Hashtable<String, Integer> rangeTable = new Hashtable<>();
+        rangeTable.put("start", 10);
+        rangeTable.put("stop", -1);
+
+        RequestRouter rr = new RequestRouter();
+        ResponseBodyBuilder responseBodyBuilder = new ResponseBodyBuilder(rr);
+        RequestParams requestParams = new RequestParamsBuilder().setPath(path).setDirectory(testDir).setMethod(method).setRange(rangeTable).build();
+        ResponseParams responseParams = new ResponseParamsBuilder().build();
+
+        String body = new String(responseBodyBuilder.getBody(requestParams, responseParams));
+
+        assertEquals("file that contains text to read part of in order to fulfill a 206.\n", body);
+        assertEquals(206, responseBodyBuilder.responseParams.getResponseCode());
+        assertEquals(77, responseBodyBuilder.responseParams.getContentLength());
+    }
+    @Test
+    public void getBodyReturnsAnEmptyStringWithRangeIsUnsatisfiable() throws IOException {
+        String path = "/partial_content.txt";
+        String method = "GET";
+        File resourcesDirectory = new File("src/test/resources/test-partial-content");
+        String testDir = resourcesDirectory.getAbsolutePath();
+        Hashtable<String, Integer> rangeTable = new Hashtable<>();
+        rangeTable.put("start", 10);
+        rangeTable.put("stop", 10000);
+
+        RequestRouter rr = new RequestRouter();
+        ResponseBodyBuilder responseBodyBuilder = new ResponseBodyBuilder(rr);
+        RequestParams requestParams = new RequestParamsBuilder().setPath(path).setDirectory(testDir).setMethod(method).setRange(rangeTable).build();
+        ResponseParams responseParams = new ResponseParamsBuilder().build();
+
+        String body = new String(responseBodyBuilder.getBody(requestParams, responseParams));
+
+        assertEquals("", body);
+        assertEquals(416, responseBodyBuilder.responseParams.getResponseCode());
+        assertEquals(77, responseBodyBuilder.responseParams.getContentLength());
+    }
+
+    @Test
+    public void getBodyCanCreateAndWriteToAFile() throws IOException {
+        String path = "/cat-form";
+        String method = "POST";
+        String bodyContent = "data=fatcat";
+        File resourcesDirectory = new File("src/test/resources/test-listing");
+        String testDir = resourcesDirectory.getAbsolutePath();
+
+        RequestRouter rr = new RequestRouter();
+        ResponseBodyBuilder responseBodyBuilder = new ResponseBodyBuilder(rr);
+        RequestParams requestParams = new RequestParamsBuilder().setPath(path).setMethod(method).setDirectory(testDir).build();
+        ResponseParams responseParams = new ResponseParamsBuilder().build();
+
+        byte[] body = responseBodyBuilder.getBody(requestParams, responseParams);
+
+        final File folder = new File(requestParams.getDirectory() + requestParams.getPath());
+        StringBuilder fileNames = new StringBuilder();
+        if(folder.listFiles() != null){
+            for (final File fileEntry : folder.listFiles()) {
+                fileNames.append(fileEntry.getName());
+                fileNames.append(" ");
+            }
+        }
+        String filenames = fileNames.toString();
+
+        String resourceName = "/data";
+        String filePath = requestParams.getDirectory() + requestParams.getPath() + resourceName;
+        File file = new File(filePath);
+        FileReader fileReader = new FileReader(file);
+        BufferedReader bufferedReader = new BufferedReader(fileReader);
+        RequestReader reader = new RequestReader(bufferedReader);
+        String content = reader.getRequestedFileContents();
+
+        assertTrue(filenames.contains("data"));
+        assertEquals(201, responseBodyBuilder.responseParams.getResponseCode());
+        assertEquals("/cat-form/data", responseBodyBuilder.responseParams.getLocationHeader());
+        assertEquals("data=fatcat", content);
+    }
+
+    @Test
+    public void getBodyCanReadAFile() throws IOException {
+        String path = "/cat-form/data";
+        String method = "GET";
+        File resourcesDirectory = new File("src/test/resources/test-listing");
+        String testDir = resourcesDirectory.getAbsolutePath();
+
+        RequestRouter rr = new RequestRouter();
+        ResponseBodyBuilder responseBodyBuilder = new ResponseBodyBuilder(rr);
+        RequestParams requestParams = new RequestParamsBuilder().setPath(path).setMethod(method).setDirectory(testDir).build();
+        ResponseParams responseParams = new ResponseParamsBuilder().build();
+
+        byte[] body = responseBodyBuilder.getBody(requestParams, responseParams);
+
+        String filePath = requestParams.getDirectory() + requestParams.getPath();
+        File file = new File(filePath);
+        FileReader fileReader = new FileReader(file);
+        BufferedReader bufferedReader = new BufferedReader(fileReader);
+        RequestReader reader = new RequestReader(bufferedReader);
+        String content = reader.getRequestedFileContents();
+
+        assertEquals("data=fatcat", content);
+    }
+
+    @Test
+    public void getBodyCanUpdateAFile() throws IOException {
+        String path = "/cat-form/data";
+        String method = "PUT";
+        File resourcesDirectory = new File("src/test/resources/test-listing");
+        String testDir = resourcesDirectory.getAbsolutePath();
+
+        RequestRouter rr = new RequestRouter();
+        ResponseBodyBuilder responseBodyBuilder = new ResponseBodyBuilder(rr);
+        RequestParams requestParams = new RequestParamsBuilder().setPath(path).setMethod(method).setDirectory(testDir).build();
+        ResponseParams responseParams = new ResponseParamsBuilder().build();
+
+        byte[] body = responseBodyBuilder.getBody(requestParams, responseParams);
+
+        String filePath = requestParams.getDirectory() + requestParams.getPath();
+        File file = new File(filePath);
+        FileReader fileReader = new FileReader(file);
+        BufferedReader bufferedReader = new BufferedReader(fileReader);
+        RequestReader reader = new RequestReader(bufferedReader);
+        String content = reader.getRequestedFileContents();
+
+        assertEquals(200, responseBodyBuilder.responseParams.getResponseCode());
+        assertEquals("data=heathcliff", content);
+    }
+
+    @Test
+    public void getBodyCanDeleteAFile() throws IOException {
+        String path = "/cat-form/data";
+        String method = "DELETE";
+        File resourcesDirectory = new File("src/test/resources/test-listing");
+        String testDir = resourcesDirectory.getAbsolutePath();
+
+        RequestRouter rr = new RequestRouter();
+        ResponseBodyBuilder responseBodyBuilder = new ResponseBodyBuilder(rr);
+        RequestParams requestParams = new RequestParamsBuilder().setPath(path).setMethod(method).setDirectory(testDir).build();
+        ResponseParams responseParams = new ResponseParamsBuilder().build();
+
+        byte[] body = responseBodyBuilder.getBody(requestParams, responseParams);
+
+        final File folder = new File(requestParams.getDirectory() + requestParams.getPath());
+        StringBuilder fileNames = new StringBuilder();
+        if(folder.listFiles() != null){
+            for (final File fileEntry : folder.listFiles()) {
+                fileNames.append(fileEntry.getName());
+                fileNames.append(" ");
+            }
+        }
+        String filenames = fileNames.toString();
+
+        assertFalse(filenames.contains("data"));
+        assertEquals(200, responseBodyBuilder.responseParams.getResponseCode());
     }
 }

@@ -27,6 +27,15 @@ public class RequestReader {
         return read("");
     }
 
+    public String getBody() throws IOException {
+        return readBody();
+    }
+
+    private String readBody() throws IOException {
+        //return read("\r\n");
+        return "test";
+    }
+
     private String read(String separator) throws IOException {
         StringBuilder content = new StringBuilder();
         String line = this.bufferedReader.readLine();

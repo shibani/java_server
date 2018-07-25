@@ -28,7 +28,7 @@ public class HTTPServerManager {
             BufferedReader in = openInputStream(clientSocket);
 
             RequestReader requestHeaderReader = new RequestReader(in);
-            RequestHeaderParser requestHeaderParser = new RequestHeaderParser(requestHeaderReader.getHeader(), serverConfig.getDirectory());
+            RequestHeaderParser requestHeaderParser = new RequestHeaderParser(requestHeaderReader.getHeader(), requestHeaderReader.getBody(), serverConfig.getDirectory());
 
             RequestParams requestParams = requestHeaderParser.getRequestParams();
 

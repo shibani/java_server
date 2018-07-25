@@ -30,4 +30,17 @@ public class LocationHandlerTest {
 
         assertEquals("", result);
     }
+
+    @Test
+    public void createLineReturnsStringFromTheResponseParamsObjectIfFound(){
+        String path = "/foo";
+        String method = "GET";
+        LocationHandler locationHandler = new LocationHandler();
+        RequestParams requestParams = new RequestParamsBuilder().setPath(path).setMethod(method).build();
+        ResponseParams responseParams = new ResponseParamsBuilder().setLocationHeader("/foo").build();
+
+        String result = locationHandler.createLine(requestParams, responseParams);
+
+        assertEquals("Location: /foo", result);
+    }
 }
