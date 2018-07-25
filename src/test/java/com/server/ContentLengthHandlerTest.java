@@ -16,7 +16,8 @@ public class ContentLengthHandlerTest {
         String testDir = resourcesDirectory.getAbsolutePath();
         ContentLengthHandler contentLengthHandler = new ContentLengthHandler(testDir);
         RequestParams requestParams = new RequestParamsBuilder().setPath(path).setMethod(method).build();
-        String result = contentLengthHandler.createLine(requestParams, new ResponseParams(200));
+        ResponseParams responseParams = new ResponseParamsBuilder().setResponseCode(200).build();
+        String result = contentLengthHandler.createLine(requestParams, responseParams);
 
         assertEquals("Content-Length: 157751", result);
     }
@@ -29,7 +30,8 @@ public class ContentLengthHandlerTest {
         String testDir = resourcesDirectory.getAbsolutePath();
         ContentLengthHandler contentLengthHandler = new ContentLengthHandler(testDir);
         RequestParams requestParams = new RequestParamsBuilder().setPath(path).setMethod(method).build();
-        String result = contentLengthHandler.createLine(requestParams, new ResponseParams(200));
+        ResponseParams responseParams = new ResponseParamsBuilder().setResponseCode(200).build();
+        String result = contentLengthHandler.createLine(requestParams, responseParams);
 
         assertEquals("Content-Length: 108763", result);
     }
@@ -42,7 +44,8 @@ public class ContentLengthHandlerTest {
         String testDir = resourcesDirectory.getAbsolutePath();
         ContentLengthHandler contentLengthHandler = new ContentLengthHandler(testDir);
         RequestParams requestParams = new RequestParamsBuilder().setPath(path).setMethod(method).build();
-        String result = contentLengthHandler.createLine(requestParams, new ResponseParams(200));
+        ResponseParams responseParams = new ResponseParamsBuilder().setResponseCode(200).build();
+        String result = contentLengthHandler.createLine(requestParams, responseParams);
 
         assertEquals("Content-Length: 81892", result);
     }
@@ -55,7 +58,8 @@ public class ContentLengthHandlerTest {
         String testDir = resourcesDirectory.getAbsolutePath();
         ContentLengthHandler contentLengthHandler = new ContentLengthHandler(testDir);
         RequestParams requestParams = new RequestParamsBuilder().setPath(path).setMethod(method).build();
-        String result = contentLengthHandler.createLine(requestParams, new ResponseParams(200));
+        ResponseParams responseParams = new ResponseParamsBuilder().setResponseCode(200).build();
+        String result = contentLengthHandler.createLine(requestParams, responseParams);
 
         assertEquals("", result);
     }

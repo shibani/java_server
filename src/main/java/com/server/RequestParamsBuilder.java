@@ -8,6 +8,7 @@ public class RequestParamsBuilder {
     private Hashtable<String, String> queryComponent;
     private Hashtable<String, String> cookies;
     private String directory;
+    private Hashtable<String, Integer> range;
 
     public RequestParamsBuilder setPath(String path) {
         this.path = path;
@@ -34,8 +35,13 @@ public class RequestParamsBuilder {
         return this;
     }
 
+    public RequestParamsBuilder setRange(Hashtable<String, Integer> range) {
+        this.range = range;
+        return this;
+    }
+
     public RequestParams build() {
-        return new RequestParams(path, method, queryComponent, cookies, directory);
+        return new RequestParams(path, method, queryComponent, cookies, directory, range);
     }
 
 

@@ -32,6 +32,8 @@ public class ResponseBodyBuilder {
             this.body = parametersBody(requestParams);
         } else if (path.equals("/image.jpeg") || path.equals("/image.png") || path.equals("/image.gif")) {
             this.body = imageBody(requestParams);
+        } else if (requestParams.getPath().equals("/partial_content.txt")) {
+            this.body = partialContentBody(requestParams);
         } else {
             this.body = new byte[0];
         }
@@ -121,7 +123,7 @@ public class ResponseBodyBuilder {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 
         int byteToBeRead = -1;
-        while((byteToBeRead = inputStream.read())!=-1){
+        while ((byteToBeRead = inputStream.read()) != -1) {
             outputStream.write(byteToBeRead);
         }
         byte[] imageContents = outputStream.toByteArray();
@@ -130,5 +132,36 @@ public class ResponseBodyBuilder {
         outputStream.close();
 
         return imageContents;
+    }
+
+    private byte[] partialContentBody(RequestParams requestParams) throws IOException {
+        String partialContent = "";
+        int start = requestParams.getRange().get("start");
+        int stop = requestParams.getRange().get("stop");
+
+        String filePath = requestParams.getDirectory() + requestParams.getPath();
+        File file = new File(filePath);
+        String contents = new String(getFileContents(file));
+
+        ResponseParamsBuilder responseParamsBuilder = new ResponseParamsBuilder()
+                .setResponseCode(206)
+                .setContentLength((int) file.length());
+
+        if (start >= 0 && stop >= start && file.length() >= stop){
+            partialContent = contents.substring(start, stop + 1);
+        } else if (start == -1 && file.length() >= stop) {
+            start = (int) file.length() - stop;
+            stop = (int) file.length() - 1;
+            partialContent = contents.substring(start, stop) + "\n";
+        } else if (stop == -1) {
+            stop = (int) file.length() - 1;
+            partialContent = contents.substring(start, stop) + "\n";
+        } else {
+            this.responseParams = responseParamsBuilder.setResponseCode(416).build();
+            return "".getBytes();
+        }
+
+        this.responseParams = responseParamsBuilder.setContentRange(start, stop).build();
+        return partialContent.getBytes();
     }
 }

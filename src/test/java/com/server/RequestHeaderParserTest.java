@@ -129,4 +129,57 @@ public class RequestHeaderParserTest {
 
         assertEquals(new Hashtable(), result);
     }
+    @Test
+    public void requestParamsReturnsRequestParamsWithRangeTable() throws UnsupportedEncodingException {
+        String directory = "/public";
+        String headerString = "GET /foo HTTP/1.1\r\nRange: bytes=1-2\r\n";
+
+        RequestHeaderParser requestHeaderParser = new RequestHeaderParser(headerString, directory);
+
+        Hashtable result = requestHeaderParser.getRequestParams().getRange();
+
+        assertEquals(1, result.get("start"));
+        assertEquals(2, result.get("stop"));
+
+    }
+
+    @Test
+    public void requestParamsReturnsRequestParamsWithDefaultStartRangeTable() throws UnsupportedEncodingException {
+        String directory = "/public";
+        String headerString = "GET /foo HTTP/1.1\r\nRange: bytes=-2\r\n";
+
+        RequestHeaderParser requestHeaderParser = new RequestHeaderParser(headerString, directory);
+
+        Hashtable result = requestHeaderParser.getRequestParams().getRange();
+
+        assertEquals(-1, result.get("start"));
+        assertEquals(2, result.get("stop"));
+
+    }
+
+    @Test
+    public void requestParamsReturnsRequestParamsWithDefaultEndRangeTable() throws UnsupportedEncodingException {
+        String directory = "/public";
+        String headerString = "GET /foo HTTP/1.1\r\nRange: bytes=2-\r\n";
+
+        RequestHeaderParser requestHeaderParser = new RequestHeaderParser(headerString, directory);
+
+        Hashtable result = requestHeaderParser.getRequestParams().getRange();
+
+        assertEquals(2, result.get("start"));
+        assertEquals(-1, result.get("stop"));
+
+    }
+
+    @Test
+    public void requestParamsReturnsRequestParamsWithEmptyRangeTable() throws UnsupportedEncodingException {
+        String directory = "/public";
+        String headerString = "GET /foo HTTP/1.1\r\n\r\n";
+
+        RequestHeaderParser requestHeaderParser = new RequestHeaderParser(headerString, directory);
+
+        Hashtable result = requestHeaderParser.getRequestParams().getRange();
+
+        assertEquals(new Hashtable(), result);
+    }
 }
