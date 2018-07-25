@@ -58,4 +58,16 @@ public class StatusHandlerTest {
         assertEquals("HTTP/1.1 405 Method Not Allowed", statusHandler.createLine(requestParams, responseParams));
     }
 
+    @Test
+    public void getHeaderReturnsHTTP204NoContent() {
+        MockRequestRouter mockRequestRouter = new MockRequestRouter();
+        mockRequestRouter.setResponseCode(204);
+        StatusHandler statusHandler = new StatusHandler(mockRequestRouter);
+        String path = "foo";
+        String method = "bar";
+        RequestParams requestParams = new RequestParamsBuilder().setPath(path).setMethod(method).build();
+        ResponseParams responseParams = new ResponseParamsBuilder().build();
+
+        assertEquals("HTTP/1.1 204 No Content", statusHandler.createLine(requestParams, responseParams));
+    }
 }

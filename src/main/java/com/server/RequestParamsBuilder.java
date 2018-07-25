@@ -11,9 +11,8 @@ public class RequestParamsBuilder {
     private Hashtable<String, Integer> range;
     private String bodyString;
     private int contentLength;
-
-
     private String authorizationCredentials;
+    private String ifMatch;
 
     public RequestParamsBuilder setPath(String path) {
         this.path = path;
@@ -60,8 +59,13 @@ public class RequestParamsBuilder {
         return this;
     }
 
+    public RequestParamsBuilder setIfMatch(String ifMatch) {
+        this.ifMatch = ifMatch;
+        return this;
+    }
+
     public RequestParams build() {
         return new RequestParams(path, method, queryComponent, cookies, directory, range, bodyString,
-                                    contentLength, authorizationCredentials);
+                                    contentLength, authorizationCredentials, ifMatch);
     }
 }

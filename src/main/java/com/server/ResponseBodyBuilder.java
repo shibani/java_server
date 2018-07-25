@@ -2,7 +2,11 @@ package com.server;
 
 import javax.imageio.ImageIO;
 import javax.imageio.stream.ImageInputStream;
+
 import java.io.*;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 public class ResponseBodyBuilder {
     private byte[] body;
@@ -19,6 +23,8 @@ public class ResponseBodyBuilder {
         String method = requestParams.getMethod();
         if (path.equals("/file1")) {
             this.body = fileContentsBody(requestParams);
+        } else if (path.equals("/patch-content.txt")) {
+            this.body = patchContentBody(requestParams);
         } else if (path.equals("/coffee")) {
             this.body = coffeeBody(requestParams);
         } else if (path.equals("/cookie")) {
@@ -276,4 +282,40 @@ public class ResponseBodyBuilder {
             this.responseParams = new ResponseParamsBuilder().setResponseCode(500).build();
         }
     }
+
+    private byte[] patchContentBody(RequestParams requestParams) throws IOException {
+        byte[] body = "".getBytes();
+        ResponseParamsBuilder responseParamsBuilder = new ResponseParamsBuilder();
+
+        String filePath = requestParams.getDirectory() + requestParams.getPath();
+        File file = new File(filePath);
+
+        if (requestParams.getMethod().equals("GET")) {
+            this.responseParams = responseParamsBuilder.setResponseCode(200).build();
+            body = getFileContents(file);
+        } else if(requestParams.getMethod().equals("PATCH")){
+            String fileSHA1 = "";
+            fileSHA1 = stringToSHA1(new String(getFileContents(file)));
+            if (requestParams.getIfMatch().equals(fileSHA1)) {
+                this.responseParams = responseParamsBuilder.setResponseCode(204).build();
+                writeToFile(requestParams.getBody(), file);
+            } else {
+                this.responseParams = responseParamsBuilder.setResponseCode(409).build();
+            }
+        }
+        return body;
+    }
+
+    private String stringToSHA1(String contents) throws UnsupportedEncodingException {
+        try {
+            byte[] contentsBytes = contents.getBytes("utf8");
+            MessageDigest messageDigest = MessageDigest.getInstance("SHA-1");
+            messageDigest.reset();
+            messageDigest.update(contentsBytes);
+            return String.format("%040x", new BigInteger(1, messageDigest.digest()));
+        } catch (NoSuchAlgorithmException e){
+            return "";
+        }
+    }
+
 }
