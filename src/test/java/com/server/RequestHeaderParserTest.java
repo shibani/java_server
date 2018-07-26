@@ -14,7 +14,6 @@ public class RequestHeaderParserTest {
 
         String headerString = "GET / HTTP/1.1";
         String directory = "/foo";
-        String bodyString = "";
 
         RequestHeaderParser requestHeaderParser = new RequestHeaderParser(headerString, directory);
 
@@ -26,7 +25,6 @@ public class RequestHeaderParserTest {
 
         String headerString = "POST / HTTP/1.1";
         String directory = "/foo";
-        String bodyString = "";
 
         RequestHeaderParser requestHeaderParser = new RequestHeaderParser(headerString, directory);
 
@@ -38,7 +36,6 @@ public class RequestHeaderParserTest {
 
         String headerString = "POST / HTTP/1.1";
         String directory = "/foo";
-        String bodyString = "";
 
         RequestHeaderParser requestHeaderParser = new RequestHeaderParser(headerString, directory);
 
@@ -50,7 +47,6 @@ public class RequestHeaderParserTest {
 
         String headerString = "POST /form HTTP/1.1";
         String directory = "/foo";
-        String bodyString = "";
 
         RequestHeaderParser requestHeaderParser = new RequestHeaderParser(headerString, directory);
 
@@ -62,7 +58,6 @@ public class RequestHeaderParserTest {
 
         String headerString = "GET /cookie?type=chocolate HTTP/1.1";
         String directory = "/foo";
-        String bodyString = "";
 
         RequestHeaderParser requestHeaderParser = new RequestHeaderParser(headerString, directory);
 
@@ -74,7 +69,6 @@ public class RequestHeaderParserTest {
 
         String headerString = "GET /cookie?type=chocolate&foo=bar HTTP/1.1";
         String directory = "/foo";
-        String bodyString = "";
 
         RequestHeaderParser requestHeaderParser = new RequestHeaderParser(headerString, directory);
 
@@ -89,7 +83,6 @@ public class RequestHeaderParserTest {
 
         String headerString = "GET /cookie?foo=%3D%40%23%24%25%5E HTTP/1.1";
         String directory = "/foo";
-        String bodyString = "";
 
         RequestHeaderParser requestHeaderParser = new RequestHeaderParser(headerString, directory);
 
@@ -103,7 +96,6 @@ public class RequestHeaderParserTest {
 
         String headerString = "GET / HTTP/1.1";
         String directory = "/foo";
-        String bodyString = "";
 
         RequestHeaderParser requestHeaderParser = new RequestHeaderParser(headerString, directory);
 
@@ -117,7 +109,6 @@ public class RequestHeaderParserTest {
 
         String headerString = "GET /cookie HTTP/1.1\r\nCookie: type=chocolate\r\n\r\n";
         String directory = "/foo";
-        String bodyString = "";
 
         RequestHeaderParser requestHeaderParser = new RequestHeaderParser(headerString, directory);
 
@@ -131,7 +122,6 @@ public class RequestHeaderParserTest {
 
         String headerString = "GET /cookie?type=chocolate&foo=bar HTTP/1.1";
         String directory = "/foo";
-        String bodyString = "";
 
         RequestHeaderParser requestHeaderParser = new RequestHeaderParser(headerString, directory);
 
@@ -143,7 +133,6 @@ public class RequestHeaderParserTest {
     public void requestParamsReturnsRequestParamsWithRangeTable() throws UnsupportedEncodingException {
         String directory = "/public";
         String headerString = "GET /foo HTTP/1.1\r\nRange: bytes=1-2\r\n";
-        String bodyString = "";
 
         RequestHeaderParser requestHeaderParser = new RequestHeaderParser(headerString, directory);
 
@@ -158,7 +147,6 @@ public class RequestHeaderParserTest {
     public void requestParamsReturnsRequestParamsWithDefaultStartRangeTable() throws UnsupportedEncodingException {
         String directory = "/public";
         String headerString = "GET /foo HTTP/1.1\r\nRange: bytes=-2\r\n";
-        String bodyString = "";
 
         RequestHeaderParser requestHeaderParser = new RequestHeaderParser(headerString, directory);
 
@@ -173,7 +161,6 @@ public class RequestHeaderParserTest {
     public void requestParamsReturnsRequestParamsWithDefaultEndRangeTable() throws UnsupportedEncodingException {
         String directory = "/public";
         String headerString = "GET /foo HTTP/1.1\r\nRange: bytes=2-\r\n";
-        String bodyString = "";
 
         RequestHeaderParser requestHeaderParser = new RequestHeaderParser(headerString, directory);
 
@@ -188,7 +175,6 @@ public class RequestHeaderParserTest {
     public void requestParamsReturnsRequestParamsWithEmptyRangeTable() throws UnsupportedEncodingException {
         String directory = "/public";
         String headerString = "GET /foo HTTP/1.1\r\n\r\n";
-        String bodyString = "";
 
         RequestHeaderParser requestHeaderParser = new RequestHeaderParser(headerString, directory);
 

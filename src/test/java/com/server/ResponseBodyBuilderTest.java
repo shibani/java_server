@@ -2,12 +2,9 @@ package com.server;
 
 import org.junit.Test;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.Arrays;
 import java.util.Hashtable;
-import java.io.File;
 
 import static org.junit.Assert.*;
 
@@ -294,10 +291,12 @@ public class ResponseBodyBuilderTest {
     }
 
     @Test
-    public void getBodyCanCreateAndWriteToAFile() throws IOException {
+    public void getBodyCanCreateAndPostToAFile() throws IOException {
         String path = "/cat-form";
         String method = "POST";
         String bodyContent = "data=fatcat";
+        String resourceName = "/data";
+
         File resourcesDirectory = new File("src/test/resources/test-listing");
         String testDir = resourcesDirectory.getAbsolutePath();
 
@@ -309,34 +308,28 @@ public class ResponseBodyBuilderTest {
         byte[] body = responseBodyBuilder.getBody(requestParams, responseParams);
 
         final File folder = new File(requestParams.getDirectory() + requestParams.getPath());
-        StringBuilder fileNames = new StringBuilder();
-        if(folder.listFiles() != null){
-            for (final File fileEntry : folder.listFiles()) {
-                fileNames.append(fileEntry.getName());
-                fileNames.append(" ");
-            }
-        }
-        String filenames = fileNames.toString();
 
-        String resourceName = "/data";
+        String filenames = getDirectoryListingString(folder);
+
         String filePath = requestParams.getDirectory() + requestParams.getPath() + resourceName;
-        File file = new File(filePath);
-        FileReader fileReader = new FileReader(file);
-        BufferedReader bufferedReader = new BufferedReader(fileReader);
-        RequestReader reader = new RequestReader(bufferedReader);
-        String content = reader.getRequestedFileContents();
+
+        String content = getFileContents(filePath);
+
+        final File dataFile = new File(requestParams.getDirectory() + requestParams.getPath() + resourceName);
 
         assertTrue(filenames.contains("data"));
         assertEquals(201, responseBodyBuilder.responseParams.getResponseCode());
         assertEquals("/cat-form/data", responseBodyBuilder.responseParams.getLocationHeader());
         assertEquals("data=fatcat", content);
+        dataFile.delete();
     }
 
     @Test
-    public void getBodyCanReadAFile() throws IOException {
+    public void getBodyCanReadFromAndWriteToAFile() throws IOException {
         String path = "/cat-form/data";
         String method = "GET";
         String bodyContent = "data=fatcat";
+        String resourceName = "";
         File resourcesDirectory = new File("src/test/resources/test-listing");
         String testDir = resourcesDirectory.getAbsolutePath();
 
@@ -345,16 +338,18 @@ public class ResponseBodyBuilderTest {
         RequestParams requestParams = new RequestParamsBuilder().setPath(path).setMethod(method).setDirectory(testDir).setBody(bodyContent).build();
         ResponseParams responseParams = new ResponseParamsBuilder().build();
 
+        createFile(requestParams, resourceName);
+        final File dataFile = new File(requestParams.getDirectory() + requestParams.getPath() + resourceName);
+        writeToFile("data=fatcat", dataFile);
+
         byte[] body = responseBodyBuilder.getBody(requestParams, responseParams);
 
         String filePath = requestParams.getDirectory() + requestParams.getPath();
-        File file = new File(filePath);
-        FileReader fileReader = new FileReader(file);
-        BufferedReader bufferedReader = new BufferedReader(fileReader);
-        RequestReader reader = new RequestReader(bufferedReader);
-        String content = reader.getRequestedFileContents();
+
+        String content = getFileContents(filePath);
 
         assertEquals("data=fatcat", content);
+        dataFile.delete();
     }
 
     @Test
@@ -362,6 +357,7 @@ public class ResponseBodyBuilderTest {
         String path = "/cat-form/data";
         String method = "PUT";
         String bodyContent = "data=heathcliff";
+        String resourceName = "";
         File resourcesDirectory = new File("src/test/resources/test-listing");
         String testDir = resourcesDirectory.getAbsolutePath();
 
@@ -370,23 +366,26 @@ public class ResponseBodyBuilderTest {
         RequestParams requestParams = new RequestParamsBuilder().setPath(path).setMethod(method).setDirectory(testDir).setBody(bodyContent).build();
         ResponseParams responseParams = new ResponseParamsBuilder().build();
 
+        createFile(requestParams, resourceName);
+        final File dataFile = new File(requestParams.getDirectory() + requestParams.getPath() + resourceName);
+        writeToFile("data=fatcat", dataFile);
+
         byte[] body = responseBodyBuilder.getBody(requestParams, responseParams);
 
         String filePath = requestParams.getDirectory() + requestParams.getPath();
-        File file = new File(filePath);
-        FileReader fileReader = new FileReader(file);
-        BufferedReader bufferedReader = new BufferedReader(fileReader);
-        RequestReader reader = new RequestReader(bufferedReader);
-        String content = reader.getRequestedFileContents();
+
+        String content = getFileContents(filePath);
 
         assertEquals(200, responseBodyBuilder.responseParams.getResponseCode());
         assertEquals("data=heathcliff", content);
+        dataFile.delete();
     }
 
     @Test
     public void getBodyCanDeleteAFile() throws IOException {
         String path = "/cat-form/data";
         String method = "DELETE";
+        String resourceName = "";
         File resourcesDirectory = new File("src/test/resources/test-listing");
         String testDir = resourcesDirectory.getAbsolutePath();
 
@@ -395,9 +394,42 @@ public class ResponseBodyBuilderTest {
         RequestParams requestParams = new RequestParamsBuilder().setPath(path).setMethod(method).setDirectory(testDir).build();
         ResponseParams responseParams = new ResponseParamsBuilder().build();
 
+        createFile(requestParams, resourceName);
+
         byte[] body = responseBodyBuilder.getBody(requestParams, responseParams);
 
         final File folder = new File(requestParams.getDirectory() + requestParams.getPath());
+
+        String filenames = getDirectoryListingString(folder);
+
+        assertFalse(filenames.contains("data"));
+        assertEquals(200, responseBodyBuilder.responseParams.getResponseCode());
+    }
+
+    public File createFile(RequestParams requestParams, String resourceName) throws IOException {
+        String filePath = requestParams.getDirectory() + requestParams.getPath() + resourceName;
+        File file = new File(filePath);
+        file.createNewFile();
+        return file;
+    }
+
+    public void writeToFile(String str, File file) throws IOException {
+        if(file.exists()){
+            BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+            writer.write(str);
+            writer.close();
+        }
+    }
+
+    public String getFileContents(String filePath) throws IOException {
+        File file = new File(filePath);
+        FileReader fileReader = new FileReader(file);
+        BufferedReader bufferedReader = new BufferedReader(fileReader);
+        RequestReader reader = new RequestReader(bufferedReader);
+        return reader.getRequestedFileContents();
+    }
+
+    public String getDirectoryListingString(File folder){
         StringBuilder fileNames = new StringBuilder();
         if(folder.listFiles() != null){
             for (final File fileEntry : folder.listFiles()) {
@@ -405,9 +437,6 @@ public class ResponseBodyBuilderTest {
                 fileNames.append(" ");
             }
         }
-        String filenames = fileNames.toString();
-
-        assertFalse(filenames.contains("data"));
-        assertEquals(200, responseBodyBuilder.responseParams.getResponseCode());
+        return fileNames.toString();
     }
 }

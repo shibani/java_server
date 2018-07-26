@@ -226,17 +226,38 @@ public class ResponseBodyBuilder {
         return new byte[0];
     }
 
-    private File createFile(RequestParams requestParams, String resourceName) throws IOException {
+    public File createFile(RequestParams requestParams, String resourceName) throws IOException {
         String filePath = requestParams.getDirectory() + requestParams.getPath() + resourceName;
         File file = new File(filePath);
         file.createNewFile();
         return file;
     }
 
-    private void writeToFile(String str, File file) throws IOException {
-        BufferedWriter writer = new BufferedWriter(new FileWriter(file));
-        writer.write(str);
-        writer.close();
+    public void writeToFile(String str, File file) throws IOException {
+        if(file.exists()){
+            BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+            writer.write(str);
+            writer.close();
+        }
+    }
+
+    public String getFileContents(String filePath) throws IOException {
+        File file = new File(filePath);
+        FileReader fileReader = new FileReader(file);
+        BufferedReader bufferedReader = new BufferedReader(fileReader);
+        RequestReader reader = new RequestReader(bufferedReader);
+        return reader.getRequestedFileContents();
+    }
+
+    public String getDirectoryListingString(File folder){
+        StringBuilder fileNames = new StringBuilder();
+        if(folder.listFiles() != null){
+            for (final File fileEntry : folder.listFiles()) {
+                fileNames.append(fileEntry.getName());
+                fileNames.append(" ");
+            }
+        }
+        return fileNames.toString();
     }
 
     private void buildResponseParams(File file, String resourceName, RequestParams requestParams){
