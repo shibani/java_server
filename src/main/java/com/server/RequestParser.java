@@ -13,7 +13,7 @@ public class RequestParser {
     private String directory;
     private int contentLength;
 
-    RequestParser(String headerString, String directory) throws UnsupportedEncodingException {
+        RequestParser(String headerString, String directory) throws UnsupportedEncodingException {
         this.headerString = headerString;
         this.directory = directory;
         this.contentLength = extractContentLength();
@@ -30,6 +30,7 @@ public class RequestParser {
                 .setRange(extractRange())
                 .setContentLength(extractContentLength())
                 .setBody(extractBody())
+                .setAuthorizationCredentials(extractAuthorizationCredentials())
                 .build();
     }
 
@@ -134,16 +135,31 @@ public class RequestParser {
         return rangeTable;
     }
 
-    private String extractLine(String targetString, String header){
+    private String extractLine(String targetString, String header) {
         String targetLine = "";
         String[] headerLines = headerString.split("\r\n");
-        for ( String headerLine : headerLines) {
-            if (headerLine.contains(targetString)){
+        for (String headerLine : headerLines) {
+            if (headerLine.contains(targetString)) {
                 targetLine = headerLine;
                 break;
             }
         }
         return targetLine;
+    }
+
+    private String extractAuthorizationCredentials() {
+        String authorizationCredentials = "";
+        String authorizationHeaderLine = "Authorization: Basic";
+        if (headerString.contains(authorizationHeaderLine)) {
+            String[] headers = headerString.split("\r\n");
+            for ( String headerLine : headers) {
+                if (headerLine.contains(authorizationHeaderLine)) {
+                    authorizationCredentials = headerLine.replace(authorizationHeaderLine + " ", "");
+                    break;
+                }
+            }
+        }
+        return authorizationCredentials;
     }
 
     public RequestParams getRequestParams() {

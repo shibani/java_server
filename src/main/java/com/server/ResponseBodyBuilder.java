@@ -17,7 +17,6 @@ public class ResponseBodyBuilder {
         this.responseParams = responseParams;
         String path = requestParams.getPath();
         String method = requestParams.getMethod();
-
         if (path.equals("/file1")) {
             this.body = fileContentsBody(requestParams);
         } else if (path.equals("/coffee")) {
@@ -32,7 +31,7 @@ public class ResponseBodyBuilder {
             this.body = parametersBody(requestParams);
         } else if (path.equals("/image.jpeg") || path.equals("/image.png") || path.equals("/image.gif")) {
             this.body = imageBody(requestParams);
-        } else if (requestParams.getPath().equals("/partial_content.txt")) {
+        } else if (path.equals("/partial_content.txt")) {
             this.body = partialContentBody(requestParams);
         } else if (path.equals("/cat-form/data") && method.equals("GET")) {
             this.body = readBody(requestParams);
@@ -42,6 +41,8 @@ public class ResponseBodyBuilder {
             this.body = updateBody(requestParams);
         } else if (path.equals("/cat-form/data") && method.equals("DELETE")) {
             this.body = deleteBody(requestParams);
+        } else if (path.equals("/logs")) {
+            this.body = basicAuthorizationBody(requestParams);
         } else {
             this.body = new byte[0];
         }
@@ -132,19 +133,22 @@ public class ResponseBodyBuilder {
 
     private byte[] imageBody(RequestParams requestParams) throws IOException {
         File f = new File(requestParams.getDirectory() + requestParams.getPath());
+        ByteArrayOutputStream outputStream = null;
+        byte[] imageContents;
 
-        ImageInputStream inputStream = ImageIO.createImageInputStream(f);
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-
-        int byteToBeRead = -1;
-        while ((byteToBeRead = inputStream.read()) != -1) {
-            outputStream.write(byteToBeRead);
+        try {
+            ImageInputStream inputStream = ImageIO.createImageInputStream(f);
+            outputStream = new ByteArrayOutputStream();
+            int byteToBeRead = -1;
+            while ((byteToBeRead = inputStream.read()) != -1) {
+                outputStream.write(byteToBeRead);
+            }
+            imageContents = outputStream.toByteArray();
+            outputStream.flush();
         }
-        byte[] imageContents = outputStream.toByteArray();
-
-        outputStream.flush();
-        outputStream.close();
-
+        finally {
+            outputStream.close();
+        }
         return imageContents;
     }
 
@@ -241,27 +245,32 @@ public class ResponseBodyBuilder {
         }
     }
 
-    private String getFileContents(String filePath) throws IOException {
-        File file = new File(filePath);
-        FileReader fileReader = new FileReader(file);
-        BufferedReader bufferedReader = new BufferedReader(fileReader);
-        RequestReader reader = new RequestReader(bufferedReader);
-        return reader.getRequestedFileContents();
-    }
+    private byte[] basicAuthorizationBody(RequestParams requestParams) throws IOException {
+        byte[] logs = new byte[0];
+        int responseCode;
 
-    private String getDirectoryListingString(File folder){
-        StringBuilder fileNames = new StringBuilder();
-        if(folder.listFiles() != null){
-            for (final File fileEntry : folder.listFiles()) {
-                fileNames.append(fileEntry.getName());
-                fileNames.append(" ");
-            }
+        BasicAuthorizationHandler handler = new BasicAuthorizationHandler(requestParams);
+        String credentials = requestParams.getAuthorizationCredentials();
+
+        if (credentials == null || !handler.isValidCredentials()) {
+            responseCode = 401;
         }
-        return fileNames.toString();
+        else {
+            File logFile = new File(requestParams.getDirectory() + "/logs.txt");
+            if (logFile.exists()) {
+                logs = getFileContents(logFile);
+            }
+            responseCode = 200;
+        }
+
+        ResponseParamsBuilder responseParamsBuilder = new ResponseParamsBuilder();
+        this.responseParams = responseParamsBuilder.setResponseCode(responseCode)
+                                                    .build();
+        return logs;
     }
 
-    private void buildResponseParams(File file, String resourceName, RequestParams requestParams){
-        if( file.exists() ){
+    private void buildResponseParams(File file, String resourceName, RequestParams requestParams) {
+        if (file.exists()) {
             this.responseParams = new ResponseParamsBuilder().setResponseCode(201).setLocationHeader(requestParams.getPath() + resourceName).build();
         } else {
             this.responseParams = new ResponseParamsBuilder().setResponseCode(500).build();

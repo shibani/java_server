@@ -7,38 +7,47 @@ public class HTTPServerManager {
 
     private ServerConfig serverConfig;
     private RequestRouter requestRouter;
+    private boolean logRequests;
 
     HTTPServerManager(ServerConfig serverConfig, RequestRouter requestRouter){
         this.serverConfig = serverConfig;
         this.requestRouter = requestRouter;
+        this.logRequests = false;
+    }
+
+    HTTPServerManager(ServerConfig serverConfig, RequestRouter requestRouter, boolean logRequests){
+        this.serverConfig = serverConfig;
+        this.requestRouter = requestRouter;
+        this.logRequests = logRequests;
     }
 
     public void runServer() throws IOException {
-
         while(running()) {
+            ServerSocket serverSocket = null;
+            Socket clientSocket = null;
+            try {
+                serverSocket = createServerSocket();
+                clientSocket = openSocket(serverSocket);
 
-            ServerSocket serverSocket = createServerSocket();
-            Socket clientSocket = openSocket(serverSocket);
+                BufferedReader in = openInputStream(clientSocket);
 
-            BufferedReader in = openInputStream(clientSocket);
+                RequestReader requestReader = new RequestReader(in);
+                String header = requestReader.getRequest();
 
-            RequestReader requestHeaderReader = new RequestReader(in);
-            RequestParser requestParser = new RequestParser(requestHeaderReader.getRequest(), serverConfig.getDirectory());
+                if (this.logRequests) {
+                    Logger logger = new Logger(serverConfig.getDirectory() + "/logs.txt");
+                    logger.log(header);
+                }
 
-            RequestParams requestParams = requestParser.getRequestParams();
+                RequestParser requestParser = new RequestParser(header, serverConfig.getDirectory());
+                RequestParams requestParams = requestParser.getRequestParams();
+                ResponseBuilder responseBuilder = new ResponseBuilder(requestRouter);
 
-            ResponseBuilder responseBuilder = new ResponseBuilder(requestRouter);
-
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            baos.write(responseBuilder.getResponse(requestParams));
-            byte[] result = baos.toByteArray();
-            BufferedOutputStream outputStream = new BufferedOutputStream(clientSocket.getOutputStream());
-            outputStream.write(result);
-            baos.flush();
-            baos.close();
-            outputStream.close();
-
-            stopServer(serverSocket, clientSocket);
+                sendResponse(clientSocket.getOutputStream(), responseBuilder.getResponse(requestParams));
+            }
+            finally {
+                stopServer(serverSocket, clientSocket);
+            }
         }
     }
 
@@ -48,6 +57,23 @@ public class HTTPServerManager {
 
     protected ServerSocket createServerSocket() throws IOException {
         return new ServerSocket(serverConfig.getPortNumber());
+    }
+
+    private void sendResponse(OutputStream clientSocketOutputStream, byte[] response) throws IOException {
+        ByteArrayOutputStream byteArrayOutputStream = null;
+        BufferedOutputStream bufferedOutputStream = null;
+        try {
+            byteArrayOutputStream = new ByteArrayOutputStream();
+            bufferedOutputStream = new BufferedOutputStream(clientSocketOutputStream);
+            byteArrayOutputStream.write(response);
+            byte[] result = byteArrayOutputStream.toByteArray();
+            bufferedOutputStream.write(result);
+            byteArrayOutputStream.flush();
+        }
+        finally {
+            byteArrayOutputStream.close();
+            bufferedOutputStream.close();
+        }
     }
 
     private Socket openSocket(ServerSocket serverSocket) throws IOException {

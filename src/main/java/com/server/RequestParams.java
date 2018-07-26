@@ -12,8 +12,9 @@ public class RequestParams {
     private Hashtable<String, Integer> range;
     private String bodyString;
     private int contentLength;
+    private String authorizationCredentials;
 
-    public RequestParams(String path, String method, Hashtable<String, String> queryComponent, Hashtable<String, String> cookies, String directory, Hashtable<String, Integer> range, String bodyString, int contentLength) throws NullPointerException {
+    public RequestParams(String path, String method, Hashtable<String, String> queryComponent, Hashtable<String, String> cookies, String directory, Hashtable<String, Integer> range, String bodyString, int contentLength, String authorizationCredentials) throws NullPointerException {
         if ((path == null) || (method == null)) {
             throw new NullPointerException();
         }
@@ -25,33 +26,24 @@ public class RequestParams {
         this.range = range;
         this.bodyString = bodyString;
         this.contentLength = contentLength;
+        this.authorizationCredentials = authorizationCredentials;
     }
 
-    public String getPath() {
-        return this.path;
-    }
+    public String getPath() { return this.path; }
 
-    public String getMethod() {
-        return this.method;
-    }
+    public String getMethod() { return this.method; }
 
-    public Hashtable getQueryComponent() {
-        return this.queryComponent;
-    }
+    public Hashtable getQueryComponent() { return this.queryComponent; }
 
-    public Hashtable getCookies() {
-        return this.cookies;
-    }
+    public Hashtable getCookies() { return this.cookies; }
 
-    public String getDirectory() {
-        return this.directory;
-    }
+    public String getDirectory() { return this.directory; }
 
-    public Hashtable<String, Integer> getRange() {
-        return this.range;
-    }
+    public Hashtable<String, Integer> getRange() { return this.range; }
 
     public String getBody() { return this.bodyString; }
 
     public int getContentLength() { return this.contentLength; }
+
+    public String getAuthorizationCredentials() { return this.authorizationCredentials; }
 }

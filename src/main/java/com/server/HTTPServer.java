@@ -10,7 +10,7 @@ public class HTTPServer {
 
         RequestRouter requestRouter = new RequestRouter();
 
-        HTTPServerManager HTTPServerManager = new HTTPServerManager(serverConfig, requestRouter);
+        HTTPServerManager HTTPServerManager = new HTTPServerManager(serverConfig, requestRouter, true);
 
         HTTPServerManager.runServer();
     }

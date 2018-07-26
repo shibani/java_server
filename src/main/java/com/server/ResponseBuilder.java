@@ -22,12 +22,18 @@ public class ResponseBuilder {
     }
 
     private byte[] combine(byte[] firstArray, byte[] secondArray) throws IOException {
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        outputStream.write(firstArray);
-        outputStream.write(secondArray);
-        byte[] result = outputStream.toByteArray();
-        outputStream.flush();
-        outputStream.close();
+        byte[] result;
+        ByteArrayOutputStream outputStream = null;
+        try {
+            outputStream = new ByteArrayOutputStream();
+            outputStream.write(firstArray);
+            outputStream.write(secondArray);
+            result = outputStream.toByteArray();
+            outputStream.flush();
+        }
+        finally {
+            outputStream.close();
+        }
         return result;
     }
 }

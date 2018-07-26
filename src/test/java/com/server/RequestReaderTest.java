@@ -35,7 +35,7 @@ public class RequestReaderTest {
     }
 
     @Test
-    public void getBodyShouldReturnFileContentsOfFile1() throws IOException {
+    public void getRequestedFileContentsShouldReturnFileContentsOfFile1() throws IOException {
 
         File resourcesDirectory = new File("src/test/resources/test-file1-contents/file1");
         String file = resourcesDirectory.getAbsolutePath();

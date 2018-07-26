@@ -38,38 +38,29 @@ public class RequestRouter {
     private void createHashtable(){
         addRoute("/", "GET", 200);
         addRoute("/" ,"HEAD", 200);
-
         addRoute("/form" ,"POST", 200);
-
         addRoute("/put-target" ,"PUT", 200);
-
         addRoute("/file1" ,"GET", 200);
-
         addRoute("/text-file.txt" ,"GET", 200);
-
         addRoute("/method_options" ,"GET", 200);
         addRoute("/method_options" ,"HEAD", 200);
         addRoute("/method_options" ,"POST", 200);
         addRoute("/method_options" ,"OPTIONS", 200);
         addRoute("/method_options" ,"PUT", 200);
-
         addRoute("/method_options2" ,"GET", 200);
         addRoute("/method_options2" ,"HEAD", 200);
         addRoute("/method_options2" ,"OPTIONS", 200);
-
         addRoute("/redirect" ,"GET", 302);
-
         addRoute("/image.jpeg", "GET", 200);
         addRoute("/image.png", "GET", 200);
         addRoute("/image.gif", "GET", 200);
         addRoute("/text-file.txt", "GET", 200);
         addRoute("/coffee", "GET", 418);
         addRoute("/tea", "GET", 200);
-
         addRoute("/cookie", "GET", 200);
         addRoute("/eat_cookie", "GET", 200);
-
         addRoute("/parameters", "GET", 200);
+        addRoute("/logs", "GET", 401);
     }
 
     private void addRoute(String path, String method, int statusCode) {

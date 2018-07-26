@@ -12,6 +12,9 @@ public class RequestParamsBuilder {
     private String bodyString;
     private int contentLength;
 
+
+    private String authorizationCredentials;
+
     public RequestParamsBuilder setPath(String path) {
         this.path = path;
         return this;
@@ -52,7 +55,13 @@ public class RequestParamsBuilder {
         return this;
     }
 
+    public RequestParamsBuilder setAuthorizationCredentials(String s) {
+        this.authorizationCredentials = s;
+        return this;
+    }
+
     public RequestParams build() {
-        return new RequestParams(path, method, queryComponent, cookies, directory, range, bodyString, contentLength);
+        return new RequestParams(path, method, queryComponent, cookies, directory, range, bodyString,
+                                    contentLength, authorizationCredentials);
     }
 }

@@ -10,7 +10,7 @@ public class RequestReader {
     private BufferedReader bufferedReader;
     private int contentLength;
 
-    RequestReader(BufferedReader bufferedReader) throws IOException {
+    RequestReader(BufferedReader bufferedReader) {
         this.bufferedReader = bufferedReader;
     }
 
