@@ -1,10 +1,10 @@
 package com.server;
 
 import org.junit.Test;
-import java.io.IOException;
+
+import java.io.*;
 import java.util.Arrays;
 import java.util.Hashtable;
-import java.io.File;
 
 import static org.junit.Assert.*;
 
@@ -16,10 +16,10 @@ public class ResponseBodyBuilderTest {
         String method = "GET";
 
         RequestRouter rr = new RequestRouter();
-        ResponseParams responseParams = new ResponseParamsBuilder().build();
-
         ResponseBodyBuilder responseBodyBuilder = new ResponseBodyBuilder(rr);
         RequestParams requestParams = new RequestParamsBuilder().setPath(path).setMethod(method).build();
+        ResponseParams responseParams = new ResponseParamsBuilder().build();
+
         byte[] body = responseBodyBuilder.getBody(requestParams, responseParams);
         String expected = "I'm a teapot";
 
@@ -37,10 +37,9 @@ public class ResponseBodyBuilderTest {
         cookies.put("type", "chocolate");
 
         RequestRouter rr = new RequestRouter();
-        ResponseParams responseParams = new ResponseParamsBuilder().build();
-
         ResponseBodyBuilder responseBodyBuilder = new ResponseBodyBuilder(rr);
         RequestParams requestParams = new RequestParamsBuilder().setPath(path).setMethod(method).setCookies(cookies).build();
+        ResponseParams responseParams = new ResponseParamsBuilder().build();
 
         byte[] body = responseBodyBuilder.getBody(requestParams, responseParams);
 
@@ -59,10 +58,10 @@ public class ResponseBodyBuilderTest {
         String testDir = resourcesDirectory.getAbsolutePath();
 
         RequestRouter rr = new RequestRouter();
-        ResponseParams responseParams = new ResponseParamsBuilder().build();
-
         ResponseBodyBuilder responseBodyBuilder = new ResponseBodyBuilder(rr);
         RequestParams requestParams = new RequestParamsBuilder().setPath(path).setMethod(method).setDirectory(testDir).build();
+        ResponseParams responseParams = new ResponseParamsBuilder().build();
+
         byte[] body = responseBodyBuilder.getBody(requestParams, responseParams);
 
         String expected = "";
@@ -79,11 +78,12 @@ public class ResponseBodyBuilderTest {
         String publicDir = "/foo";
         Hashtable<String, String> queryComponents = new Hashtable<>();
         queryComponents.put("key", "value");
-        RequestRouter rr = new RequestRouter();
-        ResponseParams responseParams = new ResponseParamsBuilder().build();
 
+        RequestRouter rr = new RequestRouter();
         ResponseBodyBuilder responseBodyBuilder = new ResponseBodyBuilder(rr);
         RequestParams requestParams = new RequestParamsBuilder().setPath(path).setMethod(method).setQueryComponent(queryComponents).build();
+        ResponseParams responseParams = new ResponseParamsBuilder().build();
+
         byte[] body = responseBodyBuilder.getBody(requestParams, responseParams);
 
         String expected = "key = value";
@@ -99,11 +99,12 @@ public class ResponseBodyBuilderTest {
         String method = "GET";
         File resourcesDirectory = new File("src/test/resources/test-file1-contents");
         String testDir = resourcesDirectory.getAbsolutePath();
-        RequestRouter rr = new RequestRouter();
-        ResponseParams responseParams = new ResponseParamsBuilder().build();
 
+        RequestRouter rr = new RequestRouter();
         ResponseBodyBuilder responseBodyBuilder = new ResponseBodyBuilder(rr);
         RequestParams requestParams = new RequestParamsBuilder().setPath(path).setMethod(method).setDirectory(testDir).build();
+        ResponseParams responseParams = new ResponseParamsBuilder().build();
+
         String body = new String(responseBodyBuilder.getBody(requestParams, responseParams));
 
         String expected = "file1 contents";
@@ -117,11 +118,12 @@ public class ResponseBodyBuilderTest {
         String method = "GET";
         File resourcesDirectory = new File("src/test/resources/test-listing");
         String testDir = resourcesDirectory.getAbsolutePath();
-        RequestRouter rr = new RequestRouter();
-        ResponseParams responseParams = new ResponseParamsBuilder().build();
 
+        RequestRouter rr = new RequestRouter();
         ResponseBodyBuilder responseBodyBuilder = new ResponseBodyBuilder(rr);
         RequestParams requestParams = new RequestParamsBuilder().setPath(path).setMethod(method).setDirectory(testDir).build();
+        ResponseParams responseParams = new ResponseParamsBuilder().build();
+
         String body = new String(responseBodyBuilder.getBody(requestParams, responseParams));
 
         assertTrue(body.contains("<a href=\""));
@@ -135,11 +137,12 @@ public class ResponseBodyBuilderTest {
         String method = "GET";
         File resourcesDirectory = new File("src/test/resources/test-listing");
         String testDir = resourcesDirectory.getAbsolutePath();
-        RequestRouter rr = new RequestRouter();
-        ResponseParams responseParams = new ResponseParamsBuilder().build();
 
+        RequestRouter rr = new RequestRouter();
         ResponseBodyBuilder responseBodyBuilder = new ResponseBodyBuilder(rr);
         RequestParams requestParams = new RequestParamsBuilder().setPath(path).setMethod(method).setDirectory(testDir).build();
+        ResponseParams responseParams = new ResponseParamsBuilder().build();
+
         String body = new String(responseBodyBuilder.getBody(requestParams, responseParams));
 
         assertTrue(body.contains("<a href=\""));
@@ -152,10 +155,12 @@ public class ResponseBodyBuilderTest {
         String method = "GET";
         File resourcesDirectory = new File("src/test/resources/test-image-contents");
         String testDir = resourcesDirectory.getAbsolutePath();
+
         RequestRouter rr = new RequestRouter();
         ResponseBodyBuilder responseBodyBuilder = new ResponseBodyBuilder(rr);
         RequestParams requestParams = new RequestParamsBuilder().setPath(path).setMethod(method).setDirectory(testDir).build();
         ResponseParams responseParams = new ResponseParamsBuilder().setResponseCode(200).build();
+
         byte[] body = responseBodyBuilder.getBody(requestParams, responseParams);
         int expected = 157751;
 
@@ -168,10 +173,12 @@ public class ResponseBodyBuilderTest {
         String method = "GET";
         File resourcesDirectory = new File("src/test/resources/test-image-contents");
         String testDir = resourcesDirectory.getAbsolutePath();
+
         RequestRouter rr = new RequestRouter();
         ResponseBodyBuilder responseBodyBuilder = new ResponseBodyBuilder(rr);
         RequestParams requestParams = new RequestParamsBuilder().setPath(path).setMethod(method).setDirectory(testDir).build();
         ResponseParams responseParams = new ResponseParamsBuilder().setResponseCode(200).build();
+
         byte[] body = responseBodyBuilder.getBody(requestParams, responseParams);
         int expected = 108763;
 
@@ -184,10 +191,12 @@ public class ResponseBodyBuilderTest {
         String method = "GET";
         File resourcesDirectory = new File("src/test/resources/test-image-contents");
         String testDir = resourcesDirectory.getAbsolutePath();
+
         RequestRouter rr = new RequestRouter();
         ResponseBodyBuilder responseBodyBuilder = new ResponseBodyBuilder(rr);
         RequestParams requestParams = new RequestParamsBuilder().setPath(path).setMethod(method).setDirectory(testDir).build();
         ResponseParams responseParams = new ResponseParamsBuilder().setResponseCode(200).build();
+
         byte[] body = responseBodyBuilder.getBody(requestParams, responseParams);
         int expected = 81892;
 
@@ -279,5 +288,155 @@ public class ResponseBodyBuilderTest {
         assertEquals("", body);
         assertEquals(416, responseBodyBuilder.responseParams.getResponseCode());
         assertEquals(77, responseBodyBuilder.responseParams.getContentLength());
+    }
+
+    @Test
+    public void getBodyCanCreateAndPostToAFile() throws IOException {
+        String path = "/cat-form";
+        String method = "POST";
+        String bodyContent = "data=fatcat";
+        String resourceName = "/data";
+
+        File resourcesDirectory = new File("src/test/resources/test-listing");
+        String testDir = resourcesDirectory.getAbsolutePath();
+
+        RequestRouter rr = new RequestRouter();
+        ResponseBodyBuilder responseBodyBuilder = new ResponseBodyBuilder(rr);
+        RequestParams requestParams = new RequestParamsBuilder().setPath(path).setMethod(method).setDirectory(testDir).setBody(bodyContent).build();
+        ResponseParams responseParams = new ResponseParamsBuilder().build();
+
+        byte[] body = responseBodyBuilder.getBody(requestParams, responseParams);
+
+        final File folder = new File(requestParams.getDirectory() + requestParams.getPath());
+
+        String filenames = getDirectoryListingString(folder);
+
+        String filePath = requestParams.getDirectory() + requestParams.getPath() + resourceName;
+
+        String content = getFileContents(filePath);
+
+        final File dataFile = new File(requestParams.getDirectory() + requestParams.getPath() + resourceName);
+
+        assertTrue(filenames.contains("data"));
+        assertEquals(201, responseBodyBuilder.responseParams.getResponseCode());
+        assertEquals("/cat-form/data", responseBodyBuilder.responseParams.getLocationHeader());
+        assertEquals("data=fatcat", content);
+        dataFile.delete();
+    }
+
+    @Test
+    public void getBodyCanReadFromAndWriteToAFile() throws IOException {
+        String path = "/cat-form/data";
+        String method = "GET";
+        String bodyContent = "data=fatcat";
+        String resourceName = "";
+        File resourcesDirectory = new File("src/test/resources/test-listing");
+        String testDir = resourcesDirectory.getAbsolutePath();
+
+        RequestRouter rr = new RequestRouter();
+        ResponseBodyBuilder responseBodyBuilder = new ResponseBodyBuilder(rr);
+        RequestParams requestParams = new RequestParamsBuilder().setPath(path).setMethod(method).setDirectory(testDir).setBody(bodyContent).build();
+        ResponseParams responseParams = new ResponseParamsBuilder().build();
+
+        createFile(requestParams, resourceName);
+        final File dataFile = new File(requestParams.getDirectory() + requestParams.getPath() + resourceName);
+        writeToFile("data=fatcat", dataFile);
+
+        byte[] body = responseBodyBuilder.getBody(requestParams, responseParams);
+
+        String filePath = requestParams.getDirectory() + requestParams.getPath();
+
+        String content = getFileContents(filePath);
+
+        assertEquals("data=fatcat", content);
+        dataFile.delete();
+    }
+
+    @Test
+    public void getBodyCanUpdateAFile() throws IOException {
+        String path = "/cat-form/data";
+        String method = "PUT";
+        String bodyContent = "data=heathcliff";
+        String resourceName = "";
+        File resourcesDirectory = new File("src/test/resources/test-listing");
+        String testDir = resourcesDirectory.getAbsolutePath();
+
+        RequestRouter rr = new RequestRouter();
+        ResponseBodyBuilder responseBodyBuilder = new ResponseBodyBuilder(rr);
+        RequestParams requestParams = new RequestParamsBuilder().setPath(path).setMethod(method).setDirectory(testDir).setBody(bodyContent).build();
+        ResponseParams responseParams = new ResponseParamsBuilder().build();
+
+        createFile(requestParams, resourceName);
+        final File dataFile = new File(requestParams.getDirectory() + requestParams.getPath() + resourceName);
+        writeToFile("data=fatcat", dataFile);
+
+        byte[] body = responseBodyBuilder.getBody(requestParams, responseParams);
+
+        String filePath = requestParams.getDirectory() + requestParams.getPath();
+
+        String content = getFileContents(filePath);
+
+        assertEquals(200, responseBodyBuilder.responseParams.getResponseCode());
+        assertEquals("data=heathcliff", content);
+        dataFile.delete();
+    }
+
+    @Test
+    public void getBodyCanDeleteAFile() throws IOException {
+        String path = "/cat-form/data";
+        String method = "DELETE";
+        String resourceName = "";
+        File resourcesDirectory = new File("src/test/resources/test-listing");
+        String testDir = resourcesDirectory.getAbsolutePath();
+
+        RequestRouter rr = new RequestRouter();
+        ResponseBodyBuilder responseBodyBuilder = new ResponseBodyBuilder(rr);
+        RequestParams requestParams = new RequestParamsBuilder().setPath(path).setMethod(method).setDirectory(testDir).build();
+        ResponseParams responseParams = new ResponseParamsBuilder().build();
+
+        createFile(requestParams, resourceName);
+
+        byte[] body = responseBodyBuilder.getBody(requestParams, responseParams);
+
+        final File folder = new File(requestParams.getDirectory() + requestParams.getPath());
+
+        String filenames = getDirectoryListingString(folder);
+
+        assertFalse(filenames.contains("data"));
+        assertEquals(200, responseBodyBuilder.responseParams.getResponseCode());
+    }
+
+    public File createFile(RequestParams requestParams, String resourceName) throws IOException {
+        String filePath = requestParams.getDirectory() + requestParams.getPath() + resourceName;
+        File file = new File(filePath);
+        file.createNewFile();
+        return file;
+    }
+
+    public void writeToFile(String str, File file) throws IOException {
+        if(file.exists()){
+            BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+            writer.write(str);
+            writer.close();
+        }
+    }
+
+    public String getFileContents(String filePath) throws IOException {
+        File file = new File(filePath);
+        FileReader fileReader = new FileReader(file);
+        BufferedReader bufferedReader = new BufferedReader(fileReader);
+        RequestReader reader = new RequestReader(bufferedReader);
+        return reader.getRequestedFileContents();
+    }
+
+    public String getDirectoryListingString(File folder){
+        StringBuilder fileNames = new StringBuilder();
+        if(folder.listFiles() != null){
+            for (final File fileEntry : folder.listFiles()) {
+                fileNames.append(fileEntry.getName());
+                fileNames.append(" ");
+            }
+        }
+        return fileNames.toString();
     }
 }

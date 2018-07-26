@@ -28,7 +28,8 @@ public class ResponseHeaderBuilder {
             appendLine(contentTypeLine);
 
             ContentLengthHandler contentLengthHandler = new ContentLengthHandler(requestParams.getDirectory());
-            String contentLengthLine = contentLengthHandler.createLine(requestParams,responseParams);
+
+            String contentLengthLine = contentLengthHandler.createLine(requestParams, responseParams);
             appendLine(contentLengthLine);
 
             SetCookieHandler setCookieHandler = new SetCookieHandler();

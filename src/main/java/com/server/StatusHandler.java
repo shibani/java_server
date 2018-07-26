@@ -12,6 +12,7 @@ public class StatusHandler implements IResponseHeaderHandler {
         this.statusHashtable = new Hashtable();
         this.requestRouter = requestRouter;
         statusHashtable.put(200, "200 OK");
+        statusHashtable.put(201, "201 Created");
         statusHashtable.put(206, "206 Partial Content");
         statusHashtable.put(302, "302 Found");
         statusHashtable.put(404, "404 Not Found");

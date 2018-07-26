@@ -9,6 +9,8 @@ public class RequestParamsBuilder {
     private Hashtable<String, String> cookies;
     private String directory;
     private Hashtable<String, Integer> range;
+    private String bodyString;
+    private int contentLength;
 
     public RequestParamsBuilder setPath(String path) {
         this.path = path;
@@ -40,9 +42,17 @@ public class RequestParamsBuilder {
         return this;
     }
 
-    public RequestParams build() {
-        return new RequestParams(path, method, queryComponent, cookies, directory, range);
+    public RequestParamsBuilder setContentLength(int contentLength){
+        this.contentLength = contentLength;
+        return this;
     }
 
+    public RequestParamsBuilder setBody(String bodyString){
+        this.bodyString = bodyString;
+        return this;
+    }
 
+    public RequestParams build() {
+        return new RequestParams(path, method, queryComponent, cookies, directory, range, bodyString, contentLength);
+    }
 }

@@ -12,8 +12,13 @@ public class LocationHandler implements IResponseHeaderHandler {
     }
 
     public String createLine(RequestParams requestParams, ResponseParams responseParams){
-        String value = (String)this.locationHashtable.get(requestParams.getPath());
-        return value == null ? "" : LOCATION_KEY + ": " + value;
+        String locationHeader = "";
+        if(responseParams.getLocationHeader() != null){
+            locationHeader = responseParams.getLocationHeader();
+        } else {
+            locationHeader = (String)this.locationHashtable.get(requestParams.getPath());
+        }
+        return locationHeader == null ? "" : LOCATION_KEY + ": " + locationHeader;
     }
 }
 

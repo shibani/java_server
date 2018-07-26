@@ -4,15 +4,19 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.Hashtable;
 
-public class RequestHeaderParser {
+import static java.lang.Integer.parseInt;
+
+public class RequestParser {
 
     private String headerString;
     private RequestParams requestParams;
     private String directory;
+    private int contentLength;
 
-    RequestHeaderParser(String headerString, String directory) throws UnsupportedEncodingException {
+    RequestParser(String headerString, String directory) throws UnsupportedEncodingException {
         this.headerString = headerString;
         this.directory = directory;
+        this.contentLength = extractContentLength();
         buildRequestParams();
     }
 
@@ -24,6 +28,8 @@ public class RequestHeaderParser {
                 .setQueryComponent(extractQueryComponent())
                 .setCookies(extractCookies())
                 .setRange(extractRange())
+                .setContentLength(extractContentLength())
+                .setBody(extractBody())
                 .build();
     }
 
@@ -42,6 +48,30 @@ public class RequestHeaderParser {
         String uri = requestLine.split(" ")[1];
         String route = uri.split("[?]")[0];
         return route.trim();
+    }
+
+    private String extractBody(){
+        String bodyString = "";
+        if(this.contentLength > 0 ){
+            bodyString = headerString.split("\r\n\r\n")[1];
+            bodyString = bodyString.trim();
+        } else {
+            bodyString = "";
+        }
+        return bodyString;
+    }
+
+    private int extractContentLength(){
+        int contentLength = 0;
+        String targetString = "Content-Length";
+        if (headerString.contains(targetString)){
+            String contentLine = extractLine(targetString, headerString);
+            contentLine = contentLine.split(":")[1];
+            contentLength = parseInt(contentLine.trim());
+        } else {
+            contentLength = 0;
+        }
+        return contentLength;
     }
 
     private Hashtable<String, String> extractQueryComponent() throws UnsupportedEncodingException {
@@ -64,17 +94,12 @@ public class RequestHeaderParser {
 
     private Hashtable<String, String> extractCookies() {
         Hashtable<String, String> cookieTable = new Hashtable<>();
+        String targetString = "Cookie: ";
+        if (headerString.contains(targetString)) {
 
-        if (headerString.contains("Cookie: ")) {
-            String cookieLine = "";
-            String[] headers = headerString.split("\r\n");
-            for ( String headerLine : headers) {
-                if (headerLine.contains("Cookie: ")) {
-                    cookieLine = headerLine;
-                    cookieLine = cookieLine.replace("Cookie: ", "");
-                    break;
-                }
-            }
+            String cookieLine = extractLine(targetString, headerString);
+
+            cookieLine = cookieLine.replace("Cookie: ", "");
             String[] cookies = cookieLine.split("; ");
             for (String cookieKeyValue : cookies) {
                 String key = cookieKeyValue.split("[=]")[0];
@@ -87,31 +112,38 @@ public class RequestHeaderParser {
 
     private Hashtable<String, Integer> extractRange() {
         Hashtable<String, Integer> rangeTable = new Hashtable<>();
-        if (headerString.contains("Range")){
-            String rangeLine = "";
-            String[] headerLines = headerString.split("\r\n");
-            for (String headerLine : headerLines){
-                if (headerLine.contains("Range")){
-                    rangeLine = headerLine;
-                    break;
-                }
-            }
+        String targetString = "Range";
+        if (headerString.contains(targetString)) {
+
+            String rangeLine = extractLine(targetString, headerString);
 
             rangeLine = rangeLine.replace("Range: bytes=", "");
 
             int start = -1;
             if (!rangeLine.split("[-]")[0].equals("")){
-                start = Integer.parseInt(rangeLine.split("-")[0]);
+                start = parseInt(rangeLine.split("-")[0]);
             }
             rangeTable.put("start", start);
 
             int stop = -1;
             if (rangeLine.split("[-]").length > 1){
-                stop = Integer.parseInt(rangeLine.split("-")[1]);
+                stop = parseInt(rangeLine.split("-")[1]);
             }
             rangeTable.put("stop", stop);
         }
         return rangeTable;
+    }
+
+    private String extractLine(String targetString, String header){
+        String targetLine = "";
+        String[] headerLines = headerString.split("\r\n");
+        for ( String headerLine : headerLines) {
+            if (headerLine.contains(targetString)){
+                targetLine = headerLine;
+                break;
+            }
+        }
+        return targetLine;
     }
 
     public RequestParams getRequestParams() {

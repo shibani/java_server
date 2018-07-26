@@ -16,10 +16,10 @@ public class ResponseBodyBuilder {
     public byte[] getBody(RequestParams requestParams, ResponseParams responseParams) throws IOException {
         this.responseParams = responseParams;
         String path = requestParams.getPath();
+        String method = requestParams.getMethod();
+
         if (path.equals("/file1")) {
-            String filePath = requestParams.getDirectory() + path;
-            File file = new File(filePath);
-            this.body = getFileContents(file);
+            this.body = fileContentsBody(requestParams);
         } else if (path.equals("/coffee")) {
             this.body = coffeeBody(requestParams);
         } else if (path.equals("/cookie")) {
@@ -34,6 +34,14 @@ public class ResponseBodyBuilder {
             this.body = imageBody(requestParams);
         } else if (requestParams.getPath().equals("/partial_content.txt")) {
             this.body = partialContentBody(requestParams);
+        } else if (path.equals("/cat-form/data") && method.equals("GET")) {
+            this.body = readBody(requestParams);
+        } else if (path.equals("/cat-form") && method.equals("POST")) {
+            this.body = createBody(requestParams);
+        } else if (path.equals("/cat-form/data") && method.equals("PUT")) {
+            this.body = updateBody(requestParams);
+        } else if (path.equals("/cat-form/data") && method.equals("DELETE")) {
+            this.body = deleteBody(requestParams);
         } else {
             this.body = new byte[0];
         }
@@ -70,6 +78,12 @@ public class ResponseBodyBuilder {
             value = htmlBuilder().replace("$body", linkedFilesBody);
         }
         return value.getBytes();
+    }
+
+    private byte[] fileContentsBody(RequestParams requestParams) throws IOException {
+        String filePath = requestParams.getDirectory() + requestParams.getPath();
+        File file = new File(filePath);
+        return getFileContents(file);
     }
 
     private byte[] getFileContents(File file) throws IOException {
@@ -147,7 +161,7 @@ public class ResponseBodyBuilder {
                 .setResponseCode(206)
                 .setContentLength((int) file.length());
 
-        if (start >= 0 && stop >= start && file.length() >= stop){
+        if (start >= 0 && stop >= start && file.length() >= stop) {
             partialContent = contents.substring(start, stop + 1);
         } else if (start == -1 && file.length() >= stop) {
             start = (int) file.length() - stop;
@@ -163,5 +177,94 @@ public class ResponseBodyBuilder {
 
         this.responseParams = responseParamsBuilder.setContentRange(start, stop).build();
         return partialContent.getBytes();
+    }
+
+    private byte[] readBody(RequestParams requestParams) throws IOException {
+        String filePath = requestParams.getDirectory() + requestParams.getPath();
+        File file = new File(filePath);
+        if(file.exists()){
+            this.responseParams = new ResponseParamsBuilder().setResponseCode(200).build();
+            return getFileContents(file);
+        } else {
+            this.responseParams = new ResponseParamsBuilder().setResponseCode(404).build();
+            return new byte[0];
+        }
+    }
+
+    private byte[] createBody(RequestParams requestParams) throws IOException {
+        String fileInput = requestParams.getBody();
+        String resourceName = "/data";
+
+        File file = createFile(requestParams, resourceName);
+        writeToFile(fileInput, file);
+        buildResponseParams(file, "/data", requestParams);
+
+        return new byte[0];
+    }
+
+    private byte[] updateBody(RequestParams requestParams) throws IOException {
+        String fileInput = requestParams.getBody();
+        String filePath = requestParams.getDirectory() + requestParams.getPath();
+
+        File file = new File(filePath);
+        if(file.exists()) {
+            writeToFile(fileInput, file);
+        }
+        this.responseParams = new ResponseParamsBuilder().setResponseCode(200).build();
+
+        return new byte[0];
+    }
+
+    private byte[] deleteBody(RequestParams requestParams){
+        String filePath = requestParams.getDirectory() + requestParams.getPath();
+        File file = new File(filePath);
+        if(file.exists()) {
+            file.delete();
+        }
+        this.responseParams = new ResponseParamsBuilder().setResponseCode(200).build();
+
+        return new byte[0];
+    }
+
+    private File createFile(RequestParams requestParams, String resourceName) throws IOException {
+        String filePath = requestParams.getDirectory() + requestParams.getPath() + resourceName;
+        File file = new File(filePath);
+        file.createNewFile();
+        return file;
+    }
+
+    private void writeToFile(String str, File file) throws IOException {
+        if(file.exists()){
+            BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+            writer.write(str);
+            writer.close();
+        }
+    }
+
+    private String getFileContents(String filePath) throws IOException {
+        File file = new File(filePath);
+        FileReader fileReader = new FileReader(file);
+        BufferedReader bufferedReader = new BufferedReader(fileReader);
+        RequestReader reader = new RequestReader(bufferedReader);
+        return reader.getRequestedFileContents();
+    }
+
+    private String getDirectoryListingString(File folder){
+        StringBuilder fileNames = new StringBuilder();
+        if(folder.listFiles() != null){
+            for (final File fileEntry : folder.listFiles()) {
+                fileNames.append(fileEntry.getName());
+                fileNames.append(" ");
+            }
+        }
+        return fileNames.toString();
+    }
+
+    private void buildResponseParams(File file, String resourceName, RequestParams requestParams){
+        if( file.exists() ){
+            this.responseParams = new ResponseParamsBuilder().setResponseCode(201).setLocationHeader(requestParams.getPath() + resourceName).build();
+        } else {
+            this.responseParams = new ResponseParamsBuilder().setResponseCode(500).build();
+        }
     }
 }

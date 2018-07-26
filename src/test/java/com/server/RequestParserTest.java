@@ -7,7 +7,7 @@ import java.util.Hashtable;
 
 import static org.junit.Assert.*;
 
-public class RequestHeaderParserTest {
+public class RequestParserTest {
 
     @Test
     public void getVerbReturnsGetHTTPVerb() throws UnsupportedEncodingException {
@@ -15,9 +15,9 @@ public class RequestHeaderParserTest {
         String headerString = "GET / HTTP/1.1";
         String directory = "/foo";
 
-        RequestHeaderParser requestHeaderParser = new RequestHeaderParser(headerString, directory);
+        RequestParser requestParser = new RequestParser(headerString, directory);
 
-        assertEquals("GET", requestHeaderParser.getRequestParams().getMethod());
+        assertEquals("GET", requestParser.getRequestParams().getMethod());
     }
 
     @Test
@@ -26,9 +26,9 @@ public class RequestHeaderParserTest {
         String headerString = "POST / HTTP/1.1";
         String directory = "/foo";
 
-        RequestHeaderParser requestHeaderParser = new RequestHeaderParser(headerString, directory);
+        RequestParser requestParser = new RequestParser(headerString, directory);
 
-        assertEquals("POST", requestHeaderParser.getRequestParams().getMethod());
+        assertEquals("POST", requestParser.getRequestParams().getMethod());
     }
 
     @Test
@@ -37,9 +37,9 @@ public class RequestHeaderParserTest {
         String headerString = "POST / HTTP/1.1";
         String directory = "/foo";
 
-        RequestHeaderParser requestHeaderParser = new RequestHeaderParser(headerString, directory);
+        RequestParser requestParser = new RequestParser(headerString, directory);
 
-        assertEquals("/", requestHeaderParser.getRequestParams().getPath());
+        assertEquals("/", requestParser.getRequestParams().getPath());
     }
 
     @Test
@@ -48,9 +48,9 @@ public class RequestHeaderParserTest {
         String headerString = "POST /form HTTP/1.1";
         String directory = "/foo";
 
-        RequestHeaderParser requestHeaderParser = new RequestHeaderParser(headerString, directory);
+        RequestParser requestParser = new RequestParser(headerString, directory);
 
-        assertEquals("/form", requestHeaderParser.getRequestParams().getPath());
+        assertEquals("/form", requestParser.getRequestParams().getPath());
     }
 
     @Test
@@ -59,9 +59,9 @@ public class RequestHeaderParserTest {
         String headerString = "GET /cookie?type=chocolate HTTP/1.1";
         String directory = "/foo";
 
-        RequestHeaderParser requestHeaderParser = new RequestHeaderParser(headerString, directory);
+        RequestParser requestParser = new RequestParser(headerString, directory);
 
-        assertEquals("/cookie", requestHeaderParser.getRequestParams().getPath());
+        assertEquals("/cookie", requestParser.getRequestParams().getPath());
     }
 
     @Test
@@ -70,9 +70,9 @@ public class RequestHeaderParserTest {
         String headerString = "GET /cookie?type=chocolate&foo=bar HTTP/1.1";
         String directory = "/foo";
 
-        RequestHeaderParser requestHeaderParser = new RequestHeaderParser(headerString, directory);
+        RequestParser requestParser = new RequestParser(headerString, directory);
 
-        Hashtable result = requestHeaderParser.getRequestParams().getQueryComponent();
+        Hashtable result = requestParser.getRequestParams().getQueryComponent();
 
         assertEquals("chocolate", result.get("type"));
         assertEquals("bar", result.get("foo"));
@@ -84,9 +84,9 @@ public class RequestHeaderParserTest {
         String headerString = "GET /cookie?foo=%3D%40%23%24%25%5E HTTP/1.1";
         String directory = "/foo";
 
-        RequestHeaderParser requestHeaderParser = new RequestHeaderParser(headerString, directory);
+        RequestParser requestParser = new RequestParser(headerString, directory);
 
-        Hashtable result = requestHeaderParser.getRequestParams().getQueryComponent();
+        Hashtable result = requestParser.getRequestParams().getQueryComponent();
 
         assertEquals("=@#$%^", result.get("foo"));
     }
@@ -97,9 +97,9 @@ public class RequestHeaderParserTest {
         String headerString = "GET / HTTP/1.1";
         String directory = "/foo";
 
-        RequestHeaderParser requestHeaderParser = new RequestHeaderParser(headerString, directory);
+        RequestParser requestParser = new RequestParser(headerString, directory);
 
-        Hashtable result = requestHeaderParser.getRequestParams().getQueryComponent();
+        Hashtable result = requestParser.getRequestParams().getQueryComponent();
 
         assertEquals(new Hashtable(), result);
     }
@@ -110,9 +110,9 @@ public class RequestHeaderParserTest {
         String headerString = "GET /cookie HTTP/1.1\r\nCookie: type=chocolate\r\n\r\n";
         String directory = "/foo";
 
-        RequestHeaderParser requestHeaderParser = new RequestHeaderParser(headerString, directory);
+        RequestParser requestParser = new RequestParser(headerString, directory);
 
-        Hashtable result = requestHeaderParser.getRequestParams().getCookies();
+        Hashtable result = requestParser.getRequestParams().getCookies();
 
         assertEquals("chocolate", result.get("type"));
     }
@@ -123,9 +123,9 @@ public class RequestHeaderParserTest {
         String headerString = "GET /cookie?type=chocolate&foo=bar HTTP/1.1";
         String directory = "/foo";
 
-        RequestHeaderParser requestHeaderParser = new RequestHeaderParser(headerString, directory);
+        RequestParser requestParser = new RequestParser(headerString, directory);
 
-        Hashtable result = requestHeaderParser.getRequestParams().getCookies();
+        Hashtable result = requestParser.getRequestParams().getCookies();
 
         assertEquals(new Hashtable(), result);
     }
@@ -134,9 +134,9 @@ public class RequestHeaderParserTest {
         String directory = "/public";
         String headerString = "GET /foo HTTP/1.1\r\nRange: bytes=1-2\r\n";
 
-        RequestHeaderParser requestHeaderParser = new RequestHeaderParser(headerString, directory);
+        RequestParser requestParser = new RequestParser(headerString, directory);
 
-        Hashtable result = requestHeaderParser.getRequestParams().getRange();
+        Hashtable result = requestParser.getRequestParams().getRange();
 
         assertEquals(1, result.get("start"));
         assertEquals(2, result.get("stop"));
@@ -148,9 +148,9 @@ public class RequestHeaderParserTest {
         String directory = "/public";
         String headerString = "GET /foo HTTP/1.1\r\nRange: bytes=-2\r\n";
 
-        RequestHeaderParser requestHeaderParser = new RequestHeaderParser(headerString, directory);
+        RequestParser requestParser = new RequestParser(headerString, directory);
 
-        Hashtable result = requestHeaderParser.getRequestParams().getRange();
+        Hashtable result = requestParser.getRequestParams().getRange();
 
         assertEquals(-1, result.get("start"));
         assertEquals(2, result.get("stop"));
@@ -162,9 +162,9 @@ public class RequestHeaderParserTest {
         String directory = "/public";
         String headerString = "GET /foo HTTP/1.1\r\nRange: bytes=2-\r\n";
 
-        RequestHeaderParser requestHeaderParser = new RequestHeaderParser(headerString, directory);
+        RequestParser requestParser = new RequestParser(headerString, directory);
 
-        Hashtable result = requestHeaderParser.getRequestParams().getRange();
+        Hashtable result = requestParser.getRequestParams().getRange();
 
         assertEquals(2, result.get("start"));
         assertEquals(-1, result.get("stop"));
@@ -176,10 +176,30 @@ public class RequestHeaderParserTest {
         String directory = "/public";
         String headerString = "GET /foo HTTP/1.1\r\n\r\n";
 
-        RequestHeaderParser requestHeaderParser = new RequestHeaderParser(headerString, directory);
+        RequestParser requestParser = new RequestParser(headerString, directory);
 
-        Hashtable result = requestHeaderParser.getRequestParams().getRange();
+        Hashtable result = requestParser.getRequestParams().getRange();
 
         assertEquals(new Hashtable(), result);
+    }
+
+    @Test
+    public void getContentLengthReturnsContentLengthOfBody() throws UnsupportedEncodingException{
+        String directory = "/public";
+        String headerString = "GET /foo HTTP/1.1\r\nContent-Length:4\r\n\r\nbody";
+
+        RequestParser requestParser = new RequestParser(headerString, directory);
+
+        assertEquals(4, requestParser.getRequestParams().getContentLength());
+    }
+
+    @Test
+    public void getBodyReturnsTheRequestBodyAsAString() throws UnsupportedEncodingException{
+        String directory = "/public";
+        String headerString = "GET /foo HTTP/1.1\r\nContent-Length:4\r\n\r\nbody";
+
+        RequestParser requestParser = new RequestParser(headerString, directory);
+
+        assertEquals("body", requestParser.getRequestParams().getBody());
     }
 }

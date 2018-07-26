@@ -1,12 +1,7 @@
 package com.server;
 
-import javax.imageio.ImageIO;
-import javax.imageio.stream.ImageInputStream;
-import java.awt.image.BufferedImage;
 import java.net.*;
 import java.io.*;
-import java.nio.ByteBuffer;
-import java.util.Arrays;
 
 public class HTTPServerManager {
 
@@ -28,9 +23,9 @@ public class HTTPServerManager {
             BufferedReader in = openInputStream(clientSocket);
 
             RequestReader requestHeaderReader = new RequestReader(in);
-            RequestHeaderParser requestHeaderParser = new RequestHeaderParser(requestHeaderReader.getHeader(), serverConfig.getDirectory());
+            RequestParser requestParser = new RequestParser(requestHeaderReader.getRequest(), serverConfig.getDirectory());
 
-            RequestParams requestParams = requestHeaderParser.getRequestParams();
+            RequestParams requestParams = requestParser.getRequestParams();
 
             ResponseBuilder responseBuilder = new ResponseBuilder(requestRouter);
 

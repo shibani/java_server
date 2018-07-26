@@ -7,11 +7,13 @@ public class ResponseParams {
     private int responseCode;
     private int contentLength;
     private Hashtable<String, Integer> contentRange;
+    private String locationHeader;
 
-    public ResponseParams(int responseCode, int contentLength, Hashtable<String, Integer> contentRange){
+    public ResponseParams(int responseCode, int contentLength, Hashtable<String, Integer> contentRange, String locationHeader) {
         this.responseCode = responseCode;
         this.contentLength = contentLength;
         this.contentRange = contentRange;
+        this.locationHeader = locationHeader;
     }
 
     public int getResponseCode() {
@@ -26,4 +28,7 @@ public class ResponseParams {
         return this.contentRange;
     }
 
+    public String getLocationHeader(){
+        return this.locationHeader;
+    }
 }

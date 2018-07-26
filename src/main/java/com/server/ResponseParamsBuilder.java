@@ -7,6 +7,7 @@ public class ResponseParamsBuilder {
     private int responseCode;
     private int contentLength;
     private Hashtable<String, Integer> contentRange;
+    private String locationHeader;
 
     public ResponseParamsBuilder setResponseCode(int responseCode) {
         this.responseCode = responseCode;
@@ -25,7 +26,12 @@ public class ResponseParamsBuilder {
         return this;
     }
 
+    public ResponseParamsBuilder setLocationHeader(String locationHeader){
+        this.locationHeader = locationHeader;
+        return this;
+    }
+
     public ResponseParams build() {
-        return new ResponseParams(responseCode, contentLength, contentRange);
+        return new ResponseParams(responseCode, contentLength, contentRange, locationHeader);
     }
 }
