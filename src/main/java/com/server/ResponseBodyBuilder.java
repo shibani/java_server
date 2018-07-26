@@ -192,8 +192,7 @@ public class ResponseBodyBuilder {
     }
 
     private byte[] createBody(RequestParams requestParams) throws IOException {
-        //String fileInput = requestParams.getBody();
-        String fileInput = "data=fatcat";
+        String fileInput = requestParams.getBody();
         String resourceName = "/data";
 
         File file = createFile(requestParams, resourceName);
@@ -204,8 +203,7 @@ public class ResponseBodyBuilder {
     }
 
     private byte[] updateBody(RequestParams requestParams) throws IOException {
-        //String fileInput = requestParams.getBody();
-        String fileInput = "data=heathcliff";
+        String fileInput = requestParams.getBody();
         String filePath = requestParams.getDirectory() + requestParams.getPath();
 
         File file = new File(filePath);
@@ -218,7 +216,6 @@ public class ResponseBodyBuilder {
     }
 
     private byte[] deleteBody(RequestParams requestParams){
-        //delete data file here, if successful
         String filePath = requestParams.getDirectory() + requestParams.getPath();
         File file = new File(filePath);
         if(file.exists()) {
@@ -236,26 +233,10 @@ public class ResponseBodyBuilder {
         return file;
     }
 
-    private void writeToFile(String str, File file) {
-        BufferedWriter bw = null;
-        FileWriter fw = null;
-
-        try {
-            fw = new FileWriter(file);
-            bw = new BufferedWriter(fw);
-            bw.write(str);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (bw != null)
-                    bw.close();
-                if (fw != null)
-                    fw.close();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-        }
+    private void writeToFile(String str, File file) throws IOException {
+        BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+        writer.write(str);
+        writer.close();
     }
 
     private void buildResponseParams(File file, String resourceName, RequestParams requestParams){

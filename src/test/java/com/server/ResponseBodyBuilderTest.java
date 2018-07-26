@@ -303,7 +303,7 @@ public class ResponseBodyBuilderTest {
 
         RequestRouter rr = new RequestRouter();
         ResponseBodyBuilder responseBodyBuilder = new ResponseBodyBuilder(rr);
-        RequestParams requestParams = new RequestParamsBuilder().setPath(path).setMethod(method).setDirectory(testDir).build();
+        RequestParams requestParams = new RequestParamsBuilder().setPath(path).setMethod(method).setDirectory(testDir).setBody(bodyContent).build();
         ResponseParams responseParams = new ResponseParamsBuilder().build();
 
         byte[] body = responseBodyBuilder.getBody(requestParams, responseParams);
@@ -336,12 +336,13 @@ public class ResponseBodyBuilderTest {
     public void getBodyCanReadAFile() throws IOException {
         String path = "/cat-form/data";
         String method = "GET";
+        String bodyContent = "data=fatcat";
         File resourcesDirectory = new File("src/test/resources/test-listing");
         String testDir = resourcesDirectory.getAbsolutePath();
 
         RequestRouter rr = new RequestRouter();
         ResponseBodyBuilder responseBodyBuilder = new ResponseBodyBuilder(rr);
-        RequestParams requestParams = new RequestParamsBuilder().setPath(path).setMethod(method).setDirectory(testDir).build();
+        RequestParams requestParams = new RequestParamsBuilder().setPath(path).setMethod(method).setDirectory(testDir).setBody(bodyContent).build();
         ResponseParams responseParams = new ResponseParamsBuilder().build();
 
         byte[] body = responseBodyBuilder.getBody(requestParams, responseParams);
@@ -360,12 +361,13 @@ public class ResponseBodyBuilderTest {
     public void getBodyCanUpdateAFile() throws IOException {
         String path = "/cat-form/data";
         String method = "PUT";
+        String bodyContent = "data=heathcliff";
         File resourcesDirectory = new File("src/test/resources/test-listing");
         String testDir = resourcesDirectory.getAbsolutePath();
 
         RequestRouter rr = new RequestRouter();
         ResponseBodyBuilder responseBodyBuilder = new ResponseBodyBuilder(rr);
-        RequestParams requestParams = new RequestParamsBuilder().setPath(path).setMethod(method).setDirectory(testDir).build();
+        RequestParams requestParams = new RequestParamsBuilder().setPath(path).setMethod(method).setDirectory(testDir).setBody(bodyContent).build();
         ResponseParams responseParams = new ResponseParamsBuilder().build();
 
         byte[] body = responseBodyBuilder.getBody(requestParams, responseParams);

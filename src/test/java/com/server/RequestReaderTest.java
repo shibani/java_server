@@ -9,13 +9,27 @@ import static org.junit.Assert.*;
 public class RequestReaderTest {
 
     @Test
-    public void getHeaderShouldReturnExpectedHeader() throws IOException {
+    public void getHeaderShouldReturnRequest() throws IOException {
 
-        String aString = "header\r\n\r\nbody";
+        String aString = "header\r\nContent-Length:4\r\n\r\nbody";
         Reader inputString = new StringReader(aString);
         BufferedReader br = new BufferedReader(inputString);
 
         final RequestReader requestReader = new RequestReader(br);
+        final String requestString = "header\r\nContent-Length:4\r\n\r\nbody";
+
+        assertEquals(requestString, requestReader.getHeader());
+    }
+
+    @Test
+    public void getHeaderShouldReturnOnlyHeaderIfRequestHasNoBody() throws IOException {
+
+        String aString = "header\r\n\r\n";
+        Reader inputString = new StringReader(aString);
+        BufferedReader br = new BufferedReader(inputString);
+
+        final RequestReader requestReader = new RequestReader(br);
+        final String requestString = "header\r\nContent-Length:4\r\n\r\nbody";
 
         assertEquals("header", requestReader.getHeader());
     }
@@ -27,9 +41,10 @@ public class RequestReaderTest {
         String file = resourcesDirectory.getAbsolutePath();
         FileReader fileReader = new FileReader(file);
         BufferedReader bufferedReader = new BufferedReader(fileReader);
+        String separator = "\r\n";
 
         final RequestReader requestReader = new RequestReader(bufferedReader);
 
-        assertEquals("file1 contents", requestReader.getHeader());
+        assertEquals("file1 contents", requestReader.getRequestedFileContents());
     }
 }

@@ -28,7 +28,7 @@ public class HTTPServerManager {
             BufferedReader in = openInputStream(clientSocket);
 
             RequestReader requestHeaderReader = new RequestReader(in);
-            RequestHeaderParser requestHeaderParser = new RequestHeaderParser(requestHeaderReader.getHeader(), requestHeaderReader.getBody(), serverConfig.getDirectory());
+            RequestHeaderParser requestHeaderParser = new RequestHeaderParser(requestHeaderReader.getHeader(), serverConfig.getDirectory());
 
             RequestParams requestParams = requestHeaderParser.getRequestParams();
 
@@ -57,6 +57,17 @@ public class HTTPServerManager {
 
     private Socket openSocket(ServerSocket serverSocket) throws IOException {
         return serverSocket.accept();
+    }
+
+    private ByteArrayOutputStream byteInputStream(Socket socket) throws IOException {
+        InputStream inputStream = socket.getInputStream();
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        byte[] content = new byte[ 2048 ];
+        int bytesRead = -1;
+        while( ( bytesRead = inputStream.read( content ) ) != -1 ) {
+            baos.write( content, 0, bytesRead );
+        }
+        return baos;
     }
 
     private BufferedReader openInputStream(Socket socket) throws IOException {

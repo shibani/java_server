@@ -16,7 +16,7 @@ public class RequestHeaderParserTest {
         String directory = "/foo";
         String bodyString = "";
 
-        RequestHeaderParser requestHeaderParser = new RequestHeaderParser(headerString, bodyString, directory);
+        RequestHeaderParser requestHeaderParser = new RequestHeaderParser(headerString, directory);
 
         assertEquals("GET", requestHeaderParser.getRequestParams().getMethod());
     }
@@ -28,7 +28,7 @@ public class RequestHeaderParserTest {
         String directory = "/foo";
         String bodyString = "";
 
-        RequestHeaderParser requestHeaderParser = new RequestHeaderParser(headerString, bodyString, directory);
+        RequestHeaderParser requestHeaderParser = new RequestHeaderParser(headerString, directory);
 
         assertEquals("POST", requestHeaderParser.getRequestParams().getMethod());
     }
@@ -40,7 +40,7 @@ public class RequestHeaderParserTest {
         String directory = "/foo";
         String bodyString = "";
 
-        RequestHeaderParser requestHeaderParser = new RequestHeaderParser(headerString, bodyString, directory);
+        RequestHeaderParser requestHeaderParser = new RequestHeaderParser(headerString, directory);
 
         assertEquals("/", requestHeaderParser.getRequestParams().getPath());
     }
@@ -52,7 +52,7 @@ public class RequestHeaderParserTest {
         String directory = "/foo";
         String bodyString = "";
 
-        RequestHeaderParser requestHeaderParser = new RequestHeaderParser(headerString, bodyString, directory);
+        RequestHeaderParser requestHeaderParser = new RequestHeaderParser(headerString, directory);
 
         assertEquals("/form", requestHeaderParser.getRequestParams().getPath());
     }
@@ -64,7 +64,7 @@ public class RequestHeaderParserTest {
         String directory = "/foo";
         String bodyString = "";
 
-        RequestHeaderParser requestHeaderParser = new RequestHeaderParser(headerString, bodyString, directory);
+        RequestHeaderParser requestHeaderParser = new RequestHeaderParser(headerString, directory);
 
         assertEquals("/cookie", requestHeaderParser.getRequestParams().getPath());
     }
@@ -76,7 +76,7 @@ public class RequestHeaderParserTest {
         String directory = "/foo";
         String bodyString = "";
 
-        RequestHeaderParser requestHeaderParser = new RequestHeaderParser(headerString, bodyString, directory);
+        RequestHeaderParser requestHeaderParser = new RequestHeaderParser(headerString, directory);
 
         Hashtable result = requestHeaderParser.getRequestParams().getQueryComponent();
 
@@ -91,7 +91,7 @@ public class RequestHeaderParserTest {
         String directory = "/foo";
         String bodyString = "";
 
-        RequestHeaderParser requestHeaderParser = new RequestHeaderParser(headerString, bodyString, directory);
+        RequestHeaderParser requestHeaderParser = new RequestHeaderParser(headerString, directory);
 
         Hashtable result = requestHeaderParser.getRequestParams().getQueryComponent();
 
@@ -105,7 +105,7 @@ public class RequestHeaderParserTest {
         String directory = "/foo";
         String bodyString = "";
 
-        RequestHeaderParser requestHeaderParser = new RequestHeaderParser(headerString, bodyString, directory);
+        RequestHeaderParser requestHeaderParser = new RequestHeaderParser(headerString, directory);
 
         Hashtable result = requestHeaderParser.getRequestParams().getQueryComponent();
 
@@ -119,7 +119,7 @@ public class RequestHeaderParserTest {
         String directory = "/foo";
         String bodyString = "";
 
-        RequestHeaderParser requestHeaderParser = new RequestHeaderParser(headerString, bodyString, directory);
+        RequestHeaderParser requestHeaderParser = new RequestHeaderParser(headerString, directory);
 
         Hashtable result = requestHeaderParser.getRequestParams().getCookies();
 
@@ -133,7 +133,7 @@ public class RequestHeaderParserTest {
         String directory = "/foo";
         String bodyString = "";
 
-        RequestHeaderParser requestHeaderParser = new RequestHeaderParser(headerString, bodyString, directory);
+        RequestHeaderParser requestHeaderParser = new RequestHeaderParser(headerString, directory);
 
         Hashtable result = requestHeaderParser.getRequestParams().getCookies();
 
@@ -145,7 +145,7 @@ public class RequestHeaderParserTest {
         String headerString = "GET /foo HTTP/1.1\r\nRange: bytes=1-2\r\n";
         String bodyString = "";
 
-        RequestHeaderParser requestHeaderParser = new RequestHeaderParser(headerString, bodyString, directory);
+        RequestHeaderParser requestHeaderParser = new RequestHeaderParser(headerString, directory);
 
         Hashtable result = requestHeaderParser.getRequestParams().getRange();
 
@@ -160,7 +160,7 @@ public class RequestHeaderParserTest {
         String headerString = "GET /foo HTTP/1.1\r\nRange: bytes=-2\r\n";
         String bodyString = "";
 
-        RequestHeaderParser requestHeaderParser = new RequestHeaderParser(headerString, bodyString, directory);
+        RequestHeaderParser requestHeaderParser = new RequestHeaderParser(headerString, directory);
 
         Hashtable result = requestHeaderParser.getRequestParams().getRange();
 
@@ -175,7 +175,7 @@ public class RequestHeaderParserTest {
         String headerString = "GET /foo HTTP/1.1\r\nRange: bytes=2-\r\n";
         String bodyString = "";
 
-        RequestHeaderParser requestHeaderParser = new RequestHeaderParser(headerString, bodyString, directory);
+        RequestHeaderParser requestHeaderParser = new RequestHeaderParser(headerString, directory);
 
         Hashtable result = requestHeaderParser.getRequestParams().getRange();
 
@@ -190,10 +190,30 @@ public class RequestHeaderParserTest {
         String headerString = "GET /foo HTTP/1.1\r\n\r\n";
         String bodyString = "";
 
-        RequestHeaderParser requestHeaderParser = new RequestHeaderParser(headerString, bodyString, directory);
+        RequestHeaderParser requestHeaderParser = new RequestHeaderParser(headerString, directory);
 
         Hashtable result = requestHeaderParser.getRequestParams().getRange();
 
         assertEquals(new Hashtable(), result);
+    }
+
+    @Test
+    public void getContentLengthReturnsContentLengthOfBody() throws UnsupportedEncodingException{
+        String directory = "/public";
+        String headerString = "GET /foo HTTP/1.1\r\nContent-Length:4\r\n\r\nbody";
+
+        RequestHeaderParser requestHeaderParser = new RequestHeaderParser(headerString, directory);
+
+        assertEquals(4, requestHeaderParser.getRequestParams().getContentLength());
+    }
+
+    @Test
+    public void getBodyReturnsTheRequestBodyAsAString() throws UnsupportedEncodingException{
+        String directory = "/public";
+        String headerString = "GET /foo HTTP/1.1\r\nContent-Length:4\r\n\r\nbody";
+
+        RequestHeaderParser requestHeaderParser = new RequestHeaderParser(headerString, directory);
+
+        assertEquals("body", requestHeaderParser.getRequestParams().getBody());
     }
 }
