@@ -13,7 +13,7 @@ public class RequestParser {
     private String directory;
     private int contentLength;
 
-        RequestParser(String headerString, String directory) throws UnsupportedEncodingException {
+    RequestParser(String headerString, String directory) throws UnsupportedEncodingException {
         this.headerString = headerString;
         this.directory = directory;
         this.contentLength = extractContentLength();
