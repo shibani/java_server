@@ -14,17 +14,17 @@ public class RequestReader {
         this.bufferedReader = bufferedReader;
     }
 
-    public String getHeader() throws IOException {
+    public String getRequest() throws IOException {
         String header = read("\r\n");
-        String finalResponse = "";
+        String requestString = "";
         if (this.contentLength > 0){
             char[] body = new char[this.contentLength];
             bufferedReader.read(body, 0, this.contentLength);
-            finalResponse = header + "\r\n\r\n" + new String(body);
+            requestString = header + "\r\n\r\n" + new String(body);
         } else {
-            finalResponse = header;
+            requestString = header;
         }
-        return finalResponse;
+        return requestString;
     }
 
     public String getRequestedFileContents() throws IOException {

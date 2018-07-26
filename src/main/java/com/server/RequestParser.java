@@ -6,14 +6,14 @@ import java.util.Hashtable;
 
 import static java.lang.Integer.parseInt;
 
-public class RequestHeaderParser {
+public class RequestParser {
 
     private String headerString;
     private RequestParams requestParams;
     private String directory;
     private int contentLength;
 
-    RequestHeaderParser(String headerString, String directory) throws UnsupportedEncodingException {
+    RequestParser(String headerString, String directory) throws UnsupportedEncodingException {
         this.headerString = headerString;
         this.directory = directory;
         this.contentLength = extractContentLength();

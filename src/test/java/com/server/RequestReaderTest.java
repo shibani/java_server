@@ -18,7 +18,7 @@ public class RequestReaderTest {
         final RequestReader requestReader = new RequestReader(br);
         final String requestString = "header\r\nContent-Length:4\r\n\r\nbody";
 
-        assertEquals(requestString, requestReader.getHeader());
+        assertEquals(requestString, requestReader.getRequest());
     }
 
     @Test
@@ -31,7 +31,7 @@ public class RequestReaderTest {
         final RequestReader requestReader = new RequestReader(br);
         final String requestString = "header\r\nContent-Length:4\r\n\r\nbody";
 
-        assertEquals("header", requestReader.getHeader());
+        assertEquals("header", requestReader.getRequest());
     }
 
     @Test

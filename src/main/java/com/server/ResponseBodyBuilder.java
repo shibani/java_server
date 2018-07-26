@@ -226,14 +226,14 @@ public class ResponseBodyBuilder {
         return new byte[0];
     }
 
-    public File createFile(RequestParams requestParams, String resourceName) throws IOException {
+    private File createFile(RequestParams requestParams, String resourceName) throws IOException {
         String filePath = requestParams.getDirectory() + requestParams.getPath() + resourceName;
         File file = new File(filePath);
         file.createNewFile();
         return file;
     }
 
-    public void writeToFile(String str, File file) throws IOException {
+    private void writeToFile(String str, File file) throws IOException {
         if(file.exists()){
             BufferedWriter writer = new BufferedWriter(new FileWriter(file));
             writer.write(str);
@@ -241,7 +241,7 @@ public class ResponseBodyBuilder {
         }
     }
 
-    public String getFileContents(String filePath) throws IOException {
+    private String getFileContents(String filePath) throws IOException {
         File file = new File(filePath);
         FileReader fileReader = new FileReader(file);
         BufferedReader bufferedReader = new BufferedReader(fileReader);
@@ -249,7 +249,7 @@ public class ResponseBodyBuilder {
         return reader.getRequestedFileContents();
     }
 
-    public String getDirectoryListingString(File folder){
+    private String getDirectoryListingString(File folder){
         StringBuilder fileNames = new StringBuilder();
         if(folder.listFiles() != null){
             for (final File fileEntry : folder.listFiles()) {

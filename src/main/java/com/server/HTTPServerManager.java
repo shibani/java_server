@@ -1,12 +1,7 @@
 package com.server;
 
-import javax.imageio.ImageIO;
-import javax.imageio.stream.ImageInputStream;
-import java.awt.image.BufferedImage;
 import java.net.*;
 import java.io.*;
-import java.nio.ByteBuffer;
-import java.util.Arrays;
 
 public class HTTPServerManager {
 
@@ -28,9 +23,9 @@ public class HTTPServerManager {
             BufferedReader in = openInputStream(clientSocket);
 
             RequestReader requestHeaderReader = new RequestReader(in);
-            RequestHeaderParser requestHeaderParser = new RequestHeaderParser(requestHeaderReader.getHeader(), serverConfig.getDirectory());
+            RequestParser requestParser = new RequestParser(requestHeaderReader.getRequest(), serverConfig.getDirectory());
 
-            RequestParams requestParams = requestHeaderParser.getRequestParams();
+            RequestParams requestParams = requestParser.getRequestParams();
 
             ResponseBuilder responseBuilder = new ResponseBuilder(requestRouter);
 
@@ -57,17 +52,6 @@ public class HTTPServerManager {
 
     private Socket openSocket(ServerSocket serverSocket) throws IOException {
         return serverSocket.accept();
-    }
-
-    private ByteArrayOutputStream byteInputStream(Socket socket) throws IOException {
-        InputStream inputStream = socket.getInputStream();
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        byte[] content = new byte[ 2048 ];
-        int bytesRead = -1;
-        while( ( bytesRead = inputStream.read( content ) ) != -1 ) {
-            baos.write( content, 0, bytesRead );
-        }
-        return baos;
     }
 
     private BufferedReader openInputStream(Socket socket) throws IOException {
