@@ -22,32 +22,12 @@ public class HTTPServerManager {
     }
 
     public void runServer() throws IOException {
+        ServerSocket serverSocket = createServerSocket();
         while(running()) {
-            ServerSocket serverSocket = null;
-            Socket clientSocket = null;
-            try {
-                serverSocket = createServerSocket();
-                clientSocket = openSocket(serverSocket);
-
-                BufferedReader in = openInputStream(clientSocket);
-
-                RequestReader requestReader = new RequestReader(in);
-                String request = requestReader.getRequest();
-
-                if (this.logRequests) {
-                    Logger logger = new Logger(serverConfig.getDirectory() + "/logs.txt");
-                    logger.log(getFirstLine(request));
-                }
-
-                RequestParser requestParser = new RequestParser(request, serverConfig.getDirectory());
-                RequestParams requestParams = requestParser.getRequestParams();
-                ResponseBuilder responseBuilder = new ResponseBuilder(requestRouter);
-
-                sendResponse(clientSocket.getOutputStream(), responseBuilder.getResponse(requestParams));
-            }
-            finally {
-                stopServer(serverSocket, clientSocket);
-            }
+            Socket clientSocket = openSocket(serverSocket);
+            ClientWorker clientWorker = new ClientWorker(clientSocket, this.logRequests, this.serverConfig, this.requestRouter);
+            Thread thread = new Thread(clientWorker);
+            thread.start();
         }
     }
 
