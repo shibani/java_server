@@ -30,6 +30,7 @@ public class RequestParser {
                 .setRange(extractRange())
                 .setContentLength(extractContentLength())
                 .setBody(extractBody())
+                .setAuthorizationCredentials(extractAuthorizationCredentials())
                 .build();
     }
 
@@ -134,16 +135,23 @@ public class RequestParser {
         return rangeTable;
     }
 
-    private String extractLine(String targetString, String header){
+    private String extractLine(String targetString, String header) {
         String targetLine = "";
         String[] headerLines = headerString.split("\r\n");
-        for ( String headerLine : headerLines) {
-            if (headerLine.contains(targetString)){
+        for (String headerLine : headerLines) {
+            if (headerLine.contains(targetString)) {
                 targetLine = headerLine;
                 break;
             }
         }
         return targetLine;
+    }
+
+    private String extractAuthorizationCredentials() {
+        String targetString = "Authorization: Basic";
+        String authorizationLine = extractLine(targetString, headerString);
+        String authorizationCredentials = authorizationLine.replace(targetString + " ", "");
+        return authorizationCredentials;
     }
 
     public RequestParams getRequestParams() {

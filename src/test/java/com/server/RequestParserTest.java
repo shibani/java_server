@@ -129,6 +129,7 @@ public class RequestParserTest {
 
         assertEquals(new Hashtable(), result);
     }
+
     @Test
     public void requestParamsReturnsRequestParamsWithRangeTable() throws UnsupportedEncodingException {
         String directory = "/public";
@@ -201,5 +202,15 @@ public class RequestParserTest {
         RequestParser requestParser = new RequestParser(headerString, directory);
 
         assertEquals("body", requestParser.getRequestParams().getBody());
+    }
+
+    @Test
+    public void getAuthorizationCredentialsReturnsExpectedString() throws UnsupportedEncodingException {
+        String headerString = "GET /logs HTTP/1.1\r\nAuthorization: Basic AWDVyM==\r\n";
+        String directory = "/foo";
+        RequestParser requestParser = new RequestParser(headerString, directory);
+        String result = requestParser.getRequestParams().getAuthorizationCredentials();
+
+        assertEquals("AWDVyM==", result);
     }
 }

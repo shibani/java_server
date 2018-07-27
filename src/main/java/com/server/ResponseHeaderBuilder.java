@@ -14,6 +14,10 @@ public class ResponseHeaderBuilder {
         String statusLine = statusHandler.createLine(requestParams, responseParams);
         appendLine(statusLine);
 
+        BasicAuthorizationHandler basicAuthHandler = new BasicAuthorizationHandler(requestParams);
+        String basicAuthLine = basicAuthHandler.createLine(requestParams, responseParams);
+        appendLine(basicAuthLine);
+
         if (requestRouter.getResponseCode(requestParams) < 400 || responseParams.getResponseCode() != 0){
             AllowHandler allowHandler = new AllowHandler();
             String allowLine = allowHandler.createLine(requestParams, responseParams);

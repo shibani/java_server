@@ -46,4 +46,17 @@ public class ResponseBuilderTest {
         assertTrue(Arrays.equals(expectedBytes, response));
     }
 
+    @Test
+    public void getResponseReturnsOnlyAHeaderIfRequestingLogsWithoutCredentials() throws IOException {
+        String path = "/logs";
+        String method = "GET";
+        RequestRouter rr = new RequestRouter();
+        ResponseBuilder responseBuilder = new ResponseBuilder(rr);
+        RequestParams requestParams = new RequestParamsBuilder().setPath(path).setMethod(method).build();
+        String expected = "HTTP/1.1 401 Unauthorized\r\nWWW-Authenticate: Basic\r\n\r\n";
+
+        byte[] response = responseBuilder.getResponse(requestParams);
+
+        assertEquals(expected, new String(response));
+    }
 }

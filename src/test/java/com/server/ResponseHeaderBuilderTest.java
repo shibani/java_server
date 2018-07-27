@@ -10,7 +10,7 @@ import static org.junit.Assert.*;
 public class ResponseHeaderBuilderTest {
 
     @Test
-    public void getHeaderReturnsAStatusLineByDefault() throws IOException {
+    public void getHeaderReturnsAStatusLineByDefault() {
         String path = "/foo";
         String method = "GET";
         String directory = "/bar";
@@ -24,7 +24,7 @@ public class ResponseHeaderBuilderTest {
     }
 
     @Test
-    public void getHeaderReturnsAFormattedHeaderBasedonPathAndMethod() throws IOException {
+    public void getHeaderReturnsAFormattedHeaderBasedonPathAndMethod() {
         String path = "/method_options";
         String method = "OPTIONS";
         MockRequestRouter mrr = new MockRequestRouter();
@@ -41,7 +41,7 @@ public class ResponseHeaderBuilderTest {
     }
 
     @Test
-    public void getHeaderReturnsASingle405StatusLine() throws IOException {
+    public void getHeaderReturnsASingle405StatusLine() {
         String path = "/redirect";
         String method = "DELETE";
         MockRequestRouter mrr = new MockRequestRouter();
@@ -53,6 +53,26 @@ public class ResponseHeaderBuilderTest {
         String header = new String(responseHeaderBuilder.getHeader(requestParams, responseParams));
 
         String expected = "HTTP/1.1 405 Method Not Allowed\r\n\r\n";
+
+        assertEquals(expected, header);
+    }
+
+
+    @Test
+    public void getHeaderReturnsA401WithAuthenticationChallenge() {
+        String path = "/logs";
+        String method = "GET";
+        RequestRouter rr = new RequestRouter();
+        ResponseHeaderBuilder responseHeaderBuilder = new ResponseHeaderBuilder(rr);
+        RequestParams requestParams = new RequestParamsBuilder().setPath(path)
+                                                                .setMethod(method)
+                                                                .build();
+        ResponseParams responseParams = new ResponseParamsBuilder().setResponseCode(401)
+                                                            .build();
+
+        String header = new String(responseHeaderBuilder.getHeader(requestParams, responseParams));
+
+        String expected = "HTTP/1.1 401 Unauthorized\r\nWWW-Authenticate: Basic\r\n\r\n";
 
         assertEquals(expected, header);
     }

@@ -1,8 +1,8 @@
 package com.server;
 
 import org.junit.Test;
-
 import java.io.*;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Hashtable;
 
@@ -268,6 +268,7 @@ public class ResponseBodyBuilderTest {
         assertEquals(206, responseBodyBuilder.responseParams.getResponseCode());
         assertEquals(77, responseBodyBuilder.responseParams.getContentLength());
     }
+
     @Test
     public void getBodyReturnsAnEmptyStringWithRangeIsUnsatisfiable() throws IOException {
         String path = "/partial_content.txt";
@@ -406,14 +407,66 @@ public class ResponseBodyBuilderTest {
         assertEquals(200, responseBodyBuilder.responseParams.getResponseCode());
     }
 
-    public File createFile(RequestParams requestParams, String resourceName) throws IOException {
+    @Test
+    public void getBodyForLogsWithoutCredentialsReturnsEmptyBody() throws IOException {
+        String path = "/logs";
+        String method = "GET";
+        RequestRouter rr = new RequestRouter();
+        ResponseBodyBuilder responseBodyBuilder = new ResponseBodyBuilder(rr);
+        RequestParams requestParams = new RequestParamsBuilder().setPath(path).setMethod(method).build();
+        ResponseParams responseParams = new ResponseParamsBuilder().build();
+        byte[] body = responseBodyBuilder.getBody(requestParams, responseParams);
+
+        assertEquals(0, body.length);
+    }
+
+    @Test
+    public void getBodyForLogsWithWrongCredentialsReturnsEmptyBody() throws IOException {
+        String path = "/logs";
+        String method = "GET";
+        RequestRouter rr = new RequestRouter();
+        ResponseBodyBuilder responseBodyBuilder = new ResponseBodyBuilder(rr);
+        RequestParams requestParams = new RequestParamsBuilder().setPath(path)
+                                                                .setMethod(method)
+                                                                .setAuthorizationCredentials("fakecreds")
+                                                                .build();
+        ResponseParams responseParams = new ResponseParamsBuilder().build();
+        byte[] body = responseBodyBuilder.getBody(requestParams, responseParams);
+
+        assertEquals(0, body.length);
+    }
+
+    @Test
+    public void getBodyForLogsWithCorrectCredentialsReturnsBodyWithContent() throws IOException {
+        String path = "/logs";
+        String method = "GET";
+
+        File resourcesDirectory = new File("src/test/resources/correct-credentials-logs-test");
+        String testDir = resourcesDirectory.getAbsolutePath();
+        String expectedContent = "GET /log HTTP/1.1\\r\\nPUT /these HTTP/1.1\\r\\nHEAD /requests HTTP/1.1\\r\\n";
+        RequestRouter rr = new RequestRouter();
+        ResponseBodyBuilder responseBodyBuilder = new ResponseBodyBuilder(rr);
+        RequestParams requestParams = new RequestParamsBuilder().setPath(path)
+                                                                .setMethod(method)
+                                                                .setDirectory(testDir)
+                                                                .setAuthorizationCredentials("dGVzdDp0ZXN0aW5n")
+                                                                .build();
+        ResponseParams responseParams = new ResponseParamsBuilder().setResponseCode(200)
+                                                                    .build();
+
+        byte[] body = responseBodyBuilder.getBody(requestParams, responseParams);
+
+        assertEquals(expectedContent, new String(body));
+    }
+
+    private File createFile(RequestParams requestParams, String resourceName) throws IOException {
         String filePath = requestParams.getDirectory() + requestParams.getPath() + resourceName;
         File file = new File(filePath);
         file.createNewFile();
         return file;
     }
 
-    public void writeToFile(String str, File file) throws IOException {
+    private void writeToFile(String str, File file) throws IOException {
         if(file.exists()){
             BufferedWriter writer = new BufferedWriter(new FileWriter(file));
             writer.write(str);
@@ -421,7 +474,7 @@ public class ResponseBodyBuilderTest {
         }
     }
 
-    public String getFileContents(String filePath) throws IOException {
+    private String getFileContents(String filePath) throws IOException {
         File file = new File(filePath);
         FileReader fileReader = new FileReader(file);
         BufferedReader bufferedReader = new BufferedReader(fileReader);
@@ -429,9 +482,9 @@ public class ResponseBodyBuilderTest {
         return reader.getRequestedFileContents();
     }
 
-    public String getDirectoryListingString(File folder){
+    private String getDirectoryListingString(File folder) {
         StringBuilder fileNames = new StringBuilder();
-        if(folder.listFiles() != null){
+        if (folder.listFiles() != null) {
             for (final File fileEntry : folder.listFiles()) {
                 fileNames.append(fileEntry.getName());
                 fileNames.append(" ");

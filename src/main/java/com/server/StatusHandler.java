@@ -15,6 +15,7 @@ public class StatusHandler implements IResponseHeaderHandler {
         statusHashtable.put(201, "201 Created");
         statusHashtable.put(206, "206 Partial Content");
         statusHashtable.put(302, "302 Found");
+        statusHashtable.put(401, "401 Unauthorized");
         statusHashtable.put(404, "404 Not Found");
         statusHashtable.put(405, "405 Method Not Allowed");
         statusHashtable.put(416, "416 Range Not Satisfiable");
