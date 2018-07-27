@@ -148,17 +148,9 @@ public class RequestParser {
     }
 
     private String extractAuthorizationCredentials() {
-        String authorizationCredentials = "";
-        String authorizationHeaderLine = "Authorization: Basic";
-        if (headerString.contains(authorizationHeaderLine)) {
-            String[] headers = headerString.split("\r\n");
-            for ( String headerLine : headers) {
-                if (headerLine.contains(authorizationHeaderLine)) {
-                    authorizationCredentials = headerLine.replace(authorizationHeaderLine + " ", "");
-                    break;
-                }
-            }
-        }
+        String targetString = "Authorization: Basic";
+        String authorizationLine = extractLine(targetString, headerString);
+        String authorizationCredentials = authorizationLine.replace(targetString + " ", "");
         return authorizationCredentials;
     }
 
