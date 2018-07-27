@@ -31,6 +31,7 @@ public class RequestParser {
                 .setContentLength(extractContentLength())
                 .setBody(extractBody())
                 .setAuthorizationCredentials(extractAuthorizationCredentials())
+                .setIfMatch(extractIfMatch())
                 .build();
     }
 
@@ -152,6 +153,16 @@ public class RequestParser {
         String authorizationLine = extractLine(targetString, headerString);
         String authorizationCredentials = authorizationLine.replace(targetString + " ", "");
         return authorizationCredentials;
+    }
+
+    private String extractIfMatch() {
+        String ifMatch = "";
+        String targetLine = "If-Match";
+        if (headerString.contains("If-Match")) {
+            String ifMatchLine = extractLine(targetLine, headerString);
+            ifMatch = ifMatchLine.replace("If-Match: ", "");
+        }
+        return ifMatch;
     }
 
     public RequestParams getRequestParams() {

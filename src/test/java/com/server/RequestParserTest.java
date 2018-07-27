@@ -213,4 +213,28 @@ public class RequestParserTest {
 
         assertEquals("AWDVyM==", result);
     }
+
+    @Test
+    public void requestParamsReturnsIfMatchFromHeader() throws UnsupportedEncodingException {
+        String directory = "/public";
+        String headerString = "GET /foo HTTP/1.1\r\nIf-Match: foobar12345";
+
+        RequestParser requestParser = new RequestParser(headerString, directory);
+
+        String result = requestParser.getRequestParams().getIfMatch();
+
+        assertEquals("foobar12345", result);
+    }
+
+    @Test
+    public void requestParamsReturnsIfMatchAsEmptyString() throws UnsupportedEncodingException {
+        String directory = "/public";
+        String headerString = "GET /foo HTTP/1.1\r\n\r\n";
+
+        RequestParser requestParser = new RequestParser(headerString, directory);
+
+        String result = requestParser.getRequestParams().getIfMatch();
+
+        assertEquals("", result);
+    }
 }

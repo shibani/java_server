@@ -492,4 +492,48 @@ public class ResponseBodyBuilderTest {
         }
         return fileNames.toString();
     }
+
+    @Test
+    public void getBodyReturnsSets409IfIfMatchFails() throws IOException {
+        String path = "/patch-content.txt";
+        String method = "PATCH";
+        File resourcesDirectory = new File("src/test/resources/test-patch");
+        String testDir = resourcesDirectory.getAbsolutePath();
+        Hashtable<String, Integer> rangeTable = new Hashtable<>();
+        rangeTable.put("start", 10);
+        rangeTable.put("stop", 10000);
+
+        RequestRouter rr = new RequestRouter();
+        ResponseBodyBuilder responseBodyBuilder = new ResponseBodyBuilder(rr);
+        RequestParams requestParams = new RequestParamsBuilder().setPath(path).setDirectory(testDir).setMethod(method).setIfMatch("foobar").build();
+        ResponseParams responseParams = new ResponseParamsBuilder().build();
+
+        String body = new String(responseBodyBuilder.getBody(requestParams, responseParams));
+
+        assertEquals(409, responseBodyBuilder.responseParams.getResponseCode());
+    }
+
+    @Test
+    public void getBodyReturnsSets204AndUpdatesTheFileIfIfMatchPasses() throws IOException {
+        String path = "/patch-content.txt";
+        String method = "PATCH";
+        File resourcesDirectory = new File("src/test/resources/test-patch");
+        String testDir = resourcesDirectory.getAbsolutePath();
+        Hashtable<String, Integer> rangeTable = new Hashtable<>();
+        rangeTable.put("start", 10);
+        rangeTable.put("stop", 10000);
+
+        BufferedWriter writer = new BufferedWriter(new FileWriter(new File(testDir + path)));
+        writer.write("default content");
+        writer.close();
+
+        RequestRouter rr = new RequestRouter();
+        ResponseBodyBuilder responseBodyBuilder = new ResponseBodyBuilder(rr);
+        RequestParams requestParams = new RequestParamsBuilder().setPath(path).setDirectory(testDir).setMethod(method).setIfMatch("dc50a0d27dda2eee9f65644cd7e4c9cf11de8bec").setBody("foo").build();
+        ResponseParams responseParams = new ResponseParamsBuilder().build();
+
+        String body = new String(responseBodyBuilder.getBody(requestParams, responseParams));
+
+        assertEquals(204, responseBodyBuilder.responseParams.getResponseCode());
+    }
 }
