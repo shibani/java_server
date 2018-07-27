@@ -32,14 +32,14 @@ public class HTTPServerManager {
                 BufferedReader in = openInputStream(clientSocket);
 
                 RequestReader requestReader = new RequestReader(in);
-                String header = requestReader.getRequest();
+                String request = requestReader.getRequest();
 
                 if (this.logRequests) {
                     Logger logger = new Logger(serverConfig.getDirectory() + "/logs.txt");
-                    logger.log(header);
+                    logger.log(getFirstLine(request));
                 }
 
-                RequestParser requestParser = new RequestParser(header, serverConfig.getDirectory());
+                RequestParser requestParser = new RequestParser(request, serverConfig.getDirectory());
                 RequestParams requestParams = requestParser.getRequestParams();
                 ResponseBuilder responseBuilder = new ResponseBuilder(requestRouter);
 
@@ -57,6 +57,10 @@ public class HTTPServerManager {
 
     protected ServerSocket createServerSocket() throws IOException {
         return new ServerSocket(serverConfig.getPortNumber());
+    }
+
+    private String getFirstLine(String request) {
+        return request.split("\r\n")[0].trim();
     }
 
     private void sendResponse(OutputStream clientSocketOutputStream, byte[] response) throws IOException {
