@@ -1,10 +1,10 @@
 package com.server;
 
+import com.server.mocks.MockSocket;
 import org.junit.Test;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 
 import static org.junit.Assert.*;
 

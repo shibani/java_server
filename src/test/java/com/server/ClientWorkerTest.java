@@ -1,9 +1,8 @@
 package com.server;
 
+import com.server.mocks.MockRequestRouter;
+import com.server.mocks.MockSocket;
 import org.junit.Test;
-
-import java.io.ByteArrayOutputStream;
-import java.net.Socket;
 
 import static org.junit.Assert.*;
 

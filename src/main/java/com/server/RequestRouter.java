@@ -6,7 +6,7 @@ public class RequestRouter {
 
     private Hashtable routeTable;
 
-    RequestRouter() {
+    public RequestRouter() {
         this.routeTable = new Hashtable();
         createHashtable();
     }

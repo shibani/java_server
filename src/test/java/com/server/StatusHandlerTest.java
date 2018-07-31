@@ -1,6 +1,7 @@
 package com.server;
 
 import com.server.handlers.StatusHandler;
+import com.server.mocks.MockRequestRouter;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

@@ -1,10 +1,13 @@
-package com.server;
+package com.server.mocks;
 
-public class MockRequestRouter extends RequestRouter{
+import com.server.RequestParams;
+import com.server.RequestRouter;
+
+public class MockRequestRouter extends RequestRouter {
 
     private int dummyResult;
 
-    MockRequestRouter(){
+    public MockRequestRouter(){
         this.dummyResult=404;
     }
 
