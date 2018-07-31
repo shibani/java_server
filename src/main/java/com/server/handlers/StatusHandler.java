@@ -1,4 +1,8 @@
-package com.server;
+package com.server.handlers;
+
+import com.server.RequestParams;
+import com.server.RequestRouter;
+import com.server.ResponseParams;
 
 import java.util.Hashtable;
 
@@ -8,7 +12,7 @@ public class StatusHandler implements IResponseHeaderHandler {
     private RequestRouter requestRouter;
 
 
-    StatusHandler(RequestRouter requestRouter) {
+    public StatusHandler(RequestRouter requestRouter) {
         this.statusHashtable = new Hashtable();
         this.requestRouter = requestRouter;
         statusHashtable.put(200, "200 OK");

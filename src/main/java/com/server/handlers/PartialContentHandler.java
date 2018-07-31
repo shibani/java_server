@@ -1,4 +1,7 @@
-package com.server;
+package com.server.handlers;
+
+import com.server.RequestParams;
+import com.server.ResponseParams;
 
 public class PartialContentHandler {
     private static final String PARTIAL_CONTENT_KEY = "Content-Range";

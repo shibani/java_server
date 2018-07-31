@@ -1,4 +1,7 @@
-package com.server;
+package com.server.handlers;
+
+import com.server.RequestParams;
+import com.server.ResponseParams;
 
 import java.util.Hashtable;
 
@@ -6,7 +9,7 @@ public class ContentTypeHandler implements IResponseHeaderHandler {
     private Hashtable contentTypeHashtable;
     private static final String CONTENT_TYPE_KEY = "Content-Type";
 
-    ContentTypeHandler(){
+    public ContentTypeHandler(){
         this.contentTypeHashtable = new Hashtable();
         contentTypeHashtable.put("/image.jpeg", "image/jpeg");
         contentTypeHashtable.put("/image.png", "image/png");

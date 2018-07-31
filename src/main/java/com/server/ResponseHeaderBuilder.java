@@ -1,5 +1,7 @@
 package com.server;
 
+import com.server.handlers.*;
+
 public class ResponseHeaderBuilder {
 
     private String header = "";

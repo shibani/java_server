@@ -1,4 +1,7 @@
-package com.server;
+package com.server.handlers;
+
+import com.server.RequestParams;
+import com.server.ResponseParams;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
@@ -6,7 +9,6 @@ import java.util.Hashtable;
 import javax.crypto.*;
 import javax.crypto.spec.*;
 import java.util.Base64;
-import java.io.FileOutputStream;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.Path;
@@ -23,7 +25,7 @@ public class BasicAuthorizationHandler implements IResponseHeaderHandler {
     private static final String CONFIG_PATH = "/config/config_settings.txt";
     private RequestParams requestParams;
 
-    BasicAuthorizationHandler(RequestParams requestParams){
+    public BasicAuthorizationHandler(RequestParams requestParams){
         this.requestParams = requestParams;
         this.basicAuthHashtable = new Hashtable();
         basicAuthHashtable.put("1", "LSpdBnfYT8XLmh5+WafSQI3iSByQ8ZJA");

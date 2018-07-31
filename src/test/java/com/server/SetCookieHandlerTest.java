@@ -1,5 +1,6 @@
 package com.server;
 
+import com.server.handlers.SetCookieHandler;
 import org.junit.Test;
 
 import java.util.Hashtable;

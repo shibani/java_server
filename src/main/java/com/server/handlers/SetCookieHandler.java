@@ -1,4 +1,7 @@
-package com.server;
+package com.server.handlers;
+
+import com.server.RequestParams;
+import com.server.ResponseParams;
 
 import java.util.Hashtable;
 
@@ -6,7 +9,7 @@ public class SetCookieHandler implements IResponseHeaderHandler {
     private Hashtable<String, String> setCookieHashtable;
     private static final String SET_COOKIE_KEY = "Set-Cookie";
 
-    SetCookieHandler(){
+    public SetCookieHandler(){
         this.setCookieHashtable = new Hashtable<>();
     }
 

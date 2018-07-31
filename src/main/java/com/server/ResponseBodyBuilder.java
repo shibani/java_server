@@ -1,5 +1,7 @@
 package com.server;
 
+import com.server.handlers.BasicAuthorizationHandler;
+
 import javax.imageio.ImageIO;
 import javax.imageio.stream.ImageInputStream;
 

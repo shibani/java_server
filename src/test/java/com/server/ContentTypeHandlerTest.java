@@ -1,5 +1,6 @@
 package com.server;
 
+import com.server.handlers.ContentTypeHandler;
 import org.junit.Test;
 
 import static org.junit.Assert.*;

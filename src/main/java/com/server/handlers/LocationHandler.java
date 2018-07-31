@@ -1,4 +1,7 @@
-package com.server;
+package com.server.handlers;
+
+import com.server.RequestParams;
+import com.server.ResponseParams;
 
 import java.util.Hashtable;
 
@@ -6,7 +9,7 @@ public class LocationHandler implements IResponseHeaderHandler {
     private Hashtable locationHashtable;
     private static final String LOCATION_KEY = "Location";
 
-    LocationHandler(){
+    public LocationHandler(){
         this.locationHashtable = new Hashtable();
         locationHashtable.put("/redirect", "/");
     }

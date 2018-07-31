@@ -11,7 +11,7 @@ import static org.junit.Assert.*;
 public class MockSocketTest {
 
     @Test
-    public void getOutputStreamReturnsByteArrayOutputStream() throws IOException {
+    public void getOutputStreamReturnsByteArrayOutputStream() {
 
         MockSocket mockSocket = new MockSocket();
 
@@ -21,7 +21,7 @@ public class MockSocketTest {
     }
 
     @Test
-    public void getInputStreamReturnsByteArrayInputStream() throws IOException {
+    public void getInputStreamReturnsByteArrayInputStream() {
 
         MockSocket mockSocket = new MockSocket();
 
@@ -31,7 +31,7 @@ public class MockSocketTest {
     }
 
     @Test
-    public void getInputStreamReturnsRequestHeader() throws IOException {
+    public void getInputStreamReturnsRequestHeader() {
 
         MockSocket mockSocket = new MockSocket();
         mockSocket.setRequestHeader("foobar", "/");

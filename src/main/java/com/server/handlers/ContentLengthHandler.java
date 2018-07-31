@@ -1,4 +1,7 @@
-package com.server;
+package com.server.handlers;
+
+import com.server.RequestParams;
+import com.server.ResponseParams;
 
 import java.io.File;
 import java.nio.file.Files;
@@ -9,7 +12,7 @@ public class ContentLengthHandler implements IResponseHeaderHandler {
     private static final String CONTENT_LENGTH_KEY = "Content-Length";
     private String publicDir = "";
 
-    ContentLengthHandler(String directory) {
+    public ContentLengthHandler(String directory) {
         this.publicDir = directory;
         this.contentLengthHashtable = new Hashtable();
         contentLengthHashtable.put("/image.jpeg", getFileSize("/image.jpeg"));

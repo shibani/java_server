@@ -1,5 +1,6 @@
 package com.server;
 
+import com.server.handlers.PartialContentHandler;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
